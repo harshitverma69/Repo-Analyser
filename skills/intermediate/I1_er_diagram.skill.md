@@ -23,7 +23,7 @@ Build ER diagram for all tables and entities from repo source only; cite source 
 ### Execution Steps (DETERMINISTIC ONLY)
 - Read agent spec: `agents/intermediate/I1_er_diagram_agent.md`
 - Apply deterministic rules from `core/execution_rules.md`
-- Write JSON via `python3 -m runtime.skill_finish write --run-id {run_id} --skill I1 --payload-file <payload.json>` (auto-opens CLI UI)
+- Write JSON + output.md via `python3 -m runtime.skill_finish write --run-id {run_id} --skill I1 --payload-file <payload.json>` (auto-opens CLI UI)
 - Validate output against Output Contract
 
 ### Output Contract (STRICT JSON)

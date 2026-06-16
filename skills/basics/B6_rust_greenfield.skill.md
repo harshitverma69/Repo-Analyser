@@ -23,7 +23,7 @@ None
 ### Execution Steps (DETERMINISTIC ONLY)
 - Read agent spec: `agents/basics/B6_rust_greenfield_agent.md`
 - Apply deterministic rules from `core/execution_rules.md`
-- Write JSON via `python3 -m runtime.skill_finish write --run-id {run_id} --skill B6 --payload-file <payload.json>` (auto-opens CLI UI)
+- Write JSON + output.md via `python3 -m runtime.skill_finish write --run-id {run_id} --skill B6 --payload-file <payload.json>` (auto-opens CLI UI)
 - Validate output against Output Contract
 
 ### Output Contract (STRICT JSON)

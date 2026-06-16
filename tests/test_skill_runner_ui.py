@@ -29,6 +29,7 @@ def test_run_skill_auto_displays_ui(tmp_path: Path, capsys, monkeypatch):
     orch.discover_skills()
     result = runner.run_skill(orch.get_skill("B1"))
     assert result.status == "complete"
+    assert (tmp_path / run_id / "B1" / "output.md").is_file()
     out = capsys.readouterr().out
     assert "INVENTORY" in out or "Repo Artifact Inventory" in out
 
@@ -50,5 +51,6 @@ def test_run_skill_ui_disabled(tmp_path: Path, capsys, monkeypatch):
     orch.discover_skills()
     result = runner.run_skill(orch.get_skill("B1"))
     assert result.status == "complete"
+    assert (tmp_path / run_id / "B1" / "output.md").is_file()
     assert capsys.readouterr().out == ""
     assert json.loads((tmp_path / run_id / "B1" / "output.json").read_text(encoding="utf-8"))

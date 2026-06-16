@@ -58,11 +58,13 @@ Restart Cursor after `install-cursor-skills` if `/cac-os-*` commands do not appe
 
 1. Type `/cac-os-repo-inventory` (or any skill below) in chat
 2. Follow the agent spec and skill spec
-3. Write output and **auto-open CLI UI**:
+3. Write output, **output.md**, and auto-open CLI UI:
 
 ```bash
 python3 -m runtime.skill_finish write --run-id <run_id> --skill B1 --payload-file payload.json
 ```
+
+If the terminal UI does not appear, open `generated_projects/<run_id>/B1/output.md`.
 
 Or if `output.json` already exists: `python3 -m runtime.skill_finish --run-id <run_id> --skill B1`
 

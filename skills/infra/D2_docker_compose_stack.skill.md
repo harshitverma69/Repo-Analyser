@@ -22,7 +22,7 @@ Stand up multi-service stack (API + DB + worker) with docker-compose, seed data,
 ### Execution Steps (DETERMINISTIC ONLY)
 - Read agent spec: `agents/infra_devops/D2_docker_compose_stack_agent.md`
 - Apply deterministic rules from `core/execution_rules.md`
-- Write JSON via `python3 -m runtime.skill_finish write --run-id {run_id} --skill D2 --payload-file <payload.json>` (auto-opens CLI UI)
+- Write JSON + output.md via `python3 -m runtime.skill_finish write --run-id {run_id} --skill D2 --payload-file <payload.json>` (auto-opens CLI UI)
 - Validate output against Output Contract
 
 ### Output Contract (STRICT JSON)

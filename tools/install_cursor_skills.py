@@ -64,11 +64,13 @@ Execute **CAC-OS skill {task_id}** deterministically. Follow the Markdown specs 
 
 ## Output (strict JSON)
 
-**Preferred — write JSON and auto-open CLI UI in one step:**
+**Preferred — write JSON + output.md and auto-open CLI UI in one step:**
 
 ```bash
 python3 -m runtime.skill_finish write --run-id <run_id> --skill {task_id} --payload-file /path/to/payload.json
 ```
+
+If the terminal UI does not appear, open `generated_projects/{{run_id}}/{task_id}/output.md`.
 
 **Or** if you already wrote `generated_projects/{{run_id}}/{task_id}/output.json`, display the UI (mandatory final step — do not end turn without this):
 

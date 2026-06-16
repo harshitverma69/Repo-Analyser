@@ -11,21 +11,22 @@ ROOT = Path(__file__).resolve().parent.parent
 
 
 def test_write_skill_output_writes_and_displays(tmp_path: Path, capsys):
-    payload = {"task_id": "B1", "files_scanned": 1, "modules": [], "artifacts": {}, "limitations": []}
     golden = ROOT / "generated_projects" / "_golden" / "B1" / "inventory_report.json"
     payload = json.loads(golden.read_text(encoding="utf-8"))
 
     path = write_skill_output("demo-run", "B1", payload, generated_root=tmp_path)
     assert path.is_file()
+    assert (tmp_path / "demo-run" / "B1" / "output.md").is_file()
     out = capsys.readouterr().out
     assert "INVENTORY" in out or "Repo Artifact Inventory" in out
 
 
 def test_write_skill_output_no_ui(tmp_path: Path, capsys):
-    payload = {"task_id": "A5", "issues": []}
+    payload = {"task_id": "A5", "issues": [], "level": "A", "scan_complete": True, "warnings": []}
     write_skill_output("demo", "A5", payload, generated_root=tmp_path, show_ui=False)
     assert capsys.readouterr().out == ""
     assert (tmp_path / "demo" / "A5" / "output.json").is_file()
+    assert (tmp_path / "demo" / "A5" / "output.md").is_file()
 
 
 def test_main_write_subcommand(tmp_path: Path, capsys):
@@ -53,7 +54,9 @@ def test_main_write_subcommand(tmp_path: Path, capsys):
     )
     assert rc == 0
     assert (runs / "review" / "A5" / "output.json").is_file()
-    assert "CLEAN" in capsys.readouterr().out or "REVIEWED" in capsys.readouterr().out
+    assert (runs / "review" / "A5" / "output.md").is_file()
+    out = capsys.readouterr().out
+    assert "CLEAN" in out or "REVIEWED" in out
 
 
 def test_finish_skill_missing_run(tmp_path: Path, capsys):

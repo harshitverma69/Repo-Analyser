@@ -179,10 +179,11 @@ class SkillRunner:
 
         if status == "complete":
             output_path.write_text(canonical_json_dumps(output), encoding="utf-8")
-            if __import__("os").environ.get("CACOS_AUTO_SKILL_DONE", "1") != "0":
-                from runtime.skill_finish import show_skill_report
+            from runtime.skill_finish import export_markdown_reports, show_skill_report
 
-                show_skill_report(self.run_dir, skill_id)
+            export_markdown_reports(self.run_dir, out_dir)
+            if __import__("os").environ.get("CACOS_AUTO_SKILL_DONE", "1") != "0":
+                show_skill_report(self.run_dir, skill_id, save_md=False)
 
         result = SkillRunResult(
             skill_id=skill_id,

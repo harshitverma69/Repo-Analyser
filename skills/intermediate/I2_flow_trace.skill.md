@@ -24,7 +24,7 @@ Trace one endpoint, event, or cron job end-to-end from entry point to final DB/A
 ### Execution Steps (DETERMINISTIC ONLY)
 - Read agent spec: `agents/intermediate/I2_flow_trace_agent.md`
 - Apply deterministic rules from `core/execution_rules.md`
-- Write JSON via `python3 -m runtime.skill_finish write --run-id {run_id} --skill I2 --payload-file <payload.json>` (auto-opens CLI UI)
+- Write JSON + output.md via `python3 -m runtime.skill_finish write --run-id {run_id} --skill I2 --payload-file <payload.json>` (auto-opens CLI UI)
 - Validate output against Output Contract
 
 ### Output Contract (STRICT JSON)

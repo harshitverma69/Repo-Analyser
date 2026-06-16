@@ -14,7 +14,7 @@ ROOT = Path(__file__).resolve().parent.parent
 
 def test_render_terminal_ui_a5():
     payload = json.loads(
-        (ROOT / "generated_projects" / "cac-os" / "A5" / "output.json").read_text(encoding="utf-8")
+        (ROOT / "generated_projects" / "_golden" / "A5" / "code_review_report.json").read_text(encoding="utf-8")
     )
     ui = render_terminal_ui("cac-os", "A5", payload)
     assert "Adversarial Code Review" in ui or "code-review" in ui

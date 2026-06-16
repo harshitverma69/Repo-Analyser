@@ -23,7 +23,7 @@ Create two parallel worktrees, make independent changes, reconcile cleanly with 
 ### Execution Steps (DETERMINISTIC ONLY)
 - Read agent spec: `agents/advanced/A2_parallel_worktrees_execute_agent.md`
 - Apply deterministic rules from `core/execution_rules.md`
-- Write JSON via `python3 -m runtime.skill_finish write --run-id {run_id} --skill A2 --payload-file <payload.json>` (auto-opens CLI UI)
+- Write JSON + output.md via `python3 -m runtime.skill_finish write --run-id {run_id} --skill A2 --payload-file <payload.json>` (auto-opens CLI UI)
 - Validate output against Output Contract
 
 ### Output Contract (STRICT JSON)

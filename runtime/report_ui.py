@@ -348,8 +348,8 @@ def render_footer(theme: Theme) -> list[str]:
         "",
         theme.dim("─" * WIDTH),
         theme.dim("  JSON → generated_projects/<run>/<skill>/output.json"),
+        theme.dim("  MD   → generated_projects/<run>/<skill>/output.md"),
         theme.dim("  Next: make view-run"),
-        theme.dim("  Export: make export-md RUN_DIR=generated_projects/<run>"),
         "",
     ]
 

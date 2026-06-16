@@ -23,7 +23,7 @@ Bootstrap repo from fresh clone with single command; tests pass on clean machine
 ### Execution Steps (DETERMINISTIC ONLY)
 - Read agent spec: `agents/infra_devops/D5_reproducible_dev_env_agent.md`
 - Apply deterministic rules from `core/execution_rules.md`
-- Write JSON via `python3 -m runtime.skill_finish write --run-id {run_id} --skill D5 --payload-file <payload.json>` (auto-opens CLI UI)
+- Write JSON + output.md via `python3 -m runtime.skill_finish write --run-id {run_id} --skill D5 --payload-file <payload.json>` (auto-opens CLI UI)
 - Validate output against Output Contract
 
 ### Output Contract (STRICT JSON)

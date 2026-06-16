@@ -23,7 +23,7 @@ Make a small focused change in an unfamiliar module with minimal diff, test upda
 ### Execution Steps (DETERMINISTIC ONLY)
 - Read agent spec: `agents/intermediate/I3_safe_change_agent.md`
 - Apply deterministic rules from `core/execution_rules.md`
-- Write JSON via `python3 -m runtime.skill_finish write --run-id {run_id} --skill I3 --payload-file <payload.json>` (auto-opens CLI UI)
+- Write JSON + output.md via `python3 -m runtime.skill_finish write --run-id {run_id} --skill I3 --payload-file <payload.json>` (auto-opens CLI UI)
 - Validate output against Output Contract
 
 ### Output Contract (STRICT JSON)

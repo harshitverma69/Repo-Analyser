@@ -15,16 +15,25 @@ ROOT = Path(__file__).resolve().parent.parent
 GENERATED_ROOT = ROOT / "generated_projects"
 
 
+def export_markdown_reports(run_dir: Path, skill_dir: Path) -> None:
+    """Write output.md and refresh run REPORT.md (fallback when CLI UI is unavailable)."""
+    try:
+        export_skill_markdown(skill_dir)
+        export_run_markdown(run_dir)
+    except Exception as exc:
+        print(f"Warning: markdown export failed: {exc}", file=sys.stderr)
+
+
 def write_skill_output(
     run_id: str,
     skill_id: str,
     payload: dict[str, Any],
     *,
     generated_root: Path | None = None,
-    save_md: bool = False,
+    save_md: bool = True,
     show_ui: bool = True,
 ) -> Path:
-    """Write output.json for a skill and optionally display the terminal UI."""
+    """Write output.json for a skill, export markdown, and optionally display the terminal UI."""
     root = generated_root or GENERATED_ROOT
     skill_id = skill_id.upper()
     run_dir = root / run_id
@@ -32,8 +41,10 @@ def write_skill_output(
     skill_dir.mkdir(parents=True, exist_ok=True)
     output_path = skill_dir / "output.json"
     output_path.write_text(canonical_json_dumps(payload), encoding="utf-8")
+    if save_md:
+        export_markdown_reports(run_dir, skill_dir)
     if show_ui:
-        show_skill_report(run_dir, skill_id, save_md=save_md, interactive=False)
+        show_skill_report(run_dir, skill_id, save_md=False, interactive=False)
     return output_path
 
 
@@ -41,10 +52,10 @@ def show_skill_report(
     run_dir: Path,
     skill_id: str,
     *,
-    save_md: bool = False,
+    save_md: bool = True,
     interactive: bool = False,
 ) -> int:
-    """Render a skill report to the terminal. Markdown files are opt-in only."""
+    """Render a skill report to the terminal; refreshes markdown reports by default."""
     skill_id = skill_id.upper()
     skill_dir = run_dir / skill_id
     json_path = find_skill_json(skill_dir)
@@ -55,11 +66,7 @@ def show_skill_report(
         return 1
 
     if save_md:
-        try:
-            export_skill_markdown(skill_dir)
-            export_run_markdown(run_dir)
-        except Exception as exc:
-            print(f"Warning: markdown export failed: {exc}", file=sys.stderr)
+        export_markdown_reports(run_dir, skill_dir)
 
     task_id, payload = load_skill_payload(skill_dir)
     print(render_terminal_ui(run_dir.name, task_id or skill_id, payload, run_dir=run_dir))
@@ -138,24 +145,25 @@ def main(argv: list[str] | None = None) -> int:
     show_p = sub.add_parser("show", help="Display an existing skill output (default command)")
     show_p.add_argument("--run-id", required=True, help="Run directory name, e.g. cac-os")
     show_p.add_argument("--skill", required=True, help="Skill ID, e.g. B1")
-    show_p.add_argument("--save-md", action="store_true", help="Also write output.md files")
+    show_p.add_argument("--no-md", action="store_true", help="Skip writing output.md files")
     show_p.add_argument("--interactive", action="store_true", help="Enter interactive menu after display")
 
-    write_p = sub.add_parser("write", help="Write output.json and auto-open the terminal UI")
+    write_p = sub.add_parser("write", help="Write output.json, output.md, and auto-open the terminal UI")
     write_p.add_argument("--run-id", required=True)
     write_p.add_argument("--skill", required=True)
     write_p.add_argument("--payload-file", required=True, help="Path to JSON payload file")
-    write_p.add_argument("--save-md", action="store_true")
-    write_p.add_argument("--no-ui", action="store_true", help="Write JSON only, skip terminal UI")
+    write_p.add_argument("--no-md", action="store_true", help="Skip writing output.md files")
+    write_p.add_argument("--no-ui", action="store_true", help="Skip terminal UI")
 
     # Back-compat: `python -m runtime.skill_finish --run-id X --skill Y`
     parser.add_argument("--run-id", help=argparse.SUPPRESS)
     parser.add_argument("--skill", help=argparse.SUPPRESS)
-    parser.add_argument("--save-md", action="store_true", help=argparse.SUPPRESS)
+    parser.add_argument("--no-md", action="store_true", help=argparse.SUPPRESS)
     parser.add_argument("--interactive", action="store_true", help=argparse.SUPPRESS)
     parser.add_argument("--payload-file", help=argparse.SUPPRESS)
 
     args = parser.parse_args(argv)
+    no_md = getattr(args, "no_md", False)
 
     if args.command == "write" or args.payload_file:
         payload_path = Path(args.payload_file)
@@ -164,7 +172,7 @@ def main(argv: list[str] | None = None) -> int:
             args.run_id,
             args.skill,
             payload,
-            save_md=args.save_md,
+            save_md=not no_md,
             show_ui=not getattr(args, "no_ui", False),
         )
         return 0
@@ -178,7 +186,7 @@ def main(argv: list[str] | None = None) -> int:
     return show_skill_report(
         run_dir,
         skill.upper(),
-        save_md=args.save_md,
+        save_md=not no_md,
         interactive=args.interactive,
     )
 
