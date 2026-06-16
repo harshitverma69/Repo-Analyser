@@ -179,12 +179,6 @@ class SkillRunner:
 
         if status == "complete":
             output_path.write_text(canonical_json_dumps(output), encoding="utf-8")
-            try:
-                from runtime.report_renderer import export_skill_markdown
-
-                export_skill_markdown(out_dir)
-            except Exception:
-                pass
 
         result = SkillRunResult(
             skill_id=skill_id,

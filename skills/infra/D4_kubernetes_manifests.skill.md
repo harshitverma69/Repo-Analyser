@@ -25,7 +25,7 @@ Write K8s manifests, validate with dry-run/kubeval, deploy on kind/minikube with
 - Apply deterministic rules from `core/execution_rules.md`
 - Write structured JSON to `generated_projects/{run_id}/D4/output.json`
 - Validate output against Output Contract
-- Run `make skill-done RUN_ID={run_id} SKILL=D4` to open the report UI
+- Run `make -C <cac-os-root> skill-done RUN_ID={run_id} SKILL=D4` as the final Shell command (displays CLI report; no .md files)
 
 ### Output Contract (STRICT JSON)
 ```json

@@ -12,22 +12,21 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-DEFAULT_REPO = Path("/Users/harshitverma/Desktop/repolens")
-REPOLENS_BACKEND = DEFAULT_REPO / "backend"
+DEFAULT_REPO = ROOT.parent / "repolens"
 
 
 def _stamp() -> str:
     return datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
 
 
-def _envelope(task_id: str, level: str) -> dict:
+def _envelope(task_id: str, level: str, repo: Path) -> dict:
     return {
         "task_id": task_id,
         "level": level,
         "generated_at": _stamp(),
         "scan_complete": True,
         "warnings": [],
-        "repository_path": str(DEFAULT_REPO),
+        "repository_path": str(repo),
     }
 
 
@@ -80,7 +79,7 @@ def run_b1(repo: Path, out_dir: Path) -> dict:
     nodes = sorted({m.name for m in report.modules})
     edges = sorted({f"{e.source}->{e.target}" for e in report.dependency_graph})
     payload = {
-        **_envelope("B1", "B"),
+        **_envelope("B1", "B", repo),
         "files_scanned": report.summary.files_scanned,
         "modules": [{"name": m.name, "path": m.path} for m in sorted(report.modules, key=lambda m: m.name)],
         "artifacts": _sorted_artifacts(report),
@@ -118,7 +117,7 @@ def run_b2(repo: Path, out_dir: Path, inventory) -> dict:
                 pass
             frontend_routes.append({"path": route or "/", "source_file": rel})
     payload = {
-        **_envelope("B2", "B"),
+        **_envelope("B2", "B", repo),
         "endpoints": endpoints,
         "frontend_routes": frontend_routes,
         "controllers": sorted({e["controller"] for e in endpoints}),
@@ -133,18 +132,23 @@ def run_b3(repo: Path, out_dir: Path, *, run_pytest: bool = True) -> dict:
 
     report = TestDiscoveryAgent().discover(repo, write_outputs=False)
     backend = repo / "backend"
-    cmd = "cd backend && python -m pytest -q"
-    proc = subprocess.run(cmd, shell=True, cwd=repo, capture_output=True, text=True) if run_pytest else None
+    pytest_argv = [sys.executable, "-m", "pytest", "-q"]
+    cmd = f"python -m pytest -q  (cwd={backend.relative_to(repo) if backend.is_dir() else 'backend'})"
+    proc = (
+        subprocess.run(pytest_argv, cwd=backend, capture_output=True, text=True)
+        if run_pytest and backend.is_dir()
+        else None
+    )
     exit_code = proc.returncode if proc else -1
     payload = {
-        **_envelope("B3", "B"),
+        **_envelope("B3", "B", repo),
         "framework": report.framework.value,
         "config_files": list(report.config_files),
         "test_files": [f.path for f in report.test_files],
         "commands": {
             "unit": cmd,
             "integration": "",
-            "coverage": "cd backend && python -m pytest --cov=app -q",
+            "coverage": f"python -m pytest --cov=app -q  (cwd=backend)",
         },
         "command_result": {
             "command": cmd,
@@ -190,7 +194,7 @@ def run_i1(repo: Path, out_dir: Path) -> dict:
             }
         )
     payload = {
-        **_envelope("I1", "I"),
+        **_envelope("I1", "I", repo),
         "tables": tables,
         "relationships": [
             {
@@ -222,7 +226,7 @@ def run_i2(repo: Path, out_dir: Path, endpoint_id: str) -> dict:
     ]
     mermaid = trace.to_markdown() if hasattr(trace, "to_markdown") else ""
     payload = {
-        **_envelope("I2", "I"),
+        **_envelope("I2", "I", repo),
         "endpoint_id": endpoint_id,
         "steps": steps,
         "nodes": [n.model_dump(mode="json") for n in trace.nodes],
@@ -242,7 +246,7 @@ def run_i6(repo: Path, out_dir: Path, endpoint_id: str) -> dict:
         stack_trace="",
     )
     payload = {
-        **_envelope("I6", "I"),
+        **_envelope("I6", "I", repo),
         "endpoint": endpoint_id,
         "root_causes": [c.model_dump(mode="json") for c in report.probable_causes],
         "suggested_fixes": [c.description for c in report.probable_causes[:3]],
@@ -257,7 +261,7 @@ def run_a4(repo: Path, out_dir: Path, endpoint_id: str) -> dict:
 
     report = ModernizationAgent().analyze(repo, endpoint_id)
     payload = {
-        **_envelope("A4", "A"),
+        **_envelope("A4", "A", repo),
         "endpoint": endpoint_id,
         "findings": [f.model_dump(mode="json") for f in report.findings],
         "actions": [a.model_dump(mode="json") for a in report.actions],
@@ -273,7 +277,7 @@ def run_a5(repo: Path, out_dir: Path) -> dict:
 
     report = VerificationAgent().analyze(repo)
     payload = {
-        **_envelope("A5", "A"),
+        **_envelope("A5", "A", repo),
         "issues": [e.model_dump(mode="json") for e in report.entries],
         "summary": report.summary.model_dump(mode="json"),
     }
@@ -286,7 +290,7 @@ def run_a6(repo: Path, out_dir: Path, endpoint_id: str) -> dict:
 
     report = PerformanceAgent().analyze(repo, endpoint_id)
     payload = {
-        **_envelope("A6", "A"),
+        **_envelope("A6", "A", repo),
         "endpoint": endpoint_id,
         "findings": [f.model_dump(mode="json") for f in report.findings],
         "baseline": {"note": "static analysis only"},
@@ -297,15 +301,23 @@ def run_a6(repo: Path, out_dir: Path, endpoint_id: str) -> dict:
     return {"status": "PARTIAL", "output": str(path.relative_to(ROOT)), "findings": len(report.findings)}
 
 
-def run_skipped(task_id: str, level: str, out_dir: Path, filename: str, reason: str, extra: dict | None = None) -> dict:
-    payload = {**_envelope(task_id, level), "status": "SKIPPED", "reason": reason, **(extra or {})}
+def run_skipped(
+    task_id: str,
+    level: str,
+    out_dir: Path,
+    repo: Path,
+    filename: str,
+    reason: str,
+    extra: dict | None = None,
+) -> dict:
+    payload = {**_envelope(task_id, level, repo), "status": "SKIPPED", "reason": reason, **(extra or {})}
     path = _write(out_dir, task_id, filename, payload)
     return {"status": "SKIPPED", "output": str(path.relative_to(ROOT)), "reason": reason}
 
 
 def run_infra_check(task_id: str, level: str, out_dir: Path, filename: str, repo: Path, checks: dict[str, bool], note: str) -> dict:
     payload = {
-        **_envelope(task_id, level),
+        **_envelope(task_id, level, repo),
         "checks": checks,
         "note": note,
     }
@@ -329,7 +341,9 @@ def main() -> int:
     out_dir = ROOT / "generated_projects" / args.run_id
     out_dir.mkdir(parents=True, exist_ok=True)
 
-    sys.path.insert(0, str(REPOLENS_BACKEND))
+    repolens_backend = repo / "backend"
+    if repolens_backend.is_dir():
+        sys.path.insert(0, str(repolens_backend))
 
     results: dict[str, dict] = {}
 
@@ -360,6 +374,7 @@ def main() -> int:
             tid,
             "B",
             out_dir,
+            repo,
             "greenfield_manifest.json",
             "Builds a new project from scratch; repolens is the analysis target, not output artifact.",
         )
@@ -388,7 +403,7 @@ def main() -> int:
     try:
         results["I2"] = run_i2(repo, out_dir, endpoint_id)
     except Exception as exc:
-        results["I2"] = run_skipped("I2", "I", out_dir, "flow_trace_report.json", str(exc))
+        results["I2"] = run_skipped("I2", "I", out_dir, repo, "flow_trace_report.json", str(exc))
 
     # I3
     print("[I3] Safe change — skipped (requires actual diff + test proof)...")
@@ -396,6 +411,7 @@ def main() -> int:
         "I3",
         "I",
         out_dir,
+        repo,
         "change_report.json",
         "Requires implementing a scoped change with test proof; not auto-runnable.",
     )
@@ -406,6 +422,7 @@ def main() -> int:
         "I4",
         "I",
         out_dir,
+        repo,
         "polyglot_manifest.json",
         "Builds new FastAPI service + Node client; not a repolens scan task.",
     )
@@ -429,7 +446,7 @@ def main() -> int:
     try:
         results["I6"] = run_i6(repo, out_dir, endpoint_id)
     except Exception as exc:
-        results["I6"] = run_skipped("I6", "I", out_dir, "bug_fix_report.json", str(exc))
+        results["I6"] = run_skipped("I6", "I", out_dir, repo, "bug_fix_report.json", str(exc))
 
     # A1-A3
     print("[A1] Worktree plan — template...")
@@ -437,6 +454,7 @@ def main() -> int:
         "A1",
         "A",
         out_dir,
+        repo,
         "worktree_plan.json",
         "Requires git worktree planning for a feature slice; manual/Cursor execution.",
         {
@@ -447,11 +465,12 @@ def main() -> int:
             ],
         },
     )
-    results["A2"] = run_skipped("A2", "A", out_dir, "worktree_execution_report.json", "Depends on A1 git worktree execution.")
+    results["A2"] = run_skipped("A2", "A", out_dir, repo, "worktree_execution_report.json", "Depends on A1 git worktree execution.")
     results["A3"] = run_skipped(
         "A3",
         "A",
         out_dir,
+        repo,
         "fraud_system_manifest.json",
         "Builds 3-component polyglot fraud system; not applicable to repolens scan.",
     )
@@ -461,21 +480,21 @@ def main() -> int:
     try:
         results["A4"] = run_a4(repo, out_dir, endpoint_id)
     except Exception as exc:
-        results["A4"] = run_skipped("A4", "A", out_dir, "modernization_report.json", str(exc))
+        results["A4"] = run_skipped("A4", "A", out_dir, repo, "modernization_report.json", str(exc))
     print("[A5] Verification / code review...")
     try:
         results["A5"] = run_a5(repo, out_dir)
     except Exception as exc:
-        results["A5"] = run_skipped("A5", "A", out_dir, "code_review_report.json", str(exc))
+        results["A5"] = run_skipped("A5", "A", out_dir, repo, "code_review_report.json", str(exc))
     print(f"[A6] Performance ({endpoint_id})...")
     try:
         results["A6"] = run_a6(repo, out_dir, endpoint_id)
     except Exception as exc:
-        results["A6"] = run_skipped("A6", "A", out_dir, "performance_report.json", str(exc))
+        results["A6"] = run_skipped("A6", "A", out_dir, repo, "performance_report.json", str(exc))
 
     # D1-D6
     print("[D1] Terraform — not present in repolens...")
-    results["D1"] = run_skipped("D1", "D", out_dir, "terraform_manifest.json", "No .tf files in repolens; task creates new Terraform.")
+    results["D1"] = run_skipped("D1", "D", out_dir, repo, "terraform_manifest.json", "No .tf files in repolens; task creates new Terraform.")
     print("[D2] Docker compose stack...")
     results["D2"] = run_infra_check(
         "D2",
@@ -497,7 +516,7 @@ def main() -> int:
         {"github_actions_ci": ci.is_file()},
         "CI workflow exists; green run proof requires GitHub Actions.",
     )
-    results["D4"] = run_skipped("D4", "D", out_dir, "k8s_manifest.json", "No Kubernetes manifests in repolens.")
+    results["D4"] = run_skipped("D4", "D", out_dir, repo, "k8s_manifest.json", "No Kubernetes manifests in repolens.")
     print("[D5] Bootstrap check...")
     readme = repo / "README.md"
     results["D5"] = run_infra_check(
@@ -513,6 +532,7 @@ def main() -> int:
         "D6",
         "D",
         out_dir,
+        repo,
         "observability_manifest.json",
         "No Prometheus/Grafana stack in repolens; would be a bolt-on task.",
     )

@@ -258,9 +258,22 @@ def _render_issues(payload: dict, *, key: str = "issues") -> str:
             title = item.get("title") or item.get("id") or item.get("severity") or f"Item {index}"
             lines.append(f"### {index}. {title}")
             lines.append("")
-            for field in ("severity", "category", "file_path", "description", "recommendation"):
+            for field in (
+                "severity",
+                "category",
+                "file_path",
+                "line",
+                "description",
+                "suggested_fix",
+                "recommendation",
+            ):
                 if item.get(field):
                     lines.append(f"- **{field.replace('_', ' ').title()}:** {item[field]}")
+            steps = item.get("verification_steps") or []
+            if steps:
+                lines.append("- **Verification Steps:**")
+                for step in steps:
+                    lines.append(f"  - {step}")
             lines.append("")
         else:
             lines.append(f"- {item}")

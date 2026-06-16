@@ -24,7 +24,7 @@ Add structured logging and /metrics endpoint; stand up Prometheus + Grafana with
 - Apply deterministic rules from `core/execution_rules.md`
 - Write structured JSON to `generated_projects/{run_id}/D6/output.json`
 - Validate output against Output Contract
-- Run `make skill-done RUN_ID={run_id} SKILL=D6` to open the report UI
+- Run `make -C <cac-os-root> skill-done RUN_ID={run_id} SKILL=D6` as the final Shell command (displays CLI report; no .md files)
 
 ### Output Contract (STRICT JSON)
 ```json

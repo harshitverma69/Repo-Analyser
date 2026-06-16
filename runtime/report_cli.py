@@ -12,8 +12,8 @@ from runtime.report_renderer import (
     export_skill_markdown,
     find_skill_json,
     load_skill_payload,
-    render_report,
 )
+from runtime.report_ui import Theme, render_terminal_ui
 
 ROOT = Path(__file__).resolve().parent.parent
 GENERATED_ROOT = ROOT / "generated_projects"
@@ -87,8 +87,7 @@ def view_skill(run_dir: Path, skill_id: str, *, write_md: bool = False) -> int:
         print(f"No JSON output for {skill_id} in {run_dir.name}", file=sys.stderr)
         return 1
 
-    markdown = render_report(payload, task_id=task_id or skill_id)
-    print(markdown)
+    print(render_terminal_ui(run_dir.name, task_id or skill_id, payload, run_dir=run_dir))
 
     if write_md:
         md_path = export_skill_markdown(skill_dir)
@@ -110,8 +109,12 @@ def _prompt_choice(label: str, count: int) -> int | None:
 
 def interactive_loop(generated_root: Path | None = None) -> int:
     root = generated_root or GENERATED_ROOT
-    print("\nCAC-OS Report Viewer")
-    print("====================\n")
+    theme = Theme()
+    print("")
+    print(theme.cyan("╭──────────────────────────────────────────────────────────────────────╮"))
+    print(theme.cyan("│") + f"  {theme.bold('CAC-OS Run Browser')}  {theme.dim('browse past skill outputs')}" + " " * 8 + theme.cyan("│"))
+    print(theme.cyan("╰──────────────────────────────────────────────────────────────────────╯"))
+    print("")
 
     while True:
         runs = list_runs(root)
@@ -166,8 +169,9 @@ def interactive_loop(generated_root: Path | None = None) -> int:
                 if 1 <= choice <= len(skills):
                     skill_id = skills[choice - 1][0]
                     print("\n" + "-" * 60 + "\n")
-                    view_skill(run_dir, skill_id, write_md=True)
-                    input("\n[Press Enter to continue]")
+                    from runtime.skill_finish import show_skill_report
+
+                    show_skill_report(run_dir, skill_id, interactive=True)
                     continue
             print("  Invalid choice.")
 
@@ -235,7 +239,7 @@ def main(argv: list[str] | None = None) -> int:
         return show_skill_report(
             run_dir,
             args.skill.upper(),
-            open_editor=not args.no_open,
+            save_md=False,
             interactive=not args.no_interactive,
         )
 

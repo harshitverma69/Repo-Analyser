@@ -2,12 +2,37 @@
 
 from __future__ import annotations
 
+import argparse
 import json
 from pathlib import Path
 
 from runtime.report_renderer import export_run_markdown, export_skill_markdown, render_report
+from runtime.report_ui import render_terminal_ui
 
 ROOT = Path(__file__).resolve().parent.parent
+
+
+def test_render_terminal_ui_a5():
+    payload = json.loads(
+        (ROOT / "generated_projects" / "cac-os" / "A5" / "output.json").read_text(encoding="utf-8")
+    )
+    ui = render_terminal_ui("cac-os", "A5", payload)
+    assert "Adversarial Code Review" in ui
+    assert "NEEDS FIX" in ui
+    assert "/cac-os-code-review" in ui
+    assert "ISS-1" in ui
+
+
+def test_compute_outcome_b1_golden():
+    from runtime.report_ui import compute_outcome
+
+    golden = json.loads(
+        (ROOT / "generated_projects" / "_golden" / "B1" / "inventory_report.json").read_text(encoding="utf-8")
+    )
+    label, tone, headline, metrics = compute_outcome("B1", golden)
+    assert label == "INVENTORY OK"
+    assert tone == "ok"
+    assert "artifact" in headline.lower()
 
 
 def test_render_b1_golden():
@@ -19,10 +44,31 @@ def test_render_b1_golden():
     assert "OrderService" in md
 
 
-def test_export_master_mapping_run():
-    run_dir = ROOT / "generated_projects" / "master-mapping"
-    if not (run_dir / "B1" / "output.json").is_file():
-        return
+def test_export_master_mapping_run(tmp_path: Path):
+    run_dir = tmp_path / "master-mapping"
+    skill_dir = run_dir / "B1"
+    skill_dir.mkdir(parents=True)
+    payload = {
+        "task_id": "B1",
+        "level": "B",
+        "files_scanned": 2,
+        "modules": [{"name": "com.example", "path": "src/main/java/com/example/"}],
+        "artifacts": {
+            "controllers": [{"name": "MasterMappingController", "file_path": "src/MasterMappingController.java"}],
+            "classes": [],
+            "interfaces": [],
+            "services": [],
+            "models": [],
+            "repositories": [],
+            "jobs": [],
+            "consumers": [],
+            "configurations": [],
+            "utilities": [],
+        },
+        "dependency_graph_summary": {"nodes": ["com.example"], "edges": []},
+        "limitations": [],
+    }
+    (skill_dir / "output.json").write_text(json.dumps(payload), encoding="utf-8")
 
     paths = export_run_markdown(run_dir)
     assert (run_dir / "REPORT.md").is_file()
@@ -32,6 +78,68 @@ def test_export_master_mapping_run():
     md = (run_dir / "B1" / "output.md").read_text(encoding="utf-8")
     assert "MasterMappingController" in md
     assert "## Artifacts" in md
+
+
+def test_render_a5_issues_markdown_fields():
+    payload = {
+        "task_id": "A5",
+        "issues": [
+            {
+                "id": "ISS-1",
+                "severity": "BLOCKING",
+                "file_path": "app.py",
+                "line": 42,
+                "description": "Bug",
+                "suggested_fix": "Fix it",
+                "verification_steps": ["Run tests", "Check logs"],
+            }
+        ],
+    }
+    md = render_report(payload, task_id="A5")
+    assert "Fix it" in md
+    assert "Run tests" in md
+    assert "42" in md
+
+
+def test_finish_skill_missing_run(tmp_path: Path, capsys):
+    from runtime.skill_finish import finish_skill
+
+    rc = finish_skill("missing-run", "B1", generated_root=tmp_path)
+    assert rc == 1
+    assert "not found" in capsys.readouterr().err.lower()
+
+
+def test_finish_skill_renders_b1(tmp_path: Path, capsys):
+    from runtime.skill_finish import finish_skill
+
+    run_dir = tmp_path / "demo"
+    skill_dir = run_dir / "B1"
+    skill_dir.mkdir(parents=True)
+    golden = ROOT / "generated_projects" / "_golden" / "B1" / "inventory_report.json"
+    (skill_dir / "output.json").write_text(golden.read_text(encoding="utf-8"), encoding="utf-8")
+
+    rc = finish_skill("demo", "B1", generated_root=tmp_path)
+    assert rc == 0
+    out = capsys.readouterr().out
+    assert "Repo Artifact Inventory" in out or "INVENTORY" in out
+
+
+def test_cmd_clean_runs(tmp_path: Path, monkeypatch, capsys):
+    from scripts import cac_os
+
+    runs_root = tmp_path / "generated_projects"
+    runs_root.mkdir()
+    (runs_root / "_golden").mkdir()
+    (runs_root / "ephemeral").mkdir()
+    (runs_root / "ephemeral" / "B1").mkdir()
+    (runs_root / "keep-me.txt").write_text("nope", encoding="utf-8")
+
+    monkeypatch.setattr(cac_os, "ROOT", tmp_path)
+    rc = cac_os.cmd_clean_runs(argparse.Namespace())
+    assert rc == 0
+    assert not (runs_root / "ephemeral").exists()
+    assert (runs_root / "_golden").is_dir()
+    assert "ephemeral" in capsys.readouterr().out
 
 
 def test_export_skill_markdown(tmp_path: Path):

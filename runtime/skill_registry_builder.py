@@ -110,7 +110,7 @@ def render_skill_markdown(
         "Apply deterministic rules from `core/execution_rules.md`",
         f"Write structured JSON to `generated_projects/{{run_id}}/{agent['skill_id']}/output.json`",
         "Validate output against Output Contract",
-        f"Run `make skill-done RUN_ID={{run_id}} SKILL={agent['skill_id']}` to open the report UI",
+        f"Run `make -C <cac-os-root> skill-done RUN_ID={{run_id}} SKILL={agent['skill_id']}` as the final Shell command (displays CLI report; no .md files)",
     ]
     steps_block = "\n".join(f"- {step}" for step in steps)
     validation_block = "\n".join(f"- {rule}" for rule in validation)

@@ -36,6 +36,8 @@ def render_cursor_skill(task_id: str, meta: dict, task_meta: dict) -> str:
         f"Use when running eval task {task_id} or `{cursor_slash_command(task_id)}`."
     )
 
+    cac_os_root = ROOT.as_posix()
+
     return f"""---
 name: {name}
 description: {description}
@@ -60,27 +62,21 @@ Execute **CAC-OS skill {task_id}** deterministically. Follow the Markdown specs 
 3. Eval blueprint: `{blueprint}`
 4. Full guide: `docs/HOW_TO_RUN.md`
 
-## Output (strict JSON + Markdown report)
+## Output (strict JSON)
 
 Write JSON to: `generated_projects/{{run_id}}/{task_id}/output.json`
 
-## After completing (REQUIRED — opens report UI automatically)
-
-Run this in the terminal as your **last step** (exports Markdown, shows output, opens report):
-
-```bash
-cd cac-os && make skill-done RUN_ID={{run_id}} SKILL={task_id}
-```
-
-Replace `{{run_id}}` with your run folder name (e.g. repo slug like `master-mapping`).
-
 Golden reference: `generated_projects/_golden/{task_id}/{meta.get('output_file', 'output.json')}`
 
-## Validate (optional)
+## FINAL STEP (mandatory — last action, no steps after this)
+
+Immediately after writing `output.json`, run this Shell command to print the report in the terminal CLI (no markdown files are written):
 
 ```bash
-make validate-run RUN_DIR=generated_projects/{{run_id}}
+make -C {cac_os_root} skill-done RUN_ID=<run_id> SKILL={task_id}
 ```
+
+Replace `<run_id>` with your run folder name (e.g. repo slug). **Do not skip this step.**
 """
 
 
