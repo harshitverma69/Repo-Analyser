@@ -1,4 +1,4 @@
-## Skill: Adversarial Code Review Agent
+## Skill: Adversarial Code Review
 
 ### Task ID
 `A5`
@@ -23,26 +23,31 @@ None
 ### Execution Steps (DETERMINISTIC ONLY)
 - Read agent spec: `agents/advanced/A5_adversarial_code_review_agent.md`
 - Apply deterministic rules from `core/execution_rules.md`
-- Write structured JSON to `generated_projects/{run_id}/A5/output.json`
+- Write JSON via `python3 -m runtime.skill_finish write --run-id {run_id} --skill A5 --payload-file <payload.json>` (auto-opens CLI UI)
 - Validate output against Output Contract
-- Run `make -C <cac-os-root> skill-done RUN_ID={run_id} SKILL=A5` as the final Shell command (displays CLI report; no .md files)
 
 ### Output Contract (STRICT JSON)
 ```json
 {
-  "task_id": "A5",
+  "generated_at": "2026-06-16T12:00:00Z",
   "issues": [
     {
-      "id": "",
-      "category": "correctness|security|test|performance|maintainability",
-      "severity": "blocking|non_blocking",
-      "file_path": "",
-      "line": 0,
-      "description": "",
-      "suggested_fix": "",
-      "verification_steps": []
+      "category": "security",
+      "description": "Missing input validation on amount",
+      "file_path": "app/main.py",
+      "id": "ISS-1",
+      "line": 10,
+      "severity": "blocking",
+      "suggested_fix": "Add Pydantic constraints",
+      "verification_steps": [
+        "pytest tests/test_validation.py"
+      ]
     }
-  ]
+  ],
+  "level": "A",
+  "scan_complete": true,
+  "task_id": "A5",
+  "warnings": []
 }
 ```
 
@@ -54,6 +59,11 @@ None
 ### Failure Conditions
 - INPUT_CONTRACT_VIOLATION: no diff
 - OUTPUT_SCHEMA_VIOLATION
+- --
+- Skill spec: `skills/advanced/A5_adversarial_code_review.skill.md`
+- Eval blueprint: `eval_blueprints/A/A5_blueprint.md`
+- Execution rules: `core/execution_rules.md`
+- Agent spec path: `agents/advanced/A5_adversarial_code_review_agent.md`
 
 ### Sources
 - Agent: `agents/advanced/A5_adversarial_code_review_agent.md`

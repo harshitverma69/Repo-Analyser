@@ -1,4 +1,4 @@
-## Skill: Flow Trace Agent
+## Skill: Flow Trace
 
 ### Task ID
 `I2`
@@ -24,21 +24,32 @@ Trace one endpoint, event, or cron job end-to-end from entry point to final DB/A
 ### Execution Steps (DETERMINISTIC ONLY)
 - Read agent spec: `agents/intermediate/I2_flow_trace_agent.md`
 - Apply deterministic rules from `core/execution_rules.md`
-- Write structured JSON to `generated_projects/{run_id}/I2/output.json`
+- Write JSON via `python3 -m runtime.skill_finish write --run-id {run_id} --skill I2 --payload-file <payload.json>` (auto-opens CLI UI)
 - Validate output against Output Contract
-- Run `make -C <cac-os-root> skill-done RUN_ID={run_id} SKILL=I2` as the final Shell command (displays CLI report; no .md files)
 
 ### Output Contract (STRICT JSON)
 ```json
 {
-  "task_id": "I2",
-  "entry_point_id": "",
-  "entry_type": "endpoint|event|cron",
-  "steps": [],
+  "entry_point_id": "POST:/transactions",
+  "entry_type": "endpoint",
   "external_dependencies": [],
-  "side_effects": [],
-  "sequence_diagram_mermaid": "",
-  "uncertainties": []
+  "generated_at": "2026-06-16T12:00:00Z",
+  "level": "I",
+  "scan_complete": true,
+  "sequence_diagram_mermaid": "sequenceDiagram\n  Client->>Controller: POST /transactions",
+  "side_effects": [
+    "db_write:transactions"
+  ],
+  "steps": [
+    {
+      "file_path": "app/controllers/transaction.py",
+      "function_name": "create",
+      "line": 24
+    }
+  ],
+  "task_id": "I2",
+  "uncertainties": [],
+  "warnings": []
 }
 ```
 
@@ -50,6 +61,11 @@ Trace one endpoint, event, or cron job end-to-end from entry point to final DB/A
 ### Failure Conditions
 - INPUT_CONTRACT_VIOLATION: entry_point not found
 - OUTPUT_SCHEMA_VIOLATION
+- --
+- Skill spec: `skills/intermediate/I2_flow_trace.skill.md`
+- Eval blueprint: `eval_blueprints/I/I2_blueprint.md`
+- Execution rules: `core/execution_rules.md`
+- Agent spec path: `agents/intermediate/I2_flow_trace_agent.md`
 
 ### Sources
 - Agent: `agents/intermediate/I2_flow_trace_agent.md`

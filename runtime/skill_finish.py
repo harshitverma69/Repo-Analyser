@@ -1,15 +1,40 @@
-"""Post-skill hook: display report in the terminal (no file writes by default)."""
+"""Post-skill hook: write output JSON and display report in the terminal."""
 
 from __future__ import annotations
 
+import json
 import sys
 from pathlib import Path
+from typing import Any
 
+from runtime.deterministic import canonical_json_dumps
 from runtime.report_renderer import export_run_markdown, export_skill_markdown, find_skill_json, load_skill_payload
 from runtime.report_ui import render_terminal_ui
 
 ROOT = Path(__file__).resolve().parent.parent
 GENERATED_ROOT = ROOT / "generated_projects"
+
+
+def write_skill_output(
+    run_id: str,
+    skill_id: str,
+    payload: dict[str, Any],
+    *,
+    generated_root: Path | None = None,
+    save_md: bool = False,
+    show_ui: bool = True,
+) -> Path:
+    """Write output.json for a skill and optionally display the terminal UI."""
+    root = generated_root or GENERATED_ROOT
+    skill_id = skill_id.upper()
+    run_dir = root / run_id
+    skill_dir = run_dir / skill_id
+    skill_dir.mkdir(parents=True, exist_ok=True)
+    output_path = skill_dir / "output.json"
+    output_path.write_text(canonical_json_dumps(payload), encoding="utf-8")
+    if show_ui:
+        show_skill_report(run_dir, skill_id, save_md=save_md, interactive=False)
+    return output_path
 
 
 def show_skill_report(
@@ -107,17 +132,52 @@ def finish_skill(run_id: str, skill_id: str, *, generated_root: Path | None = No
 def main(argv: list[str] | None = None) -> int:
     import argparse
 
-    parser = argparse.ArgumentParser(description="Display CAC-OS skill report in the terminal")
-    parser.add_argument("--run-id", required=True, help="Run directory name, e.g. master-mapping")
-    parser.add_argument("--skill", required=True, help="Skill ID, e.g. B1")
-    parser.add_argument("--save-md", action="store_true", help="Also write output.md files (off by default)")
-    parser.add_argument("--interactive", action="store_true", help="Enter interactive menu after display")
+    parser = argparse.ArgumentParser(description="Write and/or display CAC-OS skill reports")
+    sub = parser.add_subparsers(dest="command")
+
+    show_p = sub.add_parser("show", help="Display an existing skill output (default command)")
+    show_p.add_argument("--run-id", required=True, help="Run directory name, e.g. cac-os")
+    show_p.add_argument("--skill", required=True, help="Skill ID, e.g. B1")
+    show_p.add_argument("--save-md", action="store_true", help="Also write output.md files")
+    show_p.add_argument("--interactive", action="store_true", help="Enter interactive menu after display")
+
+    write_p = sub.add_parser("write", help="Write output.json and auto-open the terminal UI")
+    write_p.add_argument("--run-id", required=True)
+    write_p.add_argument("--skill", required=True)
+    write_p.add_argument("--payload-file", required=True, help="Path to JSON payload file")
+    write_p.add_argument("--save-md", action="store_true")
+    write_p.add_argument("--no-ui", action="store_true", help="Write JSON only, skip terminal UI")
+
+    # Back-compat: `python -m runtime.skill_finish --run-id X --skill Y`
+    parser.add_argument("--run-id", help=argparse.SUPPRESS)
+    parser.add_argument("--skill", help=argparse.SUPPRESS)
+    parser.add_argument("--save-md", action="store_true", help=argparse.SUPPRESS)
+    parser.add_argument("--interactive", action="store_true", help=argparse.SUPPRESS)
+    parser.add_argument("--payload-file", help=argparse.SUPPRESS)
+
     args = parser.parse_args(argv)
 
-    run_dir = GENERATED_ROOT / args.run_id
+    if args.command == "write" or args.payload_file:
+        payload_path = Path(args.payload_file)
+        payload = json.loads(payload_path.read_text(encoding="utf-8"))
+        write_skill_output(
+            args.run_id,
+            args.skill,
+            payload,
+            save_md=args.save_md,
+            show_ui=not getattr(args, "no_ui", False),
+        )
+        return 0
+
+    run_id = args.run_id
+    skill = args.skill
+    if not run_id or not skill:
+        parser.error("Provide --run-id and --skill (or use the write subcommand)")
+
+    run_dir = GENERATED_ROOT / run_id
     return show_skill_report(
         run_dir,
-        args.skill.upper(),
+        skill.upper(),
         save_md=args.save_md,
         interactive=args.interactive,
     )

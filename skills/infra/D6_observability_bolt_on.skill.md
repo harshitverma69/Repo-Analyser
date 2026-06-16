@@ -1,4 +1,4 @@
-## Skill: Observability Bolt-On Agent
+## Skill: Observability Bolt On
 
 ### Task ID
 `D6`
@@ -22,27 +22,39 @@ Add structured logging and /metrics endpoint; stand up Prometheus + Grafana with
 ### Execution Steps (DETERMINISTIC ONLY)
 - Read agent spec: `agents/infra_devops/D6_observability_bolt_on_agent.md`
 - Apply deterministic rules from `core/execution_rules.md`
-- Write structured JSON to `generated_projects/{run_id}/D6/output.json`
+- Write JSON via `python3 -m runtime.skill_finish write --run-id {run_id} --skill D6 --payload-file <payload.json>` (auto-opens CLI UI)
 - Validate output against Output Contract
-- Run `make -C <cac-os-root> skill-done RUN_ID={run_id} SKILL=D6` as the final Shell command (displays CLI report; no .md files)
 
 ### Output Contract (STRICT JSON)
 ```json
 {
-  "task_id": "D6",
-  "code_diff_files": [],
-  "metrics_endpoint": "/metrics",
+  "code_diff_files": [
+    "app/main.py",
+    "app/metrics.py"
+  ],
   "compose_stack": {
-    "prometheus": "",
-    "grafana": ""
+    "grafana": "docker-compose.observability.yml",
+    "prometheus": "docker-compose.observability.yml"
   },
   "dashboard_panel": {
-    "title": "",
-    "query": "",
-    "data_proof": {}
+    "data_proof": {
+      "series_points": 12
+    },
+    "query": "rate(http_requests_total[1m])",
+    "title": "Request rate"
   },
-  "load_script": "",
-  "readme_run_order": []
+  "generated_at": "2026-06-16T12:00:00Z",
+  "level": "D",
+  "load_script": "scripts/load.sh",
+  "metrics_endpoint": "/metrics",
+  "readme_run_order": [
+    "docker compose up -d",
+    "bash scripts/load.sh",
+    "open grafana :3000"
+  ],
+  "scan_complete": true,
+  "task_id": "D6",
+  "warnings": []
 }
 ```
 
@@ -55,6 +67,11 @@ Add structured logging and /metrics endpoint; stand up Prometheus + Grafana with
 - METRICS_FAILED
 - DASHBOARD_NO_DATA
 - OUTPUT_SCHEMA_VIOLATION
+- --
+- Skill spec: `skills/infra/D6_observability_bolt_on.skill.md`
+- Eval blueprint: `eval_blueprints/D/D6_blueprint.md`
+- Execution rules: `core/execution_rules.md`
+- Agent spec path: `agents/infra_devops/D6_observability_bolt_on_agent.md`
 
 ### Sources
 - Agent: `agents/infra_devops/D6_observability_bolt_on_agent.md`

@@ -1,4 +1,4 @@
-## Skill: Kubernetes Manifests Agent
+## Skill: Kubernetes Manifests
 
 ### Task ID
 `D4`
@@ -23,31 +23,44 @@ Write K8s manifests, validate with dry-run/kubeval, deploy on kind/minikube with
 ### Execution Steps (DETERMINISTIC ONLY)
 - Read agent spec: `agents/infra_devops/D4_kubernetes_manifests_agent.md`
 - Apply deterministic rules from `core/execution_rules.md`
-- Write structured JSON to `generated_projects/{run_id}/D4/output.json`
+- Write JSON via `python3 -m runtime.skill_finish write --run-id {run_id} --skill D4 --payload-file <payload.json>` (auto-opens CLI UI)
 - Validate output against Output Contract
-- Run `make -C <cac-os-root> skill-done RUN_ID={run_id} SKILL=D4` as the final Shell command (displays CLI report; no .md files)
 
 ### Output Contract (STRICT JSON)
 ```json
 {
-  "task_id": "D4",
-  "manifests": [],
-  "dry_run_proof": {
-    "command": "",
-    "exit_code": 0
-  },
   "apply_proof": {
-    "command": "kubectl apply",
+    "command": "kubectl apply -f k8s/",
     "exit_code": 0
   },
   "curl_proof": {
-    "command": "",
+    "command": "kubectl port-forward svc/tx-service 8080:80 & curl -sf localhost:8080/health",
     "response_status": 200
   },
+  "dry_run_proof": {
+    "command": "kubectl apply --dry-run=client -f k8s/",
+    "exit_code": 0
+  },
+  "generated_at": "2026-06-16T12:00:00Z",
+  "level": "D",
+  "manifests": [
+    "k8s/deployment.yaml",
+    "k8s/service.yaml",
+    "k8s/configmap.yaml"
+  ],
   "readme": {
-    "up": [],
-    "down": []
-  }
+    "down": [
+      "kubectl delete -f k8s/",
+      "kind delete cluster"
+    ],
+    "up": [
+      "kind create cluster",
+      "kubectl apply -f k8s/"
+    ]
+  },
+  "scan_complete": true,
+  "task_id": "D4",
+  "warnings": []
 }
 ```
 
@@ -61,6 +74,11 @@ Write K8s manifests, validate with dry-run/kubeval, deploy on kind/minikube with
 - APPLY_FAILED
 - CURL_FAILED
 - OUTPUT_SCHEMA_VIOLATION
+- --
+- Skill spec: `skills/infra/D4_kubernetes_manifests.skill.md`
+- Eval blueprint: `eval_blueprints/D/D4_blueprint.md`
+- Execution rules: `core/execution_rules.md`
+- Agent spec path: `agents/infra_devops/D4_kubernetes_manifests_agent.md`
 
 ### Sources
 - Agent: `agents/infra_devops/D4_kubernetes_manifests_agent.md`

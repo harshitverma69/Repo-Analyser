@@ -1,4 +1,4 @@
-## Skill: Performance Improvement Agent
+## Skill: Performance Improvement
 
 ### Task ID
 `A6`
@@ -23,39 +23,46 @@ None
 ### Execution Steps (DETERMINISTIC ONLY)
 - Read agent spec: `agents/advanced/A6_performance_improvement_agent.md`
 - Apply deterministic rules from `core/execution_rules.md`
-- Write structured JSON to `generated_projects/{run_id}/A6/output.json`
+- Write JSON via `python3 -m runtime.skill_finish write --run-id {run_id} --skill A6 --payload-file <payload.json>` (auto-opens CLI UI)
 - Validate output against Output Contract
-- Run `make -C <cac-os-root> skill-done RUN_ID={run_id} SKILL=A6` as the final Shell command (displays CLI report; no .md files)
 
 ### Output Contract (STRICT JSON)
 ```json
 {
-  "task_id": "A6",
-  "baseline": {
-    "method": "",
-    "metric": "",
-    "value": 0,
-    "unit": ""
-  },
-  "profiling": {
-    "approach": "",
-    "bottleneck": "",
-    "evidence": []
-  },
-  "change": {
-    "files_changed": [],
-    "description": ""
-  },
   "after": {
-    "method": "",
-    "metric": "",
-    "value": 0,
-    "improvement_pct": 0
+    "improvement_pct": 54.2,
+    "method": "hyperfine",
+    "metric": "requests_per_sec",
+    "value": 185
+  },
+  "baseline": {
+    "method": "hyperfine",
+    "metric": "requests_per_sec",
+    "unit": "rps",
+    "value": 120
   },
   "behavior_proof": {
-    "test_command": "",
-    "exit_code": 0
-  }
+    "exit_code": 0,
+    "test_command": "pytest -q"
+  },
+  "change": {
+    "description": "Use orjson dumps once per response",
+    "files_changed": [
+      "app/handlers.py"
+    ]
+  },
+  "generated_at": "2026-06-16T12:00:00Z",
+  "level": "A",
+  "profiling": {
+    "approach": "cProfile",
+    "bottleneck": "JSON serialization in loop",
+    "evidence": [
+      "app/handlers.py:44"
+    ]
+  },
+  "scan_complete": true,
+  "task_id": "A6",
+  "warnings": []
 }
 ```
 
@@ -69,6 +76,11 @@ None
 - NO_IMPROVEMENT
 - BEHAVIOR_REGRESSION
 - OUTPUT_SCHEMA_VIOLATION
+- --
+- Skill spec: `skills/advanced/A6_performance_improvement.skill.md`
+- Eval blueprint: `eval_blueprints/A/A6_blueprint.md`
+- Execution rules: `core/execution_rules.md`
+- Agent spec path: `agents/advanced/A6_performance_improvement_agent.md`
 
 ### Sources
 - Agent: `agents/advanced/A6_performance_improvement_agent.md`

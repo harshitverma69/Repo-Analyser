@@ -1,4 +1,4 @@
-## Skill: Safe Change Agent
+## Skill: Safe Change
 
 ### Task ID
 `I3`
@@ -16,38 +16,50 @@ Make a small focused change in an unfamiliar module with minimal diff, test upda
 ```json
 {
   "repository_path": "required",
-  "change_spec": "required",
-  "test_discovery_report.json": "required"
+  "change_spec": "required"
 }
 ```
 
 ### Execution Steps (DETERMINISTIC ONLY)
 - Read agent spec: `agents/intermediate/I3_safe_change_agent.md`
 - Apply deterministic rules from `core/execution_rules.md`
-- Write structured JSON to `generated_projects/{run_id}/I3/output.json`
+- Write JSON via `python3 -m runtime.skill_finish write --run-id {run_id} --skill I3 --payload-file <payload.json>` (auto-opens CLI UI)
 - Validate output against Output Contract
-- Run `make -C <cac-os-root> skill-done RUN_ID={run_id} SKILL=I3` as the final Shell command (displays CLI report; no .md files)
 
 ### Output Contract (STRICT JSON)
 ```json
 {
+  "branch_or_diff_ref": "fix/validate-amount",
+  "files_changed": [
+    "app/services/transaction.py"
+  ],
+  "generated_at": "2026-06-16T12:00:00Z",
+  "level": "I",
+  "rationale": [
+    "Add validation for negative amounts"
+  ],
+  "risk_assessment": {
+    "factors": [
+      "single file change"
+    ],
+    "level": "low"
+  },
+  "scan_complete": true,
   "task_id": "I3",
-  "branch_or_diff_ref": "",
-  "files_changed": [],
-  "rationale": [],
-  "test_command": "",
+  "test_command": "pytest tests/test_transactions.py -q",
   "test_result": {
     "exit_code": 0
   },
-  "risk_assessment": {
-    "level": "low|medium|high",
-    "factors": []
-  },
   "verification_log": {
-    "agent_suggested": [],
-    "manually_verified": [],
+    "agent_suggested": [
+      "Add guard clause"
+    ],
+    "manually_verified": [
+      "Guard clause at line 42"
+    ],
     "uncertain": []
-  }
+  },
+  "warnings": []
 }
 ```
 
@@ -61,6 +73,11 @@ Make a small focused change in an unfamiliar module with minimal diff, test upda
 - INPUT_CONTRACT_VIOLATION
 - TEST_FAILED
 - OUTPUT_SCHEMA_VIOLATION
+- --
+- Skill spec: `skills/intermediate/I3_safe_change.skill.md`
+- Eval blueprint: `eval_blueprints/I/I3_blueprint.md`
+- Execution rules: `core/execution_rules.md`
+- Agent spec path: `agents/intermediate/I3_safe_change_agent.md`
 
 ### Sources
 - Agent: `agents/intermediate/I3_safe_change_agent.md`

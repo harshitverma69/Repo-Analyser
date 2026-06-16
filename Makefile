@@ -1,4 +1,4 @@
-.PHONY: validate list route validate-run build-skills run-skill run-pipeline test validate-dag validate-pipeline test-determinism harden install-cursor-skills export-md view-run skill-done clean-runs repolens-eval help
+.PHONY: validate list route validate-run build-skills run-skill run-pipeline test validate-dag validate-pipeline test-determinism harden install-cursor-skills export-md view-run skill-done clean-runs repolens-eval expand-agent-specs help
 
 PYTHON ?= python3
 SCRIPT := scripts/cac_os.py
@@ -18,6 +18,7 @@ help:
 	@echo "  make clean-runs                                   Remove ephemeral run outputs"
 	@echo "  make repolens-eval         Run all 24 agents against ../repolens (RepoLens bridge)"
 	@echo "  make build-skills          Compile agents → .skill.md + registry + HOW_TO_RUN.md"
+	@echo "  make expand-agent-specs    Expand agent specs to full procedural detail"
 	@echo "  make install-cursor-skills Install all 24 skills into Cursor / menu"
 	@echo "  make run-skill SKILL=B1    Execute one skill deterministically"
 	@echo "  make run-pipeline          Execute all 24 skills in DAG order"
@@ -82,6 +83,9 @@ skills: build-skills
 
 build-skills:
 	$(PYTHON) runtime/skill_registry_builder.py
+
+expand-agent-specs:
+	$(PYTHON) tools/expand_agent_specs.py
 
 run-skill:
 ifndef SKILL

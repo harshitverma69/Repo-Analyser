@@ -1,4 +1,4 @@
-## Skill: Docker Compose Stack Agent
+## Skill: Docker Compose Stack
 
 ### Task ID
 `D2`
@@ -22,28 +22,37 @@ Stand up multi-service stack (API + DB + worker) with docker-compose, seed data,
 ### Execution Steps (DETERMINISTIC ONLY)
 - Read agent spec: `agents/infra_devops/D2_docker_compose_stack_agent.md`
 - Apply deterministic rules from `core/execution_rules.md`
-- Write structured JSON to `generated_projects/{run_id}/D2/output.json`
+- Write JSON via `python3 -m runtime.skill_finish write --run-id {run_id} --skill D2 --payload-file <payload.json>` (auto-opens CLI UI)
 - Validate output against Output Contract
-- Run `make -C <cac-os-root> skill-done RUN_ID={run_id} SKILL=D2` as the final Shell command (displays CLI report; no .md files)
 
 ### Output Contract (STRICT JSON)
 ```json
 {
+  "compose_file": "docker-compose.yml",
+  "dockerfiles": [
+    "api/Dockerfile",
+    "worker/Dockerfile"
+  ],
+  "generated_at": "2026-06-16T12:00:00Z",
+  "inter_service_logs_proof": [
+    "worker connected to api",
+    "api wrote to postgres"
+  ],
+  "level": "D",
+  "scan_complete": true,
+  "seed_script": "scripts/seed.sql",
   "task_id": "D2",
-  "compose_file": "",
-  "dockerfiles": [],
-  "seed_script": "",
-  "test_run": {
-    "command": "",
-    "exit_code": 0
-  },
-  "inter_service_logs_proof": [],
   "teardown": {
-    "command": "",
+    "command": "docker compose down -v",
     "reup_proof": {
       "exit_code": 0
     }
-  }
+  },
+  "test_run": {
+    "command": "./scripts/e2e.sh",
+    "exit_code": 0
+  },
+  "warnings": []
 }
 ```
 
@@ -56,6 +65,11 @@ Stand up multi-service stack (API + DB + worker) with docker-compose, seed data,
 - COMPOSE_UP_FAILED
 - E2E_TEST_FAILED
 - OUTPUT_SCHEMA_VIOLATION
+- --
+- Skill spec: `skills/infra/D2_docker_compose_stack.skill.md`
+- Eval blueprint: `eval_blueprints/D/D2_blueprint.md`
+- Execution rules: `core/execution_rules.md`
+- Agent spec path: `agents/infra_devops/D2_docker_compose_stack_agent.md`
 
 ### Sources
 - Agent: `agents/infra_devops/D2_docker_compose_stack_agent.md`

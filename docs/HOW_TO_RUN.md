@@ -30,6 +30,7 @@ pip install pytest pytest-cov
 ```bash
 cd cac-os
 make build-skills          # compile agent specs → .skill.md + core/skill_registry.json
+make expand-agent-specs    # expand agents/ to full procedural specs (optional)
 make install-cursor-skills # install 24 skills into Cursor / menu
 make validate              # verify specs, blueprints, golden examples, DAG
 ```
@@ -43,6 +44,7 @@ Restart Cursor after `install-cursor-skills` if `/cac-os-*` commands do not appe
 | Command | Purpose |
 |---------|---------|
 | `make build-skills` | Regenerate skill files and registry |
+| `make expand-agent-specs` | Expand all 24 agent specs to procedural detail |
 | `make install-cursor-skills` | Install skills into Cursor `/` menu |
 | `make validate` | Validate all agent specs and DAG |
 | `make validate-dag` | Validate skill dependency graph |
@@ -56,7 +58,13 @@ Restart Cursor after `install-cursor-skills` if `/cac-os-*` commands do not appe
 
 1. Type `/cac-os-repo-inventory` (or any skill below) in chat
 2. Follow the agent spec and skill spec
-3. Write output to `generated_projects/{run_id}/{skill_id}/output.json`
+3. Write output and **auto-open CLI UI**:
+
+```bash
+python3 -m runtime.skill_finish write --run-id <run_id> --skill B1 --payload-file payload.json
+```
+
+Or if `output.json` already exists: `python3 -m runtime.skill_finish --run-id <run_id> --skill B1`
 
 ### Run via deterministic runtime
 
@@ -87,7 +95,7 @@ python -m runtime.validate_pipeline --run-id full-run
 
 ### Basic (B1–B6) — Repo reading and greenfield builds
 
-#### B1 — Repo Artifact Inventory Agent
+#### B1 — Repo Artifact Inventory
 
 **Role:** Inspect an unfamiliar repository and produce a deterministic inventory of classes, interfaces, services, controllers, models, repositories, jobs, consumers, configs, and utilities.
 
@@ -102,7 +110,7 @@ python -m runtime.validate_pipeline --run-id full-run
 | Output JSON | `generated_projects/{run_id}/B1/output.json` |
 | Golden reference | `generated_projects/_golden/B1/inventory_report.json` |
 
-#### B2 — API Endpoint Map Agent
+#### B2 — Api Endpoint Map
 
 **Role:** Identify every externally exposed API route and frontend route; map each to handler and controller via static inspection.
 
@@ -117,7 +125,7 @@ python -m runtime.validate_pipeline --run-id full-run
 | Output JSON | `generated_projects/{run_id}/B2/output.json` |
 | Golden reference | `generated_projects/_golden/B2/api_map_report.json` |
 
-#### B3 — Test Discovery Agent
+#### B3 — Test Discovery
 
 **Role:** Find test framework, config file, relevant test files, and exact commands to run tests for a module.
 
@@ -132,7 +140,7 @@ python -m runtime.validate_pipeline --run-id full-run
 | Output JSON | `generated_projects/{run_id}/B3/output.json` |
 | Golden reference | `generated_projects/_golden/B3/test_discovery_report.json` |
 
-#### B4 — FastAPI Greenfield Service Agent
+#### B4 — Fastapi Greenfield
 
 **Role:** Build a small Python FastAPI service from scratch with POST/GET endpoints, input validation, tests, and README.
 
@@ -147,7 +155,7 @@ python -m runtime.validate_pipeline --run-id full-run
 | Output JSON | `generated_projects/{run_id}/B4/output.json` |
 | Golden reference | `generated_projects/_golden/B4/greenfield_manifest.json` |
 
-#### B5 — Node.js Greenfield API Agent
+#### B5 — Nodejs Greenfield
 
 **Role:** Build equivalent transaction/balance service as Node.js API or CLI with tests and README.
 
@@ -162,7 +170,7 @@ python -m runtime.validate_pipeline --run-id full-run
 | Output JSON | `generated_projects/{run_id}/B5/output.json` |
 | Golden reference | `generated_projects/_golden/B5/greenfield_manifest.json` |
 
-#### B6 — Rust Greenfield CLI Agent
+#### B6 — Rust Greenfield
 
 **Role:** Build Rust CLI that accepts file path, counts INFO/WARN/ERROR lines, handles missing file gracefully, with tests and README.
 
@@ -179,7 +187,7 @@ python -m runtime.validate_pipeline --run-id full-run
 
 ### Intermediate (I1–I6) — Repo operations and polyglot work
 
-#### I1 — ER Diagram Agent
+#### I1 — Er Diagram
 
 **Role:** Build ER diagram for all tables and entities from repo source only; cite source file for every claim.
 
@@ -194,7 +202,7 @@ python -m runtime.validate_pipeline --run-id full-run
 | Output JSON | `generated_projects/{run_id}/I1/output.json` |
 | Golden reference | `generated_projects/_golden/I1/schema_report.json` |
 
-#### I2 — Flow Trace Agent
+#### I2 — Flow Trace
 
 **Role:** Trace one endpoint, event, or cron job end-to-end from entry point to final DB/API/queue side effect.
 
@@ -209,7 +217,7 @@ python -m runtime.validate_pipeline --run-id full-run
 | Output JSON | `generated_projects/{run_id}/I2/output.json` |
 | Golden reference | `generated_projects/_golden/I2/flow_trace_report.json` |
 
-#### I3 — Safe Change Agent
+#### I3 — Safe Change
 
 **Role:** Make a small focused change in an unfamiliar module with minimal diff, test update, and verification log.
 
@@ -224,7 +232,7 @@ python -m runtime.validate_pipeline --run-id full-run
 | Output JSON | `generated_projects/{run_id}/I3/output.json` |
 | Golden reference | `generated_projects/_golden/I3/change_report.json` |
 
-#### I4 — Polyglot FastAPI Node Agent
+#### I4 — Polyglot Fastapi Node
 
 **Role:** Build FastAPI /convert service and Node.js CLI client with hardcoded rates, tests, and two-terminal README.
 
@@ -239,7 +247,7 @@ python -m runtime.validate_pipeline --run-id full-run
 | Output JSON | `generated_projects/{run_id}/I4/output.json` |
 | Golden reference | `generated_projects/_golden/I4/polyglot_manifest.json` |
 
-#### I5 — Dockerize Agent
+#### I5 — Dockerize
 
 **Role:** Containerize a service so it builds and runs cleanly in Docker with health check proof.
 
@@ -254,7 +262,7 @@ python -m runtime.validate_pipeline --run-id full-run
 | Output JSON | `generated_projects/{run_id}/I5/output.json` |
 | Golden reference | `generated_projects/_golden/I5/docker_manifest.json` |
 
-#### I6 — Bug Diagnosis Agent
+#### I6 — Bug Diagnosis
 
 **Role:** Reproduce seeded bug, identify root cause with file paths, apply minimal fix, verify with command proof.
 
@@ -271,7 +279,7 @@ python -m runtime.validate_pipeline --run-id full-run
 
 ### Advanced (A1–A6) — Parallel work and system building
 
-#### A1 — Multi-Worktree Plan Agent
+#### A1 — Multi Worktree Plan
 
 **Role:** Split one feature/analysis task into parallel worktrees or agent sessions without merge chaos.
 
@@ -286,7 +294,7 @@ python -m runtime.validate_pipeline --run-id full-run
 | Output JSON | `generated_projects/{run_id}/A1/output.json` |
 | Golden reference | `generated_projects/_golden/A1/worktree_plan.json` |
 
-#### A2 — Parallel Worktrees Execute Agent
+#### A2 — Parallel Worktrees Execute
 
 **Role:** Create two parallel worktrees, make independent changes, reconcile cleanly with test proof.
 
@@ -301,7 +309,7 @@ python -m runtime.validate_pipeline --run-id full-run
 | Output JSON | `generated_projects/{run_id}/A2/output.json` |
 | Golden reference | `generated_projects/_golden/A2/worktree_execution_report.json` |
 
-#### A3 — Polyglot Fraud System Agent
+#### A3 — Polyglot Fraud System
 
 **Role:** Build mini fraud-score system: FastAPI ingestion, Node.js worker, Rust scoring engine with tests and README.
 
@@ -316,7 +324,7 @@ python -m runtime.validate_pipeline --run-id full-run
 | Output JSON | `generated_projects/{run_id}/A3/output.json` |
 | Golden reference | `generated_projects/_golden/A3/fraud_system_manifest.json` |
 
-#### A4 — Modernization Executable Agent
+#### A4 — Modernization Executable
 
 **Role:** Analyze repo for modernization opportunities, prioritize, implement highest-value lowest-risk first step.
 
@@ -331,7 +339,7 @@ python -m runtime.validate_pipeline --run-id full-run
 | Output JSON | `generated_projects/{run_id}/A4/output.json` |
 | Golden reference | `generated_projects/_golden/A4/modernization_report.json` |
 
-#### A5 — Adversarial Code Review Agent
+#### A5 — Adversarial Code Review
 
 **Role:** Review agent-generated PR for correctness, security, test, performance, maintainability issues; propose fixes.
 
@@ -346,7 +354,7 @@ python -m runtime.validate_pipeline --run-id full-run
 | Output JSON | `generated_projects/{run_id}/A5/output.json` |
 | Golden reference | `generated_projects/_golden/A5/code_review_report.json` |
 
-#### A6 — Performance Improvement Agent
+#### A6 — Performance Improvement
 
 **Role:** Find real performance bottleneck, make measurable minimal improvement, prove behavior unchanged.
 
@@ -363,7 +371,7 @@ python -m runtime.validate_pipeline --run-id full-run
 
 ### Infra (D1–D6) — DevOps and infrastructure
 
-#### D1 — Terraform Plan Agent
+#### D1 — Terraform Plan
 
 **Role:** Write Terraform for small service that passes validate and produces clean plan against test backend.
 
@@ -378,7 +386,7 @@ python -m runtime.validate_pipeline --run-id full-run
 | Output JSON | `generated_projects/{run_id}/D1/output.json` |
 | Golden reference | `generated_projects/_golden/D1/terraform_manifest.json` |
 
-#### D2 — Docker Compose Stack Agent
+#### D2 — Docker Compose Stack
 
 **Role:** Stand up multi-service stack (API + DB + worker) with docker-compose, seed data, and E2E test script.
 
@@ -393,7 +401,7 @@ python -m runtime.validate_pipeline --run-id full-run
 | Output JSON | `generated_projects/{run_id}/D2/output.json` |
 | Golden reference | `generated_projects/_golden/D2/compose_manifest.json` |
 
-#### D3 — CI Pipeline Agent
+#### D3 — Ci Pipeline
 
 **Role:** Write CI workflow that lints, tests, builds and tags container image with green run proof.
 
@@ -408,7 +416,7 @@ python -m runtime.validate_pipeline --run-id full-run
 | Output JSON | `generated_projects/{run_id}/D3/output.json` |
 | Golden reference | `generated_projects/_golden/D3/ci_manifest.json` |
 
-#### D4 — Kubernetes Manifests Agent
+#### D4 — Kubernetes Manifests
 
 **Role:** Write K8s manifests, validate with dry-run/kubeval, deploy on kind/minikube with curl proof.
 
@@ -423,7 +431,7 @@ python -m runtime.validate_pipeline --run-id full-run
 | Output JSON | `generated_projects/{run_id}/D4/output.json` |
 | Golden reference | `generated_projects/_golden/D4/k8s_manifest.json` |
 
-#### D5 — Reproducible Dev Environment Agent
+#### D5 — Reproducible Dev Env
 
 **Role:** Bootstrap repo from fresh clone with single command; tests pass on clean machine.
 
@@ -438,7 +446,7 @@ python -m runtime.validate_pipeline --run-id full-run
 | Output JSON | `generated_projects/{run_id}/D5/output.json` |
 | Golden reference | `generated_projects/_golden/D5/bootstrap_manifest.json` |
 
-#### D6 — Observability Bolt-On Agent
+#### D6 — Observability Bolt On
 
 **Role:** Add structured logging and /metrics endpoint; stand up Prometheus + Grafana with working dashboard panel.
 

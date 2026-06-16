@@ -108,9 +108,8 @@ def render_skill_markdown(
     steps = blueprint_steps or [
         f"Read agent spec: `{agent['agent_source']}`",
         "Apply deterministic rules from `core/execution_rules.md`",
-        f"Write structured JSON to `generated_projects/{{run_id}}/{agent['skill_id']}/output.json`",
+        f"Write JSON via `python3 -m runtime.skill_finish write --run-id {{run_id}} --skill {agent['skill_id']} --payload-file <payload.json>` (auto-opens CLI UI)",
         "Validate output against Output Contract",
-        f"Run `make -C <cac-os-root> skill-done RUN_ID={{run_id}} SKILL={agent['skill_id']}` as the final Shell command (displays CLI report; no .md files)",
     ]
     steps_block = "\n".join(f"- {step}" for step in steps)
     validation_block = "\n".join(f"- {rule}" for rule in validation)
@@ -257,6 +256,7 @@ def render_how_to_run(registry: dict) -> str:
         "```bash",
         "cd cac-os",
         "make build-skills          # compile agent specs → .skill.md + core/skill_registry.json",
+        "make expand-agent-specs    # expand agents/ to full procedural specs (optional)",
         "make install-cursor-skills # install 24 skills into Cursor / menu",
         "make validate              # verify specs, blueprints, golden examples, DAG",
         "```",
@@ -270,6 +270,7 @@ def render_how_to_run(registry: dict) -> str:
         "| Command | Purpose |",
         "|---------|---------|",
         "| `make build-skills` | Regenerate skill files and registry |",
+        "| `make expand-agent-specs` | Expand all 24 agent specs to procedural detail |",
         "| `make install-cursor-skills` | Install skills into Cursor `/` menu |",
         "| `make validate` | Validate all agent specs and DAG |",
         "| `make validate-dag` | Validate skill dependency graph |",
@@ -283,7 +284,13 @@ def render_how_to_run(registry: dict) -> str:
         "",
         "1. Type `/cac-os-repo-inventory` (or any skill below) in chat",
         "2. Follow the agent spec and skill spec",
-        "3. Write output to `generated_projects/{run_id}/{skill_id}/output.json`",
+        "3. Write output and **auto-open CLI UI**:",
+        "",
+        "```bash",
+        "python3 -m runtime.skill_finish write --run-id <run_id> --skill B1 --payload-file payload.json",
+        "```",
+        "",
+        "Or if `output.json` already exists: `python3 -m runtime.skill_finish --run-id <run_id> --skill B1`",
         "",
         "### Run via deterministic runtime",
         "",

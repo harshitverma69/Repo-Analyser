@@ -64,19 +64,23 @@ Execute **CAC-OS skill {task_id}** deterministically. Follow the Markdown specs 
 
 ## Output (strict JSON)
 
-Write JSON to: `generated_projects/{{run_id}}/{task_id}/output.json`
+**Preferred — write JSON and auto-open CLI UI in one step:**
+
+```bash
+python3 -m runtime.skill_finish write --run-id <run_id> --skill {task_id} --payload-file /path/to/payload.json
+```
+
+**Or** if you already wrote `generated_projects/{{run_id}}/{task_id}/output.json`, display the UI (mandatory final step — do not end turn without this):
+
+```bash
+python3 -m runtime.skill_finish --run-id <run_id> --skill {task_id}
+```
 
 Golden reference: `generated_projects/_golden/{task_id}/{meta.get('output_file', 'output.json')}`
 
 ## FINAL STEP (mandatory — last action, no steps after this)
 
-Immediately after writing `output.json`, run this Shell command to print the report in the terminal CLI (no markdown files are written):
-
-```bash
-make -C {cac_os_root} skill-done RUN_ID=<run_id> SKILL={task_id}
-```
-
-Replace `<run_id>` with your run folder name (e.g. repo slug). **Do not skip this step.**
+Run one of the commands above. **Do not skip.** The terminal CLI report must appear before you finish.
 """
 
 

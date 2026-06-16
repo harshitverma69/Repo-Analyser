@@ -1,4 +1,4 @@
-## Skill: Polyglot Fraud System Agent
+## Skill: Polyglot Fraud System
 
 ### Task ID
 `A3`
@@ -25,40 +25,53 @@ Build mini fraud-score system: FastAPI ingestion, Node.js worker, Rust scoring e
 ### Execution Steps (DETERMINISTIC ONLY)
 - Read agent spec: `agents/advanced/A3_polyglot_fraud_system_agent.md`
 - Apply deterministic rules from `core/execution_rules.md`
-- Write structured JSON to `generated_projects/{run_id}/A3/output.json`
+- Write JSON via `python3 -m runtime.skill_finish write --run-id {run_id} --skill A3 --payload-file <payload.json>` (auto-opens CLI UI)
 - Validate output against Output Contract
-- Run `make -C <cac-os-root> skill-done RUN_ID={run_id} SKILL=A3` as the final Shell command (displays CLI report; no .md files)
 
 ### Output Contract (STRICT JSON)
 ```json
 {
-  "task_id": "A3",
-  "fastapi": {
-    "path": "",
-    "endpoint": "POST /transactions"
-  },
-  "node_worker": {
-    "path": "",
-    "process": "worker"
-  },
-  "rust_engine": {
-    "path": "",
-    "type": "cli|library",
-    "binary": ""
-  },
   "data_contract": {
-    "transaction": {},
-    "risk_score": {}
+    "risk_score": {
+      "level": "low",
+      "score": 0.15
+    },
+    "transaction": {
+      "amount": 100,
+      "id": "uuid"
+    }
   },
+  "fastapi": {
+    "endpoint": "POST /transactions",
+    "path": "ingestion"
+  },
+  "generated_at": "2026-06-16T12:00:00Z",
+  "level": "A",
+  "node_worker": {
+    "path": "worker",
+    "process": "worker.js"
+  },
+  "run_order": [
+    "cargo build",
+    "npm start worker",
+    "uvicorn ingestion:app"
+  ],
+  "rust_engine": {
+    "binary": "fraud-score",
+    "path": "scorer",
+    "type": "cli"
+  },
+  "scan_complete": true,
+  "task_id": "A3",
   "tests": {
-    "rust_unit": {
+    "integration": {
       "exit_code": 0
     },
-    "integration": {
+    "rust_unit": {
       "exit_code": 0
     }
   },
-  "run_order": []
+  "warnings": []
 }
 ```
 
@@ -71,6 +84,11 @@ Build mini fraud-score system: FastAPI ingestion, Node.js worker, Rust scoring e
 - BUILD_FAILED
 - INTEGRATION_FAILED
 - OUTPUT_SCHEMA_VIOLATION
+- --
+- Skill spec: `skills/advanced/A3_polyglot_fraud_system.skill.md`
+- Eval blueprint: `eval_blueprints/A/A3_blueprint.md`
+- Execution rules: `core/execution_rules.md`
+- Agent spec path: `agents/advanced/A3_polyglot_fraud_system_agent.md`
 
 ### Sources
 - Agent: `agents/advanced/A3_polyglot_fraud_system_agent.md`

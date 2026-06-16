@@ -1,4 +1,4 @@
-## Skill: CI Pipeline Agent
+## Skill: Ci Pipeline
 
 ### Task ID
 `D3`
@@ -24,24 +24,29 @@ Write CI workflow that lints, tests, builds and tags container image with green 
 ### Execution Steps (DETERMINISTIC ONLY)
 - Read agent spec: `agents/infra_devops/D3_ci_pipeline_agent.md`
 - Apply deterministic rules from `core/execution_rules.md`
-- Write structured JSON to `generated_projects/{run_id}/D3/output.json`
+- Write JSON via `python3 -m runtime.skill_finish write --run-id {run_id} --skill D3 --payload-file <payload.json>` (auto-opens CLI UI)
 - Validate output against Output Contract
-- Run `make -C <cac-os-root> skill-done RUN_ID={run_id} SKILL=D3` as the final Shell command (displays CLI report; no .md files)
 
 ### Output Contract (STRICT JSON)
 ```json
 {
-  "task_id": "D3",
-  "workflow_file": "",
-  "cache_config": {},
-  "pass_proof": {
-    "command_or_link": "",
-    "exit_code": 0
+  "cache_config": {
+    "pip": "~/.cache/pip"
   },
   "failure_demo": {
-    "broken_commit": "",
-    "expected_fail_stage": ""
-  }
+    "broken_commit": "bad1234",
+    "expected_fail_stage": "test"
+  },
+  "generated_at": "2026-06-16T12:00:00Z",
+  "level": "D",
+  "pass_proof": {
+    "command_or_link": "act push",
+    "exit_code": 0
+  },
+  "scan_complete": true,
+  "task_id": "D3",
+  "warnings": [],
+  "workflow_file": ".github/workflows/ci.yml"
 }
 ```
 
@@ -54,6 +59,11 @@ Write CI workflow that lints, tests, builds and tags container image with green 
 - WORKFLOW_INVALID
 - PIPELINE_FAILED
 - OUTPUT_SCHEMA_VIOLATION
+- --
+- Skill spec: `skills/infra/D3_ci_pipeline.skill.md`
+- Eval blueprint: `eval_blueprints/D/D3_blueprint.md`
+- Execution rules: `core/execution_rules.md`
+- Agent spec path: `agents/infra_devops/D3_ci_pipeline_agent.md`
 
 ### Sources
 - Agent: `agents/infra_devops/D3_ci_pipeline_agent.md`

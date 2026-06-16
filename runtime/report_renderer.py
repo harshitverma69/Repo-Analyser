@@ -288,11 +288,16 @@ def _render_i1(payload: dict) -> str:
         rows = []
         for table in tables:
             if isinstance(table, dict):
+                cols = table.get("columns", [])[:5]
+                col_text = ", ".join(
+                    col if isinstance(col, str) else str(col.get("name", col))
+                    for col in cols
+                )
                 rows.append(
                     (
-                        table.get("name", ""),
-                        table.get("source_file", ""),
-                        ", ".join(table.get("columns", [])[:5]),
+                        table.get("name", table.get("table_name", "")),
+                        table.get("source_file", table.get("file_path", "")),
+                        col_text,
                     )
                 )
             else:

@@ -7,9 +7,11 @@ import re
 from dataclasses import dataclass, field
 from pathlib import Path
 
+from runtime.deterministic import VOLATILE_OUTPUT_KEYS
+
 SECTION_HEADING = re.compile(r"^### (.+)$")
 SKILL_TITLE = re.compile(r"^## Skill:\s*(.+)$")
-AGENT_TITLE = re.compile(r"^## Agent:\s*(.+?)\s*\(([A-Z]\d+)\)\s*$")
+AGENT_TITLE = re.compile(r"^#{1,2} Agent:\s*(.+?)\s*\(([A-Z]\d+)\)\s*$")
 BACKTICK_VALUE = re.compile(r"`([^`]+)`")
 JSON_FENCE = re.compile(r"```json\s*\n(.*?)\n```", re.DOTALL)
 OUTPUT_FILE = re.compile(
@@ -180,9 +182,9 @@ def parse_skill_markdown(path: Path, root: Path | None = None) -> SkillDefinitio
 
 
 def parse_agent_markdown(path: Path) -> dict:
-    text = path.read_text(encoding="utf-8")
+    text = strip_frontmatter(path.read_text(encoding="utf-8"))
     sections = split_sections(text)
-    title_match = AGENT_TITLE.match(text.splitlines()[0].strip()) if text else None
+    title_match = parse_agent_title(text)
 
     fallback_id = path.name.split("_", 1)[0].upper()
     skill_id = parse_task_id(sections, fallback_id)
@@ -192,7 +194,16 @@ def parse_agent_markdown(path: Path) -> dict:
     output_body = sections.get("Outputs (STRICT JSON)", sections.get("Outputs", ""))
     output_match = OUTPUT_FILE.search(output_body)
     canonical_output = output_match.group(1) if output_match else "output.json"
-    output_contract = extract_json_block(sections, "Outputs (STRICT JSON)", "Outputs") or {}
+    output_contract = (
+        extract_json_block(sections, "Outputs (STRICT JSON)", "Outputs") or {}
+    )
+    if not output_contract:
+        json_match = JSON_FENCE.search(text)
+        if json_match:
+            try:
+                output_contract = json.loads(json_match.group(1))
+            except json.JSONDecodeError:
+                output_contract = {}
 
     inputs = []
     for item in parse_bullet_list(sections.get("Inputs", "")):
@@ -218,6 +229,22 @@ def parse_agent_markdown(path: Path) -> dict:
     }
 
 
+def strip_frontmatter(text: str) -> str:
+    if text.startswith("---"):
+        end = text.find("\n---", 3)
+        if end != -1:
+            return text[end + 4 :].lstrip("\n")
+    return text
+
+
+def parse_agent_title(text: str) -> re.Match[str] | None:
+    for line in text.splitlines():
+        match = AGENT_TITLE.match(line.strip())
+        if match:
+            return match
+    return None
+
+
 def parse_capability_level(sections: dict[str, str], task_id: str) -> str:
     body = sections.get("Capability Level", "")
     match = BACKTICK_VALUE.search(body)
@@ -232,6 +259,8 @@ def validate_output_schema(output: dict, contract: dict) -> list[str]:
         return errors
 
     for key in contract:
+        if key in VOLATILE_OUTPUT_KEYS:
+            continue
         if key not in output:
             errors.append(f"MISSING_OUTPUT_KEY: {key}")
 

@@ -1,4 +1,4 @@
-## Skill: Node.js Greenfield API Agent
+## Skill: Nodejs Greenfield
 
 ### Task ID
 `B5`
@@ -16,40 +16,55 @@ Build equivalent transaction/balance service as Node.js API or CLI with tests an
 ```json
 {
   "project_name": "required",
-  "output_dir": "required",
-  "mode": "required"
+  "output_dir": "required"
 }
 ```
 
 ### Execution Steps (DETERMINISTIC ONLY)
 - Read agent spec: `agents/basics/B5_nodejs_greenfield_agent.md`
 - Apply deterministic rules from `core/execution_rules.md`
-- Write structured JSON to `generated_projects/{run_id}/B5/output.json`
+- Write JSON via `python3 -m runtime.skill_finish write --run-id {run_id} --skill B5 --payload-file <payload.json>` (auto-opens CLI UI)
 - Validate output against Output Contract
-- Run `make -C <cac-os-root> skill-done RUN_ID={run_id} SKILL=B5` as the final Shell command (displays CLI report; no .md files)
 
 ### Output Contract (STRICT JSON)
 ```json
 {
-  "task_id": "B5",
-  "project_path": "",
-  "mode": "api|cli",
-  "files_created": [],
-  "endpoints_or_commands": [],
-  "tests": {
-    "count": 0,
-    "command": "",
-    "exit_code": 0
-  },
+  "endpoints_or_commands": [
+    "POST /transactions",
+    "GET /balance"
+  ],
+  "files_created": [
+    "src/index.js",
+    "package.json",
+    "tests/api.test.js"
+  ],
+  "generated_at": "2026-06-16T12:00:00Z",
+  "level": "B",
+  "mode": "api",
+  "project_path": "generated_projects/example-run/B5/tx-node",
   "readme_commands": {
-    "install": [],
-    "run": [],
-    "test": []
+    "install": [
+      "npm install"
+    ],
+    "run": [
+      "npm start"
+    ],
+    "test": [
+      "npm test"
+    ]
   },
   "run_proof": {
-    "command": "",
+    "command": "npm test",
     "exit_code": 0
-  }
+  },
+  "scan_complete": true,
+  "task_id": "B5",
+  "tests": {
+    "command": "npm test",
+    "count": 3,
+    "exit_code": 0
+  },
+  "warnings": []
 }
 ```
 
@@ -63,6 +78,11 @@ Build equivalent transaction/balance service as Node.js API or CLI with tests an
 - BUILD_FAILED
 - TEST_FAILED
 - OUTPUT_SCHEMA_VIOLATION
+- --
+- Skill spec: `skills/basics/B5_nodejs_greenfield.skill.md`
+- Eval blueprint: `eval_blueprints/B/B5_blueprint.md`
+- Execution rules: `core/execution_rules.md`
+- Agent spec path: `agents/basics/B5_nodejs_greenfield_agent.md`
 
 ### Sources
 - Agent: `agents/basics/B5_nodejs_greenfield_agent.md`

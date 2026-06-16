@@ -1,4 +1,4 @@
-## Skill: Dockerize Agent
+## Skill: Dockerize
 
 ### Task ID
 `I5`
@@ -23,33 +23,44 @@ None
 ### Execution Steps (DETERMINISTIC ONLY)
 - Read agent spec: `agents/intermediate/I5_dockerize_agent.md`
 - Apply deterministic rules from `core/execution_rules.md`
-- Write structured JSON to `generated_projects/{run_id}/I5/output.json`
+- Write JSON via `python3 -m runtime.skill_finish write --run-id {run_id} --skill I5 --payload-file <payload.json>` (auto-opens CLI UI)
 - Validate output against Output Contract
-- Run `make -C <cac-os-root> skill-done RUN_ID={run_id} SKILL=I5` as the final Shell command (displays CLI report; no .md files)
 
 ### Output Contract (STRICT JSON)
 ```json
 {
-  "task_id": "I5",
-  "dockerfile_path": "",
   "build_proof": {
-    "command": "",
+    "command": "docker build -t tx-service .",
     "exit_code": 0
+  },
+  "dockerfile_path": "Dockerfile",
+  "generated_at": "2026-06-16T12:00:00Z",
+  "health_check": {
+    "command": "curl -sf http://localhost:8080/health",
+    "response_body_sample": {
+      "status": "ok"
+    },
+    "response_status": 200
+  },
+  "level": "I",
+  "readme_commands": {
+    "build": [
+      "docker build -t tx-service ."
+    ],
+    "curl_proof": [
+      "curl http://localhost:8080/health"
+    ],
+    "run": [
+      "docker run -p 8080:8080 tx-service"
+    ]
   },
   "run_proof": {
-    "command": "",
+    "command": "docker run -d -p 8080:8080 tx-service",
     "exit_code": 0
   },
-  "health_check": {
-    "command": "",
-    "response_status": 200,
-    "response_body_sample": {}
-  },
-  "readme_commands": {
-    "build": [],
-    "run": [],
-    "curl_proof": []
-  }
+  "scan_complete": true,
+  "task_id": "I5",
+  "warnings": []
 }
 ```
 
@@ -62,6 +73,11 @@ None
 - BUILD_FAILED
 - RUN_FAILED
 - OUTPUT_SCHEMA_VIOLATION
+- --
+- Skill spec: `skills/intermediate/I5_dockerize.skill.md`
+- Eval blueprint: `eval_blueprints/I/I5_blueprint.md`
+- Execution rules: `core/execution_rules.md`
+- Agent spec path: `agents/intermediate/I5_dockerize_agent.md`
 
 ### Sources
 - Agent: `agents/intermediate/I5_dockerize_agent.md`

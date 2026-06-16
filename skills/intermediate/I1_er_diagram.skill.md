@@ -1,4 +1,4 @@
-## Skill: ER Diagram Agent
+## Skill: Er Diagram
 
 ### Task ID
 `I1`
@@ -23,17 +23,35 @@ Build ER diagram for all tables and entities from repo source only; cite source 
 ### Execution Steps (DETERMINISTIC ONLY)
 - Read agent spec: `agents/intermediate/I1_er_diagram_agent.md`
 - Apply deterministic rules from `core/execution_rules.md`
-- Write structured JSON to `generated_projects/{run_id}/I1/output.json`
+- Write JSON via `python3 -m runtime.skill_finish write --run-id {run_id} --skill I1 --payload-file <payload.json>` (auto-opens CLI UI)
 - Validate output against Output Contract
-- Run `make -C <cac-os-root> skill-done RUN_ID={run_id} SKILL=I1` as the final Shell command (displays CLI report; no .md files)
 
 ### Output Contract (STRICT JSON)
 ```json
 {
-  "task_id": "I1",
-  "tables": [],
+  "generated_at": "2026-06-16T12:00:00Z",
+  "level": "I",
+  "mermaid_er": "erDiagram\n  transactions {\n    uuid id PK\n  }",
   "relationships": [],
-  "mermaid_er": "string"
+  "scan_complete": true,
+  "tables": [
+    {
+      "columns": [
+        {
+          "name": "id",
+          "type": "uuid"
+        }
+      ],
+      "entity": "Transaction",
+      "name": "transactions",
+      "primary_keys": [
+        "id"
+      ],
+      "source_file": "app/models/transaction.py"
+    }
+  ],
+  "task_id": "I1",
+  "warnings": []
 }
 ```
 
@@ -45,6 +63,11 @@ Build ER diagram for all tables and entities from repo source only; cite source 
 ### Failure Conditions
 - INPUT_CONTRACT_VIOLATION
 - OUTPUT_SCHEMA_VIOLATION
+- --
+- Skill spec: `skills/intermediate/I1_er_diagram.skill.md`
+- Eval blueprint: `eval_blueprints/I/I1_blueprint.md`
+- Execution rules: `core/execution_rules.md`
+- Agent spec path: `agents/intermediate/I1_er_diagram_agent.md`
 
 ### Sources
 - Agent: `agents/intermediate/I1_er_diagram_agent.md`

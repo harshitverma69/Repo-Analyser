@@ -1,4 +1,4 @@
-## Skill: Polyglot FastAPI Node Agent
+## Skill: Polyglot Fastapi Node
 
 ### Task ID
 `I4`
@@ -23,37 +23,50 @@ Build FastAPI /convert service and Node.js CLI client with hardcoded rates, test
 ### Execution Steps (DETERMINISTIC ONLY)
 - Read agent spec: `agents/intermediate/I4_polyglot_fastapi_node_agent.md`
 - Apply deterministic rules from `core/execution_rules.md`
-- Write structured JSON to `generated_projects/{run_id}/I4/output.json`
+- Write JSON via `python3 -m runtime.skill_finish write --run-id {run_id} --skill I4 --payload-file <payload.json>` (auto-opens CLI UI)
 - Validate output against Output Contract
-- Run `make -C <cac-os-root> skill-done RUN_ID={run_id} SKILL=I4` as the final Shell command (displays CLI report; no .md files)
 
 ### Output Contract (STRICT JSON)
 ```json
 {
-  "task_id": "I4",
-  "fastapi_service": {
-    "path": "",
-    "endpoint": "POST /convert",
-    "tests": {
-      "count": 0,
-      "exit_code": 0
-    }
-  },
-  "node_client": {
-    "path": "",
-    "tests_or_script": {
-      "command": "",
-      "exit_code": 0
-    }
-  },
   "data_contract": {
-    "request": {},
-    "response": {}
+    "request": {
+      "amount": 100,
+      "from": "USD",
+      "to": "INR"
+    },
+    "response": {
+      "converted": 8300
+    }
+  },
+  "fastapi_service": {
+    "endpoint": "POST /convert",
+    "path": "convert-api",
+    "tests": {
+      "count": 2,
+      "exit_code": 0
+    }
+  },
+  "generated_at": "2026-06-16T12:00:00Z",
+  "level": "I",
+  "node_client": {
+    "path": "convert-cli",
+    "tests_or_script": {
+      "command": "node verify.js",
+      "exit_code": 0
+    }
   },
   "readme": {
-    "terminal_1": [],
-    "terminal_2": []
-  }
+    "terminal_1": [
+      "uvicorn main:app --port 8000"
+    ],
+    "terminal_2": [
+      "node cli.js --amount 100"
+    ]
+  },
+  "scan_complete": true,
+  "task_id": "I4",
+  "warnings": []
 }
 ```
 
@@ -66,6 +79,11 @@ Build FastAPI /convert service and Node.js CLI client with hardcoded rates, test
 - BUILD_FAILED
 - INTEGRATION_FAILED
 - OUTPUT_SCHEMA_VIOLATION
+- --
+- Skill spec: `skills/intermediate/I4_polyglot_fastapi_node.skill.md`
+- Eval blueprint: `eval_blueprints/I/I4_blueprint.md`
+- Execution rules: `core/execution_rules.md`
+- Agent spec path: `agents/intermediate/I4_polyglot_fastapi_node_agent.md`
 
 ### Sources
 - Agent: `agents/intermediate/I4_polyglot_fastapi_node_agent.md`
