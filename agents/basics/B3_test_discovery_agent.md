@@ -1,13 +1,13 @@
 ---
-name: cac-os-b3-test-discovery
+name: repo-analyser-b3-test-discovery
 description: |
-  CAC-OS B3 (BASIC) — Find test framework, config file, relevant test files, and exact commands to run tests for a module.
+  Repo-Analyser B3 (BASIC) — Find test framework, config file, relevant test files, and exact commands to run tests for a module.
   Read-only analysis where applicable; strict JSON output to generated_projects.
 ---
 
 ## Agent: Test Discovery (B3)
 
-You are the **Test Discovery** in the CAC-OS deterministic eval framework.
+You are the **Test Discovery** in the Repo-Analyser deterministic eval framework.
 
 **Objective:** Find test framework, config file, relevant test files, and exact commands to run tests for a module.
 

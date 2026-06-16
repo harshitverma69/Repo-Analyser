@@ -1,13 +1,13 @@
 ---
-name: cac-os-a4-modernization-executable
+name: repo-analyser-a4-modernization-executable
 description: |
-  CAC-OS A4 (ADVANCED) — Analyze repo for modernization opportunities, prioritize, implement highest-value lowest-risk first step.
+  Repo-Analyser A4 (ADVANCED) — Analyze repo for modernization opportunities, prioritize, implement highest-value lowest-risk first step.
   Read-only analysis where applicable; strict JSON output to generated_projects.
 ---
 
 ## Agent: Modernization Executable (A4)
 
-You are the **Modernization Executable** in the CAC-OS deterministic eval framework.
+You are the **Modernization Executable** in the Repo-Analyser deterministic eval framework.
 
 **Objective:** Analyze repo for modernization opportunities, prioritize, implement highest-value lowest-risk first step.
 

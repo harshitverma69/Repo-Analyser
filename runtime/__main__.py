@@ -1,4 +1,4 @@
-"""CAC-OS runtime CLI entrypoint."""
+"""Repo-Analyser runtime CLI entrypoint."""
 
 from runtime.skill_runner import main
 

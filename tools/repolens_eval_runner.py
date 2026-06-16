@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Run CAC-OS agent checks against a target repo using RepoLens where available."""
+"""Run Repo-Analyser agent checks against a target repo using RepoLens where available."""
 
 from __future__ import annotations
 
@@ -331,7 +331,7 @@ def run_infra_check(task_id: str, level: str, out_dir: Path, filename: str, repo
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Run CAC-OS agent eval against repolens")
+    parser = argparse.ArgumentParser(description="Run Repo-Analyser agent eval against repolens")
     parser.add_argument("--repo", type=Path, default=DEFAULT_REPO)
     parser.add_argument("--run-id", default="repolens-eval")
     parser.add_argument("--skip-pytest", action="store_true", help="Skip live pytest for B3")

@@ -1,4 +1,4 @@
-# CAC-OS Capability Registry
+# Repo-Analyser Capability Registry
 
 > 24 tasks from PML/OCL Coding Agent Eval (May 2026). Agent specs live in `agents/` with `*_agent.md` naming.
 
@@ -109,5 +109,5 @@ Full DAG: `execution_models/dependency_graph.md`
 - Eval source: `core/eval_source.md`
 - Self-eval checklist: `core/self_eval_checklist.md`
 - Golden examples: `generated_projects/_golden/`
-- Runner: `scripts/cac_os.py` (`make validate`, `make route`)
+- Runner: `scripts/repo_analyser.py` (`make validate`, `make route`)
 - Status: `docs/STATUS.md`

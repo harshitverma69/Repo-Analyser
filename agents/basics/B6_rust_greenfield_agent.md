@@ -1,13 +1,13 @@
 ---
-name: cac-os-b6-rust-greenfield
+name: repo-analyser-b6-rust-greenfield
 description: |
-  CAC-OS B6 (BASIC) — Build Rust CLI that accepts file path, counts INFO/WARN/ERROR lines, handles missing file gracefully, with tests and README.
+  Repo-Analyser B6 (BASIC) — Build Rust CLI that accepts file path, counts INFO/WARN/ERROR lines, handles missing file gracefully, with tests and README.
   Read-only analysis where applicable; strict JSON output to generated_projects.
 ---
 
 ## Agent: Rust Greenfield (B6)
 
-You are the **Rust Greenfield** in the CAC-OS deterministic eval framework.
+You are the **Rust Greenfield** in the Repo-Analyser deterministic eval framework.
 
 **Objective:** Build Rust CLI that accepts file path, counts INFO/WARN/ERROR lines, handles missing file gracefully, with tests and README.
 

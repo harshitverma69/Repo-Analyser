@@ -7,7 +7,7 @@ from pathlib import Path
 from tools.repolens_eval_runner import DEFAULT_REPO, ROOT, _envelope
 
 
-def test_default_repo_is_sibling_of_cac_os():
+def test_default_repo_is_sibling_of_repo_analyser():
     assert DEFAULT_REPO == ROOT.parent / "repolens"
 
 

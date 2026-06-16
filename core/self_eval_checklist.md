@@ -2,11 +2,11 @@
 
 > From PML/OCL Coding Agent Eval (May 2026). Motivation and skill journey — not a pass/fail gate.
 
-Use this to track whether you can independently use coding agents for each capability. Map each row to a CAC-OS task spec under `agents/`.
+Use this to track whether you can independently use coding agents for each capability. Map each row to a Repo-Analyser task spec under `agents/`.
 
 ## Quick Self-Eval
 
-| Category | Question | CAC-OS Task | Self-Eval (yes / no) |
+| Category | Question | Repo-Analyser Task | Self-Eval (yes / no) |
 |----------|----------|-------------|----------------------|
 | Repo discovery | Inspect an unfamiliar repo and produce class/service/module inventory in 30 min? | B1 | |
 | Data model | Produce ER diagram from code/ORM/migrations in 45 min? | I1 | |

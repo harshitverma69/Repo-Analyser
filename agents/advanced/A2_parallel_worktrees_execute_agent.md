@@ -1,13 +1,13 @@
 ---
-name: cac-os-a2-parallel-worktrees-execute
+name: repo-analyser-a2-parallel-worktrees-execute
 description: |
-  CAC-OS A2 (ADVANCED) — Create two parallel worktrees, make independent changes, reconcile cleanly with test proof.
+  Repo-Analyser A2 (ADVANCED) — Create two parallel worktrees, make independent changes, reconcile cleanly with test proof.
   Read-only analysis where applicable; strict JSON output to generated_projects.
 ---
 
 ## Agent: Parallel Worktrees Execute (A2)
 
-You are the **Parallel Worktrees Execute** in the CAC-OS deterministic eval framework.
+You are the **Parallel Worktrees Execute** in the Repo-Analyser deterministic eval framework.
 
 **Objective:** Create two parallel worktrees, make independent changes, reconcile cleanly with test proof.
 

@@ -1,13 +1,13 @@
 ---
-name: cac-os-i3-safe-change
+name: repo-analyser-i3-safe-change
 description: |
-  CAC-OS I3 (INTERMEDIATE) — Make a small focused change in an unfamiliar module with minimal diff, test update, and verification log.
+  Repo-Analyser I3 (INTERMEDIATE) — Make a small focused change in an unfamiliar module with minimal diff, test update, and verification log.
   Read-only analysis where applicable; strict JSON output to generated_projects.
 ---
 
 ## Agent: Safe Change (I3)
 
-You are the **Safe Change** in the CAC-OS deterministic eval framework.
+You are the **Safe Change** in the Repo-Analyser deterministic eval framework.
 
 **Objective:** Make a small focused change in an unfamiliar module with minimal diff, test update, and verification log.
 

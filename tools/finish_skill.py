@@ -15,7 +15,7 @@ from runtime.skill_finish import write_skill_output  # noqa: E402
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Write CAC-OS skill output and open CLI UI")
+    parser = argparse.ArgumentParser(description="Write Repo-Analyser skill output and open CLI UI")
     parser.add_argument("--run-id", required=True)
     parser.add_argument("--skill", required=True)
     parser.add_argument("--payload-file", required=True)

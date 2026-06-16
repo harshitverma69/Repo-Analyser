@@ -1,6 +1,6 @@
 # Eval Source
 
-> Authoritative eval document for CAC-OS task definitions.
+> Authoritative eval document for Repo-Analyser task definitions.
 
 ## Primary Source
 
@@ -13,7 +13,7 @@
 
 ## Secondary Reference (patterns only)
 
-RepoLens `capability-matrix.md` — static analysis agent patterns reused where applicable (inventory, API map, flow trace, ER diagram). CAC-OS task IDs follow the **PML/OCL eval**, not the RepoLens matrix.
+RepoLens `capability-matrix.md` — static analysis agent patterns reused where applicable (inventory, API map, flow trace, ER diagram). Repo-Analyser task IDs follow the **PML/OCL eval**, not the RepoLens matrix.
 
 ## Self-Eval Categories (motivation, not separate tasks)
 
@@ -32,7 +32,7 @@ RepoLens `capability-matrix.md` — static analysis agent patterns reused where 
 
 ## Migration Note (RepoLens → PML/OCL)
 
-Previous CAC-OS version mapped RepoLens B1–B8, I1–I7, A1–A6, D1–D6 (27 tasks, repo-intelligence focus).
+Previous Repo-Analyser version mapped RepoLens B1–B8, I1–I7, A1–A6, D1–D6 (27 tasks, repo-intelligence focus).
 
 Current version maps PML/OCL B1–B6, I1–I6, A1–A6, D1–D6 (24 tasks, coding-agent skill journey focus):
 

@@ -1,13 +1,13 @@
 ---
-name: cac-os-i2-flow-trace
+name: repo-analyser-i2-flow-trace
 description: |
-  CAC-OS I2 (INTERMEDIATE) — Trace one endpoint, event, or cron job end-to-end from entry point to final DB/API/queue side effect.
+  Repo-Analyser I2 (INTERMEDIATE) — Trace one endpoint, event, or cron job end-to-end from entry point to final DB/API/queue side effect.
   Read-only analysis where applicable; strict JSON output to generated_projects.
 ---
 
 ## Agent: Flow Trace (I2)
 
-You are the **Flow Trace** in the CAC-OS deterministic eval framework.
+You are the **Flow Trace** in the Repo-Analyser deterministic eval framework.
 
 **Objective:** Trace one endpoint, event, or cron job end-to-end from entry point to final DB/API/queue side effect.
 

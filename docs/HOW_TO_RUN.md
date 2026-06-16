@@ -1,10 +1,10 @@
-# CAC-OS — How to Run
+# Repo-Analyser — How to Run
 
 > Single guide for setup, commands, and all 24 skills. Regenerate with `make build-skills`.
 
-## What is CAC-OS?
+## What is Repo-Analyser?
 
-CAC-OS is a **deterministic Markdown execution framework** — not a runtime AI system.
+Repo-Analyser is a **deterministic Markdown execution framework** — not a runtime AI system.
 Agent specs define inputs, outputs, and rules. Cursor (or you) execute them and write JSON.
 
 **Total skills:** 24 (B1–B6, I1–I6, A1–A6, D1–D6)
@@ -28,14 +28,14 @@ pip install pytest pytest-cov
 ## 2. First-time setup
 
 ```bash
-cd cac-os
+cd Repo-Analyser
 make build-skills          # compile agent specs → .skill.md + core/skill_registry.json
 make expand-agent-specs    # expand agents/ to full procedural specs (optional)
 make install-cursor-skills # install 24 skills into Cursor / menu
 make validate              # verify specs, blueprints, golden examples, DAG
 ```
 
-Restart Cursor after `install-cursor-skills` if `/cac-os-*` commands do not appear.
+Restart Cursor after `install-cursor-skills` if `/repo-analyser-*` commands do not appear.
 
 ---
 
@@ -56,7 +56,7 @@ Restart Cursor after `install-cursor-skills` if `/cac-os-*` commands do not appe
 
 ### Run one skill in Cursor
 
-1. Type `/cac-os-repo-inventory` (or any skill below) in chat
+1. Type `/repo-analyser-repo-inventory` (or any skill below) in chat
 2. Follow the agent spec and skill spec
 3. Write output, **output.md**, and auto-open CLI UI:
 
@@ -89,7 +89,7 @@ python -m runtime.validate_pipeline --run-id full-run
 | `runtime/` | Deterministic orchestrator, runner, validator |
 | `generated_projects/_golden/` | Reference JSON outputs |
 | `generated_projects/{run_id}/` | Your run outputs |
-| `tools/install_cursor_skills.py` | Installs Cursor `/cac-os-*` skills |
+| `tools/install_cursor_skills.py` | Installs Cursor `/repo-analyser-*` skills |
 
 ---
 
@@ -105,7 +105,7 @@ python -m runtime.validate_pipeline --run-id full-run
 
 | Item | Location |
 |------|----------|
-| Cursor command | `/cac-os-repo-inventory` |
+| Cursor command | `/repo-analyser-repo-inventory` |
 | Agent spec | `agents/basics/B1_repo_artifact_inventory_agent.md` |
 | Skill spec | `skills/basics/B1_repo_artifact_inventory.skill.md` |
 | Eval blueprint | `eval_blueprints/B/B1_blueprint.md` |
@@ -120,7 +120,7 @@ python -m runtime.validate_pipeline --run-id full-run
 
 | Item | Location |
 |------|----------|
-| Cursor command | `/cac-os-api-mapping` |
+| Cursor command | `/repo-analyser-api-mapping` |
 | Agent spec | `agents/basics/B2_api_endpoint_map_agent.md` |
 | Skill spec | `skills/basics/B2_api_endpoint_map.skill.md` |
 | Eval blueprint | `eval_blueprints/B/B2_blueprint.md` |
@@ -135,7 +135,7 @@ python -m runtime.validate_pipeline --run-id full-run
 
 | Item | Location |
 |------|----------|
-| Cursor command | `/cac-os-test-discovery` |
+| Cursor command | `/repo-analyser-test-discovery` |
 | Agent spec | `agents/basics/B3_test_discovery_agent.md` |
 | Skill spec | `skills/basics/B3_test_discovery.skill.md` |
 | Eval blueprint | `eval_blueprints/B/B3_blueprint.md` |
@@ -150,7 +150,7 @@ python -m runtime.validate_pipeline --run-id full-run
 
 | Item | Location |
 |------|----------|
-| Cursor command | `/cac-os-fastapi-greenfield` |
+| Cursor command | `/repo-analyser-fastapi-greenfield` |
 | Agent spec | `agents/basics/B4_fastapi_greenfield_agent.md` |
 | Skill spec | `skills/basics/B4_fastapi_greenfield.skill.md` |
 | Eval blueprint | `eval_blueprints/B/B4_blueprint.md` |
@@ -165,7 +165,7 @@ python -m runtime.validate_pipeline --run-id full-run
 
 | Item | Location |
 |------|----------|
-| Cursor command | `/cac-os-node-greenfield` |
+| Cursor command | `/repo-analyser-node-greenfield` |
 | Agent spec | `agents/basics/B5_nodejs_greenfield_agent.md` |
 | Skill spec | `skills/basics/B5_nodejs_greenfield.skill.md` |
 | Eval blueprint | `eval_blueprints/B/B5_blueprint.md` |
@@ -180,7 +180,7 @@ python -m runtime.validate_pipeline --run-id full-run
 
 | Item | Location |
 |------|----------|
-| Cursor command | `/cac-os-rust-greenfield` |
+| Cursor command | `/repo-analyser-rust-greenfield` |
 | Agent spec | `agents/basics/B6_rust_greenfield_agent.md` |
 | Skill spec | `skills/basics/B6_rust_greenfield.skill.md` |
 | Eval blueprint | `eval_blueprints/B/B6_blueprint.md` |
@@ -197,7 +197,7 @@ python -m runtime.validate_pipeline --run-id full-run
 
 | Item | Location |
 |------|----------|
-| Cursor command | `/cac-os-er-diagram` |
+| Cursor command | `/repo-analyser-er-diagram` |
 | Agent spec | `agents/intermediate/I1_er_diagram_agent.md` |
 | Skill spec | `skills/intermediate/I1_er_diagram.skill.md` |
 | Eval blueprint | `eval_blueprints/I/I1_blueprint.md` |
@@ -212,7 +212,7 @@ python -m runtime.validate_pipeline --run-id full-run
 
 | Item | Location |
 |------|----------|
-| Cursor command | `/cac-os-flow-trace` |
+| Cursor command | `/repo-analyser-flow-trace` |
 | Agent spec | `agents/intermediate/I2_flow_trace_agent.md` |
 | Skill spec | `skills/intermediate/I2_flow_trace.skill.md` |
 | Eval blueprint | `eval_blueprints/I/I2_blueprint.md` |
@@ -227,7 +227,7 @@ python -m runtime.validate_pipeline --run-id full-run
 
 | Item | Location |
 |------|----------|
-| Cursor command | `/cac-os-safe-change` |
+| Cursor command | `/repo-analyser-safe-change` |
 | Agent spec | `agents/intermediate/I3_safe_change_agent.md` |
 | Skill spec | `skills/intermediate/I3_safe_change.skill.md` |
 | Eval blueprint | `eval_blueprints/I/I3_blueprint.md` |
@@ -242,7 +242,7 @@ python -m runtime.validate_pipeline --run-id full-run
 
 | Item | Location |
 |------|----------|
-| Cursor command | `/cac-os-polyglot-pair` |
+| Cursor command | `/repo-analyser-polyglot-pair` |
 | Agent spec | `agents/intermediate/I4_polyglot_fastapi_node_agent.md` |
 | Skill spec | `skills/intermediate/I4_polyglot_fastapi_node.skill.md` |
 | Eval blueprint | `eval_blueprints/I/I4_blueprint.md` |
@@ -257,7 +257,7 @@ python -m runtime.validate_pipeline --run-id full-run
 
 | Item | Location |
 |------|----------|
-| Cursor command | `/cac-os-dockerize` |
+| Cursor command | `/repo-analyser-dockerize` |
 | Agent spec | `agents/intermediate/I5_dockerize_agent.md` |
 | Skill spec | `skills/intermediate/I5_dockerize.skill.md` |
 | Eval blueprint | `eval_blueprints/I/I5_blueprint.md` |
@@ -272,7 +272,7 @@ python -m runtime.validate_pipeline --run-id full-run
 
 | Item | Location |
 |------|----------|
-| Cursor command | `/cac-os-bug-diagnosis` |
+| Cursor command | `/repo-analyser-bug-diagnosis` |
 | Agent spec | `agents/intermediate/I6_bug_diagnosis_agent.md` |
 | Skill spec | `skills/intermediate/I6_bug_diagnosis.skill.md` |
 | Eval blueprint | `eval_blueprints/I/I6_blueprint.md` |
@@ -289,7 +289,7 @@ python -m runtime.validate_pipeline --run-id full-run
 
 | Item | Location |
 |------|----------|
-| Cursor command | `/cac-os-worktree-plan` |
+| Cursor command | `/repo-analyser-worktree-plan` |
 | Agent spec | `agents/advanced/A1_multi_worktree_plan_agent.md` |
 | Skill spec | `skills/advanced/A1_multi_worktree_plan.skill.md` |
 | Eval blueprint | `eval_blueprints/A/A1_blueprint.md` |
@@ -304,7 +304,7 @@ python -m runtime.validate_pipeline --run-id full-run
 
 | Item | Location |
 |------|----------|
-| Cursor command | `/cac-os-worktree-execute` |
+| Cursor command | `/repo-analyser-worktree-execute` |
 | Agent spec | `agents/advanced/A2_parallel_worktrees_execute_agent.md` |
 | Skill spec | `skills/advanced/A2_parallel_worktrees_execute.skill.md` |
 | Eval blueprint | `eval_blueprints/A/A2_blueprint.md` |
@@ -319,7 +319,7 @@ python -m runtime.validate_pipeline --run-id full-run
 
 | Item | Location |
 |------|----------|
-| Cursor command | `/cac-os-fraud-system` |
+| Cursor command | `/repo-analyser-fraud-system` |
 | Agent spec | `agents/advanced/A3_polyglot_fraud_system_agent.md` |
 | Skill spec | `skills/advanced/A3_polyglot_fraud_system.skill.md` |
 | Eval blueprint | `eval_blueprints/A/A3_blueprint.md` |
@@ -334,7 +334,7 @@ python -m runtime.validate_pipeline --run-id full-run
 
 | Item | Location |
 |------|----------|
-| Cursor command | `/cac-os-modernization` |
+| Cursor command | `/repo-analyser-modernization` |
 | Agent spec | `agents/advanced/A4_modernization_executable_agent.md` |
 | Skill spec | `skills/advanced/A4_modernization_executable.skill.md` |
 | Eval blueprint | `eval_blueprints/A/A4_blueprint.md` |
@@ -349,7 +349,7 @@ python -m runtime.validate_pipeline --run-id full-run
 
 | Item | Location |
 |------|----------|
-| Cursor command | `/cac-os-code-review` |
+| Cursor command | `/repo-analyser-code-review` |
 | Agent spec | `agents/advanced/A5_adversarial_code_review_agent.md` |
 | Skill spec | `skills/advanced/A5_adversarial_code_review.skill.md` |
 | Eval blueprint | `eval_blueprints/A/A5_blueprint.md` |
@@ -364,7 +364,7 @@ python -m runtime.validate_pipeline --run-id full-run
 
 | Item | Location |
 |------|----------|
-| Cursor command | `/cac-os-performance-tuning` |
+| Cursor command | `/repo-analyser-performance-tuning` |
 | Agent spec | `agents/advanced/A6_performance_improvement_agent.md` |
 | Skill spec | `skills/advanced/A6_performance_improvement.skill.md` |
 | Eval blueprint | `eval_blueprints/A/A6_blueprint.md` |
@@ -381,7 +381,7 @@ python -m runtime.validate_pipeline --run-id full-run
 
 | Item | Location |
 |------|----------|
-| Cursor command | `/cac-os-terraform` |
+| Cursor command | `/repo-analyser-terraform` |
 | Agent spec | `agents/infra_devops/D1_terraform_plan_agent.md` |
 | Skill spec | `skills/infra/D1_terraform_plan.skill.md` |
 | Eval blueprint | `eval_blueprints/D/D1_blueprint.md` |
@@ -396,7 +396,7 @@ python -m runtime.validate_pipeline --run-id full-run
 
 | Item | Location |
 |------|----------|
-| Cursor command | `/cac-os-compose-stack` |
+| Cursor command | `/repo-analyser-compose-stack` |
 | Agent spec | `agents/infra_devops/D2_docker_compose_stack_agent.md` |
 | Skill spec | `skills/infra/D2_docker_compose_stack.skill.md` |
 | Eval blueprint | `eval_blueprints/D/D2_blueprint.md` |
@@ -411,7 +411,7 @@ python -m runtime.validate_pipeline --run-id full-run
 
 | Item | Location |
 |------|----------|
-| Cursor command | `/cac-os-ci-pipeline` |
+| Cursor command | `/repo-analyser-ci-pipeline` |
 | Agent spec | `agents/infra_devops/D3_ci_pipeline_agent.md` |
 | Skill spec | `skills/infra/D3_ci_pipeline.skill.md` |
 | Eval blueprint | `eval_blueprints/D/D3_blueprint.md` |
@@ -426,7 +426,7 @@ python -m runtime.validate_pipeline --run-id full-run
 
 | Item | Location |
 |------|----------|
-| Cursor command | `/cac-os-kubernetes` |
+| Cursor command | `/repo-analyser-kubernetes` |
 | Agent spec | `agents/infra_devops/D4_kubernetes_manifests_agent.md` |
 | Skill spec | `skills/infra/D4_kubernetes_manifests.skill.md` |
 | Eval blueprint | `eval_blueprints/D/D4_blueprint.md` |
@@ -441,7 +441,7 @@ python -m runtime.validate_pipeline --run-id full-run
 
 | Item | Location |
 |------|----------|
-| Cursor command | `/cac-os-dev-bootstrap` |
+| Cursor command | `/repo-analyser-dev-bootstrap` |
 | Agent spec | `agents/infra_devops/D5_reproducible_dev_env_agent.md` |
 | Skill spec | `skills/infra/D5_reproducible_dev_env.skill.md` |
 | Eval blueprint | `eval_blueprints/D/D5_blueprint.md` |
@@ -456,7 +456,7 @@ python -m runtime.validate_pipeline --run-id full-run
 
 | Item | Location |
 |------|----------|
-| Cursor command | `/cac-os-observability` |
+| Cursor command | `/repo-analyser-observability` |
 | Agent spec | `agents/infra_devops/D6_observability_bolt_on_agent.md` |
 | Skill spec | `skills/infra/D6_observability_bolt_on.skill.md` |
 | Eval blueprint | `eval_blueprints/D/D6_blueprint.md` |
@@ -476,7 +476,7 @@ python -m runtime.validate_pipeline --run-id full-run
 
 ## 6. System rules
 
-- No runtime AI agents inside CAC-OS itself
+- No runtime AI agents inside Repo-Analyser itself
 - No inference or probabilistic logic in the runtime
 - Markdown specs are the program; JSON is the output
 - Execution order follows the DAG in `execution_models/dependency_graph.md`

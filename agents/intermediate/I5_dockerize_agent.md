@@ -1,13 +1,13 @@
 ---
-name: cac-os-i5-dockerize
+name: repo-analyser-i5-dockerize
 description: |
-  CAC-OS I5 (INTERMEDIATE) — Containerize a service so it builds and runs cleanly in Docker with health check proof.
+  Repo-Analyser I5 (INTERMEDIATE) — Containerize a service so it builds and runs cleanly in Docker with health check proof.
   Read-only analysis where applicable; strict JSON output to generated_projects.
 ---
 
 ## Agent: Dockerize (I5)
 
-You are the **Dockerize** in the CAC-OS deterministic eval framework.
+You are the **Dockerize** in the Repo-Analyser deterministic eval framework.
 
 **Objective:** Containerize a service so it builds and runs cleanly in Docker with health check proof.
 

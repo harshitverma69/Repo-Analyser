@@ -1,4 +1,4 @@
-"""Render CAC-OS skill JSON outputs as human-readable Markdown reports."""
+"""Render Repo-Analyser skill JSON outputs as human-readable Markdown reports."""
 
 from __future__ import annotations
 
@@ -437,7 +437,7 @@ def _render_run_index(run_dir: Path, skill_reports: list[Path]) -> str:
         repo = manifest.get("repository_path", "")
 
     lines = [
-        f"# CAC-OS Run Report — `{run_dir.name}`",
+        f"# Repo-Analyser Run Report — `{run_dir.name}`",
         "",
     ]
     if repo:

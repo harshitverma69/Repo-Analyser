@@ -1,15 +1,15 @@
-# CAC-OS — Coding Agent Capability OS
+# Repo-Analyser
 
-**CAC-OS** is a deterministic execution framework: Markdown agent specs → structured JSON outputs. No runtime AI inside the framework itself.
+**Repo-Analyser** is a deterministic repository analysis framework: Markdown agent specs → structured JSON outputs. No runtime AI inside the framework itself.
 
 24 skills aligned with the **PML/OCL Coding Agent Eval** (May 2026).
 
 ## Quick start
 
 ```bash
-cd cac-os
+cd Repo-Analyser
 make build-skills           # compile skills + registry
-make install-cursor-skills  # add /cac-os-* to Cursor menu
+make install-cursor-skills  # add /repo-analyser-* to Cursor menu
 make validate               # verify specs and DAG
 ```
 
@@ -41,7 +41,7 @@ make test                              # test suite
 
 ## Cursor usage
 
-Type `/` in chat → search `cac-os` → e.g. `/cac-os-repo-inventory`, `/cac-os-api-mapping`
+Type `/` in chat → search `repo-analyser` → e.g. `/repo-analyser-repo-inventory`, `/repo-analyser-api-mapping`
 
 ## Other docs
 

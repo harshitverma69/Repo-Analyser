@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Expand CAC-OS agent specs to full procedural detail (repo-structure-mapper style)."""
+"""Expand Repo-Analyser agent specs to full procedural detail (repo-structure-mapper style)."""
 
 from __future__ import annotations
 
@@ -82,7 +82,7 @@ def _agent_path(task_id: str) -> Path:
 
 
 def _cursor_name(task_id: str) -> str:
-    return f"cac-os-{task_id.lower()}-{_slug(task_id).replace('_', '-')}"
+    return f"repo-analyser-{task_id.lower()}-{_slug(task_id).replace('_', '-')}"
 
 
 # Per-agent procedural phases (title + body markdown)
@@ -1011,13 +1011,13 @@ def render_agent(task_id: str) -> str:
     return f"""---
 name: {_cursor_name(task_id)}
 description: |
-  CAC-OS {task_id} ({level}) — {description}
+  Repo-Analyser {task_id} ({level}) — {description}
   Read-only analysis where applicable; strict JSON output to generated_projects.
 ---
 
 ## Agent: {display_name} ({task_id})
 
-You are the **{display_name}** in the CAC-OS deterministic eval framework.
+You are the **{display_name}** in the Repo-Analyser deterministic eval framework.
 
 **Objective:** {description}
 

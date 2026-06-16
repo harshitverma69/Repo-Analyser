@@ -1,13 +1,13 @@
 ---
-name: cac-os-a1-multi-worktree-plan
+name: repo-analyser-a1-multi-worktree-plan
 description: |
-  CAC-OS A1 (ADVANCED) — Split one feature/analysis task into parallel worktrees or agent sessions without merge chaos.
+  Repo-Analyser A1 (ADVANCED) — Split one feature/analysis task into parallel worktrees or agent sessions without merge chaos.
   Read-only analysis where applicable; strict JSON output to generated_projects.
 ---
 
 ## Agent: Multi Worktree Plan (A1)
 
-You are the **Multi Worktree Plan** in the CAC-OS deterministic eval framework.
+You are the **Multi Worktree Plan** in the Repo-Analyser deterministic eval framework.
 
 **Objective:** Split one feature/analysis task into parallel worktrees or agent sessions without merge chaos.
 

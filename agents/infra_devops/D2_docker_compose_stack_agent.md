@@ -1,13 +1,13 @@
 ---
-name: cac-os-d2-docker-compose-stack
+name: repo-analyser-d2-docker-compose-stack
 description: |
-  CAC-OS D2 (INFRA) — Stand up multi-service stack (API + DB + worker) with docker-compose, seed data, and E2E test script.
+  Repo-Analyser D2 (INFRA) — Stand up multi-service stack (API + DB + worker) with docker-compose, seed data, and E2E test script.
   Read-only analysis where applicable; strict JSON output to generated_projects.
 ---
 
 ## Agent: Docker Compose Stack (D2)
 
-You are the **Docker Compose Stack** in the CAC-OS deterministic eval framework.
+You are the **Docker Compose Stack** in the Repo-Analyser deterministic eval framework.
 
 **Objective:** Stand up multi-service stack (API + DB + worker) with docker-compose, seed data, and E2E test script.
 

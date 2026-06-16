@@ -1,4 +1,4 @@
-# CAC-OS — How to Run
+# Repo-Analyser — How to Run
 
 See the full guide: **[docs/HOW_TO_RUN.md](docs/HOW_TO_RUN.md)**
 

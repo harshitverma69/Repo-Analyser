@@ -128,7 +128,7 @@ def validate_pipeline(
 def main(argv: list[str] | None = None) -> int:
     import argparse
 
-    parser = argparse.ArgumentParser(description="CAC-OS pipeline validator")
+    parser = argparse.ArgumentParser(description="Repo-Analyser pipeline validator")
     parser.add_argument("--run-id", required=True, help="Pipeline run directory name")
     parser.add_argument(
         "--compare-run-id",

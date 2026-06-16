@@ -1,4 +1,4 @@
-"""Rich terminal UI for CAC-OS skill reports (no markdown files)."""
+"""Rich terminal UI for Repo-Analyser skill reports (no markdown files)."""
 
 from __future__ import annotations
 
@@ -216,7 +216,7 @@ def render_header(run_id: str, skill_id: str, meta: dict[str, Any], theme: Theme
     lines = [
         "",
         _box_top(theme=theme),
-        _box_line(f"{theme.bold(theme.cyan('CAC-OS'))}  {theme.dim('deterministic agent framework')}"),
+        _box_line(f"{theme.bold(theme.cyan('Repo-Analyser'))}  {theme.dim('repository analysis framework')}"),
         _box_line(""),
         _box_line(f"{theme.dim('Agent')}    {theme.bold(skill_id)}  {theme.magenta('·')}  {name}"),
         _box_line(f"{theme.dim('Level')}    {theme.blue(level)}"),

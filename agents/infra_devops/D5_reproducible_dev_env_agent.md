@@ -1,13 +1,13 @@
 ---
-name: cac-os-d5-reproducible-dev-env
+name: repo-analyser-d5-reproducible-dev-env
 description: |
-  CAC-OS D5 (INFRA) — Bootstrap repo from fresh clone with single command; tests pass on clean machine.
+  Repo-Analyser D5 (INFRA) — Bootstrap repo from fresh clone with single command; tests pass on clean machine.
   Read-only analysis where applicable; strict JSON output to generated_projects.
 ---
 
 ## Agent: Reproducible Dev Env (D5)
 
-You are the **Reproducible Dev Env** in the CAC-OS deterministic eval framework.
+You are the **Reproducible Dev Env** in the Repo-Analyser deterministic eval framework.
 
 **Objective:** Bootstrap repo from fresh clone with single command; tests pass on clean machine.
 

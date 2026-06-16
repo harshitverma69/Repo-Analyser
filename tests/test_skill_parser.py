@@ -1,4 +1,4 @@
-"""Tests for CAC-OS skill parser."""
+"""Tests for Repo-Analyser skill parser."""
 
 from __future__ import annotations
 

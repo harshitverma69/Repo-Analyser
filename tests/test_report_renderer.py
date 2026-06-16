@@ -16,7 +16,7 @@ def test_render_terminal_ui_a5():
     payload = json.loads(
         (ROOT / "generated_projects" / "_golden" / "A5" / "code_review_report.json").read_text(encoding="utf-8")
     )
-    ui = render_terminal_ui("cac-os", "A5", payload)
+    ui = render_terminal_ui("repo-analyser", "A5", payload)
     assert "Adversarial Code Review" in ui or "code-review" in ui
     assert "CLEAN" in ui or "REVIEWED" in ui or "NEEDS FIX" in ui
 
@@ -143,7 +143,7 @@ def test_finish_skill_renders_b1(tmp_path: Path, capsys):
 
 
 def test_cmd_clean_runs(tmp_path: Path, monkeypatch, capsys):
-    from scripts import cac_os
+    from scripts import repo_analyser
 
     runs_root = tmp_path / "generated_projects"
     runs_root.mkdir()
@@ -152,8 +152,8 @@ def test_cmd_clean_runs(tmp_path: Path, monkeypatch, capsys):
     (runs_root / "ephemeral" / "B1").mkdir()
     (runs_root / "keep-me.txt").write_text("nope", encoding="utf-8")
 
-    monkeypatch.setattr(cac_os, "ROOT", tmp_path)
-    rc = cac_os.cmd_clean_runs(argparse.Namespace())
+    monkeypatch.setattr(repo_analyser, "ROOT", tmp_path)
+    rc = repo_analyser.cmd_clean_runs(argparse.Namespace())
     assert rc == 0
     assert not (runs_root / "ephemeral").exists()
     assert (runs_root / "_golden").is_dir()

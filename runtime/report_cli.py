@@ -1,4 +1,4 @@
-"""Interactive CLI for browsing CAC-OS skill run outputs."""
+"""Interactive CLI for browsing Repo-Analyser skill run outputs."""
 
 from __future__ import annotations
 
@@ -112,7 +112,7 @@ def interactive_loop(generated_root: Path | None = None) -> int:
     theme = Theme()
     print("")
     print(theme.cyan("╭──────────────────────────────────────────────────────────────────────╮"))
-    print(theme.cyan("│") + f"  {theme.bold('CAC-OS Run Browser')}  {theme.dim('browse past skill outputs')}" + " " * 8 + theme.cyan("│"))
+    print(theme.cyan("│") + f"  {theme.bold('Repo-Analyser Run Browser')}  {theme.dim('browse past skill outputs')}" + " " * 8 + theme.cyan("│"))
     print(theme.cyan("╰──────────────────────────────────────────────────────────────────────╯"))
     print("")
 
@@ -179,7 +179,7 @@ def interactive_loop(generated_root: Path | None = None) -> int:
 def main(argv: list[str] | None = None) -> int:
     import argparse
 
-    parser = argparse.ArgumentParser(description="Browse and export CAC-OS run reports")
+    parser = argparse.ArgumentParser(description="Browse and export Repo-Analyser run reports")
     parser.add_argument("--generated-root", type=Path, default=GENERATED_ROOT)
     sub = parser.add_subparsers(dest="command")
 

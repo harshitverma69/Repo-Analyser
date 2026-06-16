@@ -1,13 +1,13 @@
 ---
-name: cac-os-b4-fastapi-greenfield
+name: repo-analyser-b4-fastapi-greenfield
 description: |
-  CAC-OS B4 (BASIC) — Build a small Python FastAPI service from scratch with POST/GET endpoints, input validation, tests, and README.
+  Repo-Analyser B4 (BASIC) — Build a small Python FastAPI service from scratch with POST/GET endpoints, input validation, tests, and README.
   Read-only analysis where applicable; strict JSON output to generated_projects.
 ---
 
 ## Agent: Fastapi Greenfield (B4)
 
-You are the **Fastapi Greenfield** in the CAC-OS deterministic eval framework.
+You are the **Fastapi Greenfield** in the Repo-Analyser deterministic eval framework.
 
 **Objective:** Build a small Python FastAPI service from scratch with POST/GET endpoints, input validation, tests, and README.
 

@@ -1,13 +1,13 @@
 ---
-name: cac-os-a3-polyglot-fraud-system
+name: repo-analyser-a3-polyglot-fraud-system
 description: |
-  CAC-OS A3 (ADVANCED) — Build mini fraud-score system: FastAPI ingestion, Node.js worker, Rust scoring engine with tests and README.
+  Repo-Analyser A3 (ADVANCED) — Build mini fraud-score system: FastAPI ingestion, Node.js worker, Rust scoring engine with tests and README.
   Read-only analysis where applicable; strict JSON output to generated_projects.
 ---
 
 ## Agent: Polyglot Fraud System (A3)
 
-You are the **Polyglot Fraud System** in the CAC-OS deterministic eval framework.
+You are the **Polyglot Fraud System** in the Repo-Analyser deterministic eval framework.
 
 **Objective:** Build mini fraud-score system: FastAPI ingestion, Node.js worker, Rust scoring engine with tests and README.
 

@@ -1,13 +1,13 @@
 ---
-name: cac-os-i6-bug-diagnosis
+name: repo-analyser-i6-bug-diagnosis
 description: |
-  CAC-OS I6 (INTERMEDIATE) — Reproduce seeded bug, identify root cause with file paths, apply minimal fix, verify with command proof.
+  Repo-Analyser I6 (INTERMEDIATE) — Reproduce seeded bug, identify root cause with file paths, apply minimal fix, verify with command proof.
   Read-only analysis where applicable; strict JSON output to generated_projects.
 ---
 
 ## Agent: Bug Diagnosis (I6)
 
-You are the **Bug Diagnosis** in the CAC-OS deterministic eval framework.
+You are the **Bug Diagnosis** in the Repo-Analyser deterministic eval framework.
 
 **Objective:** Reproduce seeded bug, identify root cause with file paths, apply minimal fix, verify with command proof.
 

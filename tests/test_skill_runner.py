@@ -1,4 +1,4 @@
-"""Tests for CAC-OS skill runner."""
+"""Tests for Repo-Analyser skill runner."""
 
 from __future__ import annotations
 

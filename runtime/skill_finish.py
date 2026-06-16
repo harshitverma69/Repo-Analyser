@@ -139,11 +139,11 @@ def finish_skill(run_id: str, skill_id: str, *, generated_root: Path | None = No
 def main(argv: list[str] | None = None) -> int:
     import argparse
 
-    parser = argparse.ArgumentParser(description="Write and/or display CAC-OS skill reports")
+    parser = argparse.ArgumentParser(description="Write and/or display Repo-Analyser skill reports")
     sub = parser.add_subparsers(dest="command")
 
     show_p = sub.add_parser("show", help="Display an existing skill output (default command)")
-    show_p.add_argument("--run-id", required=True, help="Run directory name, e.g. cac-os")
+    show_p.add_argument("--run-id", required=True, help="Run directory name, e.g. repo-analyser")
     show_p.add_argument("--skill", required=True, help="Skill ID, e.g. B1")
     show_p.add_argument("--no-md", action="store_true", help="Skip writing output.md files")
     show_p.add_argument("--interactive", action="store_true", help="Enter interactive menu after display")

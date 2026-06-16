@@ -1,4 +1,4 @@
-"""Shared CAC-OS skill identifiers for runtime, Cursor install, and docs."""
+"""Shared Repo-Analyser skill identifiers for runtime, Cursor install, and docs."""
 
 CURSOR_SKILL_SLUGS: dict[str, str] = {
     "B1": "repo-inventory",
@@ -27,7 +27,7 @@ CURSOR_SKILL_SLUGS: dict[str, str] = {
     "D6": "observability",
 }
 
-CURSOR_PREFIX = "cac-os"
+CURSOR_PREFIX = "repo-analyser"
 
 
 def cursor_skill_name(task_id: str) -> str:

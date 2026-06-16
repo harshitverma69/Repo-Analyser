@@ -300,7 +300,7 @@ def main(argv: list[str] | None = None) -> int:
 
     from runtime.deterministic import canonical_json_dumps
 
-    parser = argparse.ArgumentParser(description="CAC-OS skill orchestrator")
+    parser = argparse.ArgumentParser(description="Repo-Analyser skill orchestrator")
     parser.add_argument("--validate-dag", action="store_true", help="Validate skill dependency DAG")
     args = parser.parse_args(argv)
 

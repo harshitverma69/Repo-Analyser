@@ -39,7 +39,7 @@ def test_parse_agent_markdown_minimal_fixture(tmp_path: Path):
     agent_path = tmp_path / "B1_test_agent.md"
     agent_path.write_text(
         """---
-name: cac-os-b1-test
+name: repo-analyser-b1-test
 description: test
 ---
 

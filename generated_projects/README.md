@@ -1,6 +1,6 @@
-# CAC-OS Run Outputs
+# Repo-Analyser Run Outputs
 
-This directory holds **execution outputs** from CAC-OS eval runs.
+This directory holds **execution outputs** from Repo-Analyser eval runs.
 
 ## Layout
 
@@ -23,7 +23,7 @@ Deterministic reference outputs showing the **expected JSON shape** for each of 
 
 ```bash
 make validate
-python3 scripts/cac_os.py validate-registry
+python3 scripts/repo_analyser.py validate-registry
 ```
 
 These are **not** from live builds — they are schema/reference examples. When you complete a real eval task, your output should match the same keys and proof fields.
@@ -37,10 +37,10 @@ export RUN_ID="run-$(date +%Y%m%d-%H%M%S)"
 mkdir -p "generated_projects/$RUN_ID"
 
 # Plan tasks
-python3 scripts/cac_os.py route --intent trace_flow --run-id "$RUN_ID"
+python3 scripts/repo_analyser.py route --intent trace_flow --run-id "$RUN_ID"
 
 # After completing tasks, validate
-python3 scripts/cac_os.py validate-run "generated_projects/$RUN_ID"
+python3 scripts/repo_analyser.py validate-run "generated_projects/$RUN_ID"
 ```
 
 ## Proof Fields

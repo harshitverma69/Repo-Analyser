@@ -23,12 +23,12 @@ CORE_REGISTRY_PATH = ROOT / "core" / "skill_registry.json"
 
 DEFAULT_RUN_INPUTS = {
     "repository_path": str(ROOT),
-    "task_description": "cac-os-deterministic-run",
+    "task_description": "repo-analyser-deterministic-run",
     "lanes": 2,
     "module_path": ".",
     "output_dir": str(GENERATED_ROOT),
     "service_path": str(ROOT),
-    "project_name": "cac-os-demo-project",
+    "project_name": "repo-analyser-demo-project",
     "mode": "api",
     "entry_point_id": "GET:/health",
     "service_port": 8080,
@@ -182,7 +182,7 @@ class SkillRunner:
             from runtime.skill_finish import export_markdown_reports, show_skill_report
 
             export_markdown_reports(self.run_dir, out_dir)
-            if __import__("os").environ.get("CACOS_AUTO_SKILL_DONE", "1") != "0":
+            if __import__("os").environ.get("REPO_ANALYSER_AUTO_SKILL_DONE", "1") != "0":
                 show_skill_report(self.run_dir, skill_id, save_md=False)
 
         result = SkillRunResult(
@@ -278,7 +278,7 @@ class SkillRunner:
 def main(argv: list[str] | None = None) -> int:
     import argparse
 
-    parser = argparse.ArgumentParser(description="CAC-OS deterministic skill runner")
+    parser = argparse.ArgumentParser(description="Repo-Analyser deterministic skill runner")
     parser.add_argument("--run-id", default="pipeline-run")
     parser.add_argument("--skill", help="Single skill ID, e.g. B1")
     parser.add_argument("--domain", choices=["B", "I", "A", "D"], help="Run all skills in domain")

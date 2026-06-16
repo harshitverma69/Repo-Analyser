@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Deterministic CAC-OS validator and task router. No LLM. No runtime agents."""
+"""Deterministic Repo-Analyser validator and task router. No LLM. No runtime agents."""
 
 from __future__ import annotations
 
@@ -292,7 +292,7 @@ def _task_sort_key(tid: str) -> tuple:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="CAC-OS deterministic tooling")
+    parser = argparse.ArgumentParser(description="Repo-Analyser deterministic tooling")
     sub = parser.add_subparsers(dest="command", required=True)
 
     p_list = sub.add_parser("list", help="List all tasks")

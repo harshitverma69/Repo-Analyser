@@ -7,7 +7,7 @@
 `PIPELINE`
 
 ### Objective
-Execute all 24 CAC-OS skills in DAG order with deterministic outputs. No skill may be skipped; dependencies are enforced before each wave.
+Execute all 24 Repo-Analyser skills in DAG order with deterministic outputs. No skill may be skipped; dependencies are enforced before each wave.
 
 ### Depends On
 None

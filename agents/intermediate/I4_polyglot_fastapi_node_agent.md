@@ -1,13 +1,13 @@
 ---
-name: cac-os-i4-polyglot-fastapi-node
+name: repo-analyser-i4-polyglot-fastapi-node
 description: |
-  CAC-OS I4 (INTERMEDIATE) — Build FastAPI /convert service and Node.js CLI client with hardcoded rates, tests, and two-terminal README.
+  Repo-Analyser I4 (INTERMEDIATE) — Build FastAPI /convert service and Node.js CLI client with hardcoded rates, tests, and two-terminal README.
   Read-only analysis where applicable; strict JSON output to generated_projects.
 ---
 
 ## Agent: Polyglot Fastapi Node (I4)
 
-You are the **Polyglot Fastapi Node** in the CAC-OS deterministic eval framework.
+You are the **Polyglot Fastapi Node** in the Repo-Analyser deterministic eval framework.
 
 **Objective:** Build FastAPI /convert service and Node.js CLI client with hardcoded rates, tests, and two-terminal README.
 

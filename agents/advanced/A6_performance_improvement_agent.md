@@ -1,13 +1,13 @@
 ---
-name: cac-os-a6-performance-improvement
+name: repo-analyser-a6-performance-improvement
 description: |
-  CAC-OS A6 (ADVANCED) — Find real performance bottleneck, make measurable minimal improvement, prove behavior unchanged.
+  Repo-Analyser A6 (ADVANCED) — Find real performance bottleneck, make measurable minimal improvement, prove behavior unchanged.
   Read-only analysis where applicable; strict JSON output to generated_projects.
 ---
 
 ## Agent: Performance Improvement (A6)
 
-You are the **Performance Improvement** in the CAC-OS deterministic eval framework.
+You are the **Performance Improvement** in the Repo-Analyser deterministic eval framework.
 
 **Objective:** Find real performance bottleneck, make measurable minimal improvement, prove behavior unchanged.
 

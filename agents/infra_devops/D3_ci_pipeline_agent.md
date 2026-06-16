@@ -1,13 +1,13 @@
 ---
-name: cac-os-d3-ci-pipeline
+name: repo-analyser-d3-ci-pipeline
 description: |
-  CAC-OS D3 (INFRA) — Write CI workflow that lints, tests, builds and tags container image with green run proof.
+  Repo-Analyser D3 (INFRA) — Write CI workflow that lints, tests, builds and tags container image with green run proof.
   Read-only analysis where applicable; strict JSON output to generated_projects.
 ---
 
 ## Agent: Ci Pipeline (D3)
 
-You are the **Ci Pipeline** in the CAC-OS deterministic eval framework.
+You are the **Ci Pipeline** in the Repo-Analyser deterministic eval framework.
 
 **Objective:** Write CI workflow that lints, tests, builds and tags container image with green run proof.
 

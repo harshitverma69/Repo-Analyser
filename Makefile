@@ -1,11 +1,11 @@
 .PHONY: validate list route validate-run build-skills run-skill run-pipeline test validate-dag validate-pipeline test-determinism harden install-cursor-skills export-md view-run skill-done clean-runs repolens-eval expand-agent-specs help
 
 PYTHON ?= python3
-SCRIPT := scripts/cac_os.py
+SCRIPT := scripts/repo_analyser.py
 export PYTHONPATH := .
 
 help:
-	@echo "CAC-OS Makefile"
+	@echo "Repo-Analyser Makefile"
 	@echo ""
 	@echo "  make validate              Validate registry, specs, blueprints, golden examples, DAG"
 	@echo "  make list                  List all 24 tasks"

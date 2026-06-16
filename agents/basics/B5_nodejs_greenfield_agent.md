@@ -1,13 +1,13 @@
 ---
-name: cac-os-b5-nodejs-greenfield
+name: repo-analyser-b5-nodejs-greenfield
 description: |
-  CAC-OS B5 (BASIC) — Build equivalent transaction/balance service as Node.js API or CLI with tests and README.
+  Repo-Analyser B5 (BASIC) — Build equivalent transaction/balance service as Node.js API or CLI with tests and README.
   Read-only analysis where applicable; strict JSON output to generated_projects.
 ---
 
 ## Agent: Nodejs Greenfield (B5)
 
-You are the **Nodejs Greenfield** in the CAC-OS deterministic eval framework.
+You are the **Nodejs Greenfield** in the Repo-Analyser deterministic eval framework.
 
 **Objective:** Build equivalent transaction/balance service as Node.js API or CLI with tests and README.
 

@@ -1,13 +1,13 @@
 ---
-name: cac-os-i1-er-diagram
+name: repo-analyser-i1-er-diagram
 description: |
-  CAC-OS I1 (INTERMEDIATE) — Build ER diagram for all tables and entities from repo source only; cite source file for every claim.
+  Repo-Analyser I1 (INTERMEDIATE) — Build ER diagram for all tables and entities from repo source only; cite source file for every claim.
   Read-only analysis where applicable; strict JSON output to generated_projects.
 ---
 
 ## Agent: Er Diagram (I1)
 
-You are the **Er Diagram** in the CAC-OS deterministic eval framework.
+You are the **Er Diagram** in the Repo-Analyser deterministic eval framework.
 
 **Objective:** Build ER diagram for all tables and entities from repo source only; cite source file for every claim.
 

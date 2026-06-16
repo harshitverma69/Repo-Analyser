@@ -1,10 +1,10 @@
-# CAC-OS Overview
+# Repo-Analyser Overview
 
 ## Problem
 
 Coding agents can do far more than most teams use them for — repo understanding, multi-language builds, parallel worktrees, infra artifacts. The PML/OCL eval document lists **24 concrete capabilities** engineers should be able to demonstrate.
 
-CAC-OS turns that eval into a **repeatable, deterministic system** that Cursor (or any engineer) can follow without inventing structure each time.
+Repo-Analyser turns that eval into a **repeatable, deterministic system** that Cursor (or any engineer) can follow without inventing structure each time.
 
 ## Design Principles
 
@@ -12,7 +12,7 @@ CAC-OS turns that eval into a **repeatable, deterministic system** that Cursor (
 2. **Deterministic only** — Rules DT-01..DT-10 in `core/execution_rules.md`; no LLM logic in outputs.
 3. **DAG execution** — Tasks depend on each other acyclically; parallel lanes where safe.
 4. **Proof over prose** — Build/run tasks require `exit_code` proof fields, not claims.
-5. **Testable outputs** — Golden examples in `generated_projects/_golden/`; validators in `runtime/` and `scripts/cac_os.py`.
+5. **Testable outputs** — Golden examples in `generated_projects/_golden/`; validators in `runtime/` and `scripts/repo_analyser.py`.
 
 ## Architecture
 
@@ -24,7 +24,7 @@ CAC-OS turns that eval into a **repeatable, deterministic system** that Cursor (
                            │
                            ▼
 ┌─────────────────────────────────────────────────────────────┐
-│                      CAC-OS Core Layer                       │
+│                      Repo-Analyser Core Layer                       │
 │  capability_registry │ execution_rules │ validation_matrix   │
 │  self_eval_checklist │ eval_source                          │
 └──────────────────────────┬──────────────────────────────────┘
@@ -47,14 +47,14 @@ CAC-OS turns that eval into a **repeatable, deterministic system** that Cursor (
 └─────────────────────────────────────────────────────────────┘
 ```
 
-## How Cursor Operates CAC-OS
+## How Cursor Operates Repo-Analyser
 
-1. **Route** — `scripts/cac_os.py route --intent <name>` or read `execution_models/task_router.md`
+1. **Route** — `scripts/repo_analyser.py route --intent <name>` or read `execution_models/task_router.md`
 2. **Read spec** — Open `agents/{level}/{ID}_{slug}_agent.md`
 3. **Load upstream** — Read JSON from prior tasks in the run folder
 4. **Execute** — Apply deterministic rules; produce code/files if greenfield/infra task
 5. **Emit JSON** — Write to `generated_projects/{run_id}/{ID}/{output_file}`
-6. **Validate** — `scripts/cac_os.py validate-run <run_dir>`
+6. **Validate** — `scripts/repo_analyser.py validate-run <run_dir>`
 
 ## Task Levels
 
@@ -84,7 +84,7 @@ Independent tasks can run in parallel (see `execution_models/parallel_execution_
 
 ## Integration with RepoLens
 
-RepoLens provides **static analysis** for B1, B2, I1, I2, I6 (diagnosis). CAC-OS defines the **eval contract** and proof requirements. See [repolens_bridge.md](repolens_bridge.md).
+RepoLens provides **static analysis** for B1, B2, I1, I2, I6 (diagnosis). Repo-Analyser defines the **eval contract** and proof requirements. See [repolens_bridge.md](repolens_bridge.md).
 
 ## File Naming Convention
 

@@ -1,10 +1,10 @@
-# CAC-OS Project Status
+# Repo-Analyser Project Status
 
 Last updated: 2026-06-16
 
 ## Summary
 
-CAC-OS is a **spec-complete** deterministic framework for the PML/OCL 24-task coding agent eval. All agent specs, blueprints, validation rules, golden examples, and tooling are in place. **Live eval execution** (actually building services, running Terraform, etc.) is done by engineers/Cursor per run — outputs go in `generated_projects/{run_id}/`.
+Repo-Analyser is a **spec-complete** deterministic framework for the PML/OCL 24-task coding agent eval. All agent specs, blueprints, validation rules, golden examples, and tooling are in place. **Live eval execution** (actually building services, running Terraform, etc.) is done by engineers/Cursor per run — outputs go in `generated_projects/{run_id}/`.
 
 ---
 
@@ -32,7 +32,7 @@ CAC-OS is a **spec-complete** deterministic framework for the PML/OCL 24-task co
 | Machine-readable task registry | ✅ | `scripts/task_registry.json` |
 | Skill registry (compiled) | ✅ | `core/skill_registry.json` |
 | Skill execution runtime | ✅ | `runtime/` |
-| Deterministic runner/validator | ✅ | `runtime/skill_runner.py`, `scripts/cac_os.py` |
+| Deterministic runner/validator | ✅ | `runtime/skill_runner.py`, `scripts/repo_analyser.py` |
 | Cursor skill installer | ✅ | `tools/install_cursor_skills.py` |
 | How-to-run guide (all 24 skills) | ✅ | `docs/HOW_TO_RUN.md` |
 | Makefile shortcuts | ✅ | `Makefile` |
@@ -55,7 +55,7 @@ CAC-OS is a **spec-complete** deterministic framework for the PML/OCL 24-task co
 
 ## Not Done (by design — live eval work)
 
-These are **intentionally outside** the CAC-OS spec repo. Each engineer/Cursor run produces them in `generated_projects/{run_id}/`:
+These are **intentionally outside** the Repo-Analyser spec repo. Each engineer/Cursor run produces them in `generated_projects/{run_id}/`:
 
 | Item | Description | How to complete |
 |------|-------------|-----------------|
@@ -100,7 +100,7 @@ OK: 24 tasks, all specs/blueprints/golden examples present, DAG acyclic
 |-------------|----------|-------|
 | JSON Schema files (`.schema.json`) per task | Low | Currently documented in MD + golden |
 | GitHub Action to run `make validate` on PR | Medium | CI for the spec repo itself |
-| RepoLens → CAC-OS transform script | Medium | Auto-convert ApiMapReport → B2 JSON |
+| RepoLens → Repo-Analyser transform script | Medium | Auto-convert ApiMapReport → B2 JSON |
 | Example live run folder | Low | `generated_projects/example-live-run/` after someone completes B4 |
 
 ---
@@ -109,9 +109,9 @@ OK: 24 tasks, all specs/blueprints/golden examples present, DAG acyclic
 
 | Date | Milestone |
 |------|-----------|
-| 2026-06-16 | Initial CAC-OS from RepoLens capability-matrix (27 tasks) |
+| 2026-06-16 | Initial Repo-Analyser from RepoLens capability-matrix (27 tasks) |
 | 2026-06-16 | Realigned to PML/OCL eval (24 tasks); renamed to `agents/*_agent.md` |
-| 2026-06-16 | Added golden examples, `cac_os.py`, docs, Makefile, self-eval checklist |
+| 2026-06-16 | Added golden examples, `repo_analyser.py`, docs, Makefile, self-eval checklist |
 
 ---
 
@@ -120,5 +120,5 @@ OK: 24 tasks, all specs/blueprints/golden examples present, DAG acyclic
 1. Read **[docs/HOW_TO_RUN.md](HOW_TO_RUN.md)** — setup, commands, and every skill with role + locations
 2. Run: `make build-skills && make install-cursor-skills && make validate`
 3. Pick one task (start with **B1** or **B3** on a repo you know)
-4. Type `/cac-os-repo-inventory` in Cursor, or `make run-skill SKILL=B1 RUN_ID=my-run`
+4. Type `/repo-analyser-repo-inventory` in Cursor, or `make run-skill SKILL=B1 RUN_ID=my-run`
 5. Validate: `make validate-run RUN_DIR=generated_projects/my-run`

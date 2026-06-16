@@ -13,7 +13,7 @@ ROOT = Path(__file__).resolve().parent.parent
 
 
 def test_run_skill_auto_displays_ui(tmp_path: Path, capsys, monkeypatch):
-    monkeypatch.setenv("CACOS_AUTO_SKILL_DONE", "1")
+    monkeypatch.setenv("REPO_ANALYSER_AUTO_SKILL_DONE", "1")
     run_id = "ui-hook-test"
     runner = SkillRunner(
         run_id=run_id,
@@ -35,7 +35,7 @@ def test_run_skill_auto_displays_ui(tmp_path: Path, capsys, monkeypatch):
 
 
 def test_run_skill_ui_disabled(tmp_path: Path, capsys, monkeypatch):
-    monkeypatch.setenv("CACOS_AUTO_SKILL_DONE", "0")
+    monkeypatch.setenv("REPO_ANALYSER_AUTO_SKILL_DONE", "0")
     run_id = "ui-hook-off"
     runner = SkillRunner(
         run_id=run_id,

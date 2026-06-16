@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Install CAC-OS skills into Cursor's / slash menu."""
+"""Install Repo-Analyser skills into Cursor's / slash menu."""
 
 from __future__ import annotations
 
@@ -32,20 +32,20 @@ def render_cursor_skill(task_id: str, meta: dict, task_meta: dict) -> str:
     skill_path = meta.get("path", "")
 
     description = (
-        f"CAC-OS {task_id} ({level}) — {meta['description']} "
+        f"Repo-Analyser {task_id} ({level}) — {meta['description']} "
         f"Use when running eval task {task_id} or `{cursor_slash_command(task_id)}`."
     )
 
-    cac_os_root = ROOT.as_posix()
+    repo_analyser_root = ROOT.as_posix()
 
     return f"""---
 name: {name}
 description: {description}
 ---
 
-# CAC-OS — {meta['name']} ({task_id})
+# Repo-Analyser — {meta['name']} ({task_id})
 
-Execute **CAC-OS skill {task_id}** deterministically. Follow the Markdown specs — no free-form guessing.
+Execute **Repo-Analyser skill {task_id}** deterministically. Follow the Markdown specs — no free-form guessing.
 
 ## What this skill does
 
@@ -92,7 +92,10 @@ def install_skills(target_root: Path, clean: bool = False) -> dict:
 
     if clean and target_root.is_dir():
         for child in target_root.iterdir():
-            if child.is_dir() and child.name.startswith(f"{CURSOR_PREFIX}-"):
+            if child.is_dir() and (
+                child.name.startswith(f"{CURSOR_PREFIX}-")
+                or child.name.startswith("cac-os-")  # legacy prefix
+            ):
                 shutil.rmtree(child)
 
     installed: list[dict] = []
@@ -134,13 +137,17 @@ def install_skills(target_root: Path, clean: bool = False) -> dict:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Install CAC-OS skills into Cursor / menu")
+    parser = argparse.ArgumentParser(description="Install Repo-Analyser skills into Cursor / menu")
     parser.add_argument(
         "--project",
         action="store_true",
-        help="Install to cac-os/.cursor/skills/ instead of ~/.cursor/skills/",
+        help="Install to repo-analyser/.cursor/skills/ instead of ~/.cursor/skills/",
     )
-    parser.add_argument("--clean", action="store_true", help="Remove existing cac-os-* skills first")
+    parser.add_argument(
+        "--clean",
+        action="store_true",
+        help="Remove existing repo-analyser-* (and legacy cac-os-*) skills first",
+    )
     args = parser.parse_args()
 
     target = (ROOT / ".cursor" / "skills") if args.project else (Path.home() / ".cursor" / "skills")

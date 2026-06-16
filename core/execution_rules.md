@@ -1,4 +1,4 @@
-# CAC-OS Execution Rules
+# Repo-Analyser Execution Rules
 
 > Deterministic execution framework. No LLM reasoning. No runtime agents.
 
