@@ -7,6 +7,7 @@ import sys
 from pathlib import Path
 
 from runtime.deterministic import DETERMINISTIC_STAMP, canonical_json_dumps
+from runtime.skill_constants import cursor_slash_command
 from runtime.skill_parser import (
     LEVEL_SKILL_DIRS,
     parse_agent_markdown,
@@ -221,63 +222,160 @@ def write_registry(registry: dict) -> Path:
     return CORE_REGISTRY_PATH
 
 
-def render_skill_catalog(registry: dict) -> str:
+def render_how_to_run(registry: dict) -> str:
     lines = [
-        "# CAC-OS Skill Catalog",
+        "# CAC-OS — How to Run",
         "",
-        "> What each skill does and where it lives. Regenerate with "
-        "`python runtime/skill_registry_builder.py`.",
+        "> Single guide for setup, commands, and all 24 skills. Regenerate with `make build-skills`.",
         "",
-        f"Total skills: **{registry['skill_count']}**",
+        "## What is CAC-OS?",
+        "",
+        "CAC-OS is a **deterministic Markdown execution framework** — not a runtime AI system.",
+        "Agent specs define inputs, outputs, and rules. Cursor (or you) execute them and write JSON.",
+        "",
+        "**Total skills:** 24 (B1–B6, I1–I6, A1–A6, D1–D6)",
+        "",
+        "---",
+        "",
+        "## 1. Prerequisites",
+        "",
+        "- Python 3.10+",
+        "- No external AI services required for validation/runtime",
+        "",
+        "Optional for tests:",
+        "",
+        "```bash",
+        "python3 -m venv .venv && source .venv/bin/activate",
+        "pip install pytest pytest-cov",
+        "```",
+        "",
+        "---",
+        "",
+        "## 2. First-time setup",
+        "",
+        "```bash",
+        "cd cac-os",
+        "make build-skills          # compile agent specs → .skill.md + core/skill_registry.json",
+        "make install-cursor-skills # install 24 skills into Cursor / menu",
+        "make validate              # verify specs, blueprints, golden examples, DAG",
+        "```",
+        "",
+        "Restart Cursor after `install-cursor-skills` if `/cac-os-*` commands do not appear.",
+        "",
+        "---",
+        "",
+        "## 3. Common commands",
+        "",
+        "| Command | Purpose |",
+        "|---------|---------|",
+        "| `make build-skills` | Regenerate skill files and registry |",
+        "| `make install-cursor-skills` | Install skills into Cursor `/` menu |",
+        "| `make validate` | Validate all agent specs and DAG |",
+        "| `make validate-dag` | Validate skill dependency graph |",
+        "| `make run-skill SKILL=B1 RUN_ID=my-run` | Run one skill |",
+        "| `make run-pipeline RUN_ID=my-run` | Run all 24 skills in DAG order |",
+        "| `make validate-pipeline RUN_ID=my-run` | Validate a pipeline run |",
+        "| `make harden` | Full production check (tests + determinism) |",
+        "| `make test` | Run test suite |",
+        "",
+        "### Run one skill in Cursor",
+        "",
+        "1. Type `/cac-os-repo-inventory` (or any skill below) in chat",
+        "2. Follow the agent spec and skill spec",
+        "3. Write output to `generated_projects/{run_id}/{skill_id}/output.json`",
+        "",
+        "### Run via deterministic runtime",
+        "",
+        "```bash",
+        "make run-skill SKILL=B2 RUN_ID=demo",
+        "make run-pipeline RUN_ID=full-run",
+        "python -m runtime.validate_pipeline --run-id full-run",
+        "```",
+        "",
+        "---",
+        "",
+        "## 4. Repository layout",
+        "",
+        "| Path | Role |",
+        "|------|------|",
+        "| `agents/` | Source agent specs (inputs, outputs, rules) |",
+        "| `skills/` | Compiled skill specs (`.skill.md`) for execution |",
+        "| `core/skill_registry.json` | Machine-readable index of all 24 skills |",
+        "| `eval_blueprints/` | Step-by-step eval runbooks |",
+        "| `runtime/` | Deterministic orchestrator, runner, validator |",
+        "| `generated_projects/_golden/` | Reference JSON outputs |",
+        "| `generated_projects/{run_id}/` | Your run outputs |",
+        "| `tools/install_cursor_skills.py` | Installs Cursor `/cac-os-*` skills |",
+        "",
+        "---",
+        "",
+        "## 5. All 24 skills",
         "",
     ]
 
     by_level = {
+        "BASIC": "Basic (B1–B6) — Repo reading and greenfield builds",
+        "INTERMEDIATE": "Intermediate (I1–I6) — Repo operations and polyglot work",
+        "ADVANCED": "Advanced (A1–A6) — Parallel work and system building",
+        "INFRA": "Infra (D1–D6) — DevOps and infrastructure",
+    }
+
+    grouped: dict[str, list[tuple[str, dict]]] = {
         "BASIC": [],
         "INTERMEDIATE": [],
         "ADVANCED": [],
         "INFRA": [],
     }
-
     for skill_id, meta in registry["skills"].items():
-        by_level[meta["level"]].append((skill_id, meta))
-
-    titles = {
-        "BASIC": "Basic Skills (B1–B6)",
-        "INTERMEDIATE": "Intermediate Skills (I1–I6)",
-        "ADVANCED": "Advanced Skills (A1–A6)",
-        "INFRA": "Infra Skills (D1–D6)",
-    }
+        grouped[meta["level"]].append((skill_id, meta))
 
     for level in ("BASIC", "INTERMEDIATE", "ADVANCED", "INFRA"):
-        entries = sorted(by_level[level], key=lambda item: task_sort_key(item[0]))
+        entries = sorted(grouped[level], key=lambda item: task_sort_key(item[0]))
         if not entries:
             continue
-        lines.append(f"## {titles[level]}")
+        lines.append(f"### {by_level[level]}")
         lines.append("")
-        lines.append("| ID | Name | Works On | Depends On | Skill File |")
-        lines.append("|----|------|----------|------------|------------|")
         for skill_id, meta in entries:
-            deps = ", ".join(meta["depends_on"]) if meta["depends_on"] else "—"
-            lines.append(
-                f"| {skill_id} | {meta['name']} | {meta['description']} | {deps} | `{meta['path']}` |"
+            deps = ", ".join(meta["depends_on"]) if meta["depends_on"] else "none"
+            lines.extend(
+                [
+                    f"#### {skill_id} — {meta['name']}",
+                    "",
+                    f"**Role:** {meta['description']}",
+                    "",
+                    f"**Depends on:** {deps}",
+                    "",
+                    "| Item | Location |",
+                    "|------|----------|",
+                    f"| Cursor command | `{cursor_slash_command(skill_id)}` |",
+                    f"| Agent spec | `{meta['agent_source']}` |",
+                    f"| Skill spec | `{meta['path']}` |",
+                    f"| Eval blueprint | `{meta['blueprint']}` |",
+                    f"| Output JSON | `generated_projects/{{run_id}}/{skill_id}/output.json` |",
+                    f"| Golden reference | `generated_projects/_golden/{skill_id}/{meta['output_file']}` |",
+                    "",
+                ]
             )
-        lines.append("")
 
     lines.extend(
         [
-            "## Master Pipeline Skill",
+            "### Master pipeline",
             "",
-            "| ID | Name | Works On | Skill File |",
-            "|----|------|----------|------------|",
-            "| ALL | Full Pipeline | Runs all 24 skills in DAG order with deterministic golden outputs | `skills/run_all_skills.skill.md` |",
+            "**Role:** Run all 24 skills in DAG order with deterministic outputs.",
             "",
-            "## How Skills Execute",
+            "| Item | Location |",
+            "|------|----------|",
+            "| Skill spec | `skills/run_all_skills.skill.md` |",
+            "| Run command | `make run-pipeline RUN_ID=my-run` |",
             "",
-            "1. `runtime/skill_registry_builder.py` compiles agent specs → `.skill.md` + `core/skill_registry.json`",
-            "2. `runtime/skill_orchestrator.py` builds the DAG and execution plan",
-            "3. `runtime/skill_runner.py` executes each skill deterministically (golden reference, no LLM)",
-            "4. Outputs land in `generated_projects/{run_id}/{skill_id}/output.json`",
+            "---",
+            "",
+            "## 6. System rules",
+            "",
+            "- No runtime AI agents inside CAC-OS itself",
+            "- No inference or probabilistic logic in the runtime",
+            "- Markdown specs are the program; JSON is the output",
+            "- Execution order follows the DAG in `execution_models/dependency_graph.md`",
             "",
         ]
     )
@@ -285,21 +383,21 @@ def render_skill_catalog(registry: dict) -> str:
     return "\n".join(lines)
 
 
-def write_skill_catalog(registry: dict) -> Path:
-    catalog_path = ROOT / "docs" / "SKILL_CATALOG.md"
-    catalog_path.parent.mkdir(parents=True, exist_ok=True)
-    catalog_path.write_text(render_skill_catalog(registry) + "\n", encoding="utf-8")
-    return catalog_path
+def write_how_to_run(registry: dict) -> Path:
+    doc_path = ROOT / "docs" / "HOW_TO_RUN.md"
+    doc_path.parent.mkdir(parents=True, exist_ok=True)
+    doc_path.write_text(render_how_to_run(registry) + "\n", encoding="utf-8")
+    return doc_path
 
 
 def main() -> int:
     registry = build_skill_registry(write_skills=True)
     path = write_registry(registry)
-    catalog_path = write_skill_catalog(registry)
+    doc_path = write_how_to_run(registry)
     coverage = registry["coverage"]
     print(f"OK: built {registry['skill_count']} skills")
     print(f"  - {path.relative_to(ROOT)}")
-    print(f"  - {catalog_path.relative_to(ROOT)}")
+    print(f"  - {doc_path.relative_to(ROOT)}")
     print(f"  - coverage: {coverage['coverage_status']} ({coverage['total_skills']}/{EXPECTED_SKILL_COUNT})")
     for level_dir in sorted(LEVEL_SKILL_DIRS.values()):
         count = len(list((SKILLS_ROOT / level_dir).glob("*.skill.md")))

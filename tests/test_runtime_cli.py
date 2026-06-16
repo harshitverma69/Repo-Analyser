@@ -64,7 +64,7 @@ def test_orchestrator_missing_registry(tmp_path: Path):
 def test_registry_builder_main():
     assert build_main() == 0
     assert (ROOT / "core" / "skill_registry.json").is_file()
-    assert (ROOT / "docs" / "SKILL_CATALOG.md").is_file()
+    assert (ROOT / "docs" / "HOW_TO_RUN.md").is_file()
 
 
 def test_runner_cli_plan_only(capsys):

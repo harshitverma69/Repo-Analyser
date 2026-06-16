@@ -12,7 +12,7 @@ CAC-OS turns that eval into a **repeatable, deterministic system** that Cursor (
 2. **Deterministic only** — Rules DT-01..DT-10 in `core/execution_rules.md`; no LLM logic in outputs.
 3. **DAG execution** — Tasks depend on each other acyclically; parallel lanes where safe.
 4. **Proof over prose** — Build/run tasks require `exit_code` proof fields, not claims.
-5. **Testable outputs** — Golden examples in `generated_projects/_golden/`; validator in `scripts/cac_os.py`.
+5. **Testable outputs** — Golden examples in `generated_projects/_golden/`; validators in `runtime/` and `scripts/cac_os.py`.
 
 ## Architecture
 

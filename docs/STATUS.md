@@ -30,7 +30,11 @@ CAC-OS is a **spec-complete** deterministic framework for the PML/OCL 24-task co
 | Item | Status | Location |
 |------|--------|----------|
 | Machine-readable task registry | ✅ | `scripts/task_registry.json` |
-| Deterministic runner/validator | ✅ | `scripts/cac_os.py` |
+| Skill registry (compiled) | ✅ | `core/skill_registry.json` |
+| Skill execution runtime | ✅ | `runtime/` |
+| Deterministic runner/validator | ✅ | `runtime/skill_runner.py`, `scripts/cac_os.py` |
+| Cursor skill installer | ✅ | `tools/install_cursor_skills.py` |
+| How-to-run guide (all 24 skills) | ✅ | `docs/HOW_TO_RUN.md` |
 | Makefile shortcuts | ✅ | `Makefile` |
 | Golden JSON examples (24 tasks) | ✅ | `generated_projects/_golden/` |
 | Golden manifest | ✅ | `generated_projects/_golden/manifest.json` |
@@ -113,8 +117,8 @@ OK: 24 tasks, all specs/blueprints/golden examples present, DAG acyclic
 
 ## Next Step for You
 
-1. Open `core/self_eval_checklist.md`
-2. Pick one task (start with **B1** or **B3** on a repo you know)
-3. Run: `make route INTENT=discover`
-4. Execute the agent spec; write output to `generated_projects/{your-run-id}/`
-5. Validate: `make validate-run RUN_DIR=generated_projects/{your-run-id}`
+1. Read **[docs/HOW_TO_RUN.md](HOW_TO_RUN.md)** — setup, commands, and every skill with role + locations
+2. Run: `make build-skills && make install-cursor-skills && make validate`
+3. Pick one task (start with **B1** or **B3** on a repo you know)
+4. Type `/cac-os-repo-inventory` in Cursor, or `make run-skill SKILL=B1 RUN_ID=my-run`
+5. Validate: `make validate-run RUN_DIR=generated_projects/my-run`

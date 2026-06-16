@@ -1,0 +1,248 @@
+{
+  "generator": "tools/install_cursor_skills.py",
+  "skill_count": 24,
+  "install_target": "/Users/harshitverma/.cursor/skills",
+  "prefix": "cac-os",
+  "skills": [
+    {
+      "task_id": "A1",
+      "cursor_skill": "cac-os-worktree-plan",
+      "slash_command": "/cac-os-worktree-plan",
+      "title": "Multi-Worktree Plan Agent",
+      "description": "Split one feature/analysis task into parallel worktrees or agent sessions without merge chaos.",
+      "agent_spec": "agents/advanced/A1_multi_worktree_plan_agent.md",
+      "skill_spec": "skills/advanced/A1_multi_worktree_plan.skill.md",
+      "cursor_path": "~/.cursor/skills/cac-os-worktree-plan/SKILL.md"
+    },
+    {
+      "task_id": "A2",
+      "cursor_skill": "cac-os-worktree-execute",
+      "slash_command": "/cac-os-worktree-execute",
+      "title": "Parallel Worktrees Execute Agent",
+      "description": "Create two parallel worktrees, make independent changes, reconcile cleanly with test proof.",
+      "agent_spec": "agents/advanced/A2_parallel_worktrees_execute_agent.md",
+      "skill_spec": "skills/advanced/A2_parallel_worktrees_execute.skill.md",
+      "cursor_path": "~/.cursor/skills/cac-os-worktree-execute/SKILL.md"
+    },
+    {
+      "task_id": "A3",
+      "cursor_skill": "cac-os-fraud-system",
+      "slash_command": "/cac-os-fraud-system",
+      "title": "Polyglot Fraud System Agent",
+      "description": "Build mini fraud-score system: FastAPI ingestion, Node.js worker, Rust scoring engine with tests and README.",
+      "agent_spec": "agents/advanced/A3_polyglot_fraud_system_agent.md",
+      "skill_spec": "skills/advanced/A3_polyglot_fraud_system.skill.md",
+      "cursor_path": "~/.cursor/skills/cac-os-fraud-system/SKILL.md"
+    },
+    {
+      "task_id": "A4",
+      "cursor_skill": "cac-os-modernization",
+      "slash_command": "/cac-os-modernization",
+      "title": "Modernization Executable Agent",
+      "description": "Analyze repo for modernization opportunities, prioritize, implement highest-value lowest-risk first step.",
+      "agent_spec": "agents/advanced/A4_modernization_executable_agent.md",
+      "skill_spec": "skills/advanced/A4_modernization_executable.skill.md",
+      "cursor_path": "~/.cursor/skills/cac-os-modernization/SKILL.md"
+    },
+    {
+      "task_id": "A5",
+      "cursor_skill": "cac-os-code-review",
+      "slash_command": "/cac-os-code-review",
+      "title": "Adversarial Code Review Agent",
+      "description": "Review agent-generated PR for correctness, security, test, performance, maintainability issues; propose fixes.",
+      "agent_spec": "agents/advanced/A5_adversarial_code_review_agent.md",
+      "skill_spec": "skills/advanced/A5_adversarial_code_review.skill.md",
+      "cursor_path": "~/.cursor/skills/cac-os-code-review/SKILL.md"
+    },
+    {
+      "task_id": "A6",
+      "cursor_skill": "cac-os-performance-tuning",
+      "slash_command": "/cac-os-performance-tuning",
+      "title": "Performance Improvement Agent",
+      "description": "Find real performance bottleneck, make measurable minimal improvement, prove behavior unchanged.",
+      "agent_spec": "agents/advanced/A6_performance_improvement_agent.md",
+      "skill_spec": "skills/advanced/A6_performance_improvement.skill.md",
+      "cursor_path": "~/.cursor/skills/cac-os-performance-tuning/SKILL.md"
+    },
+    {
+      "task_id": "B1",
+      "cursor_skill": "cac-os-repo-inventory",
+      "slash_command": "/cac-os-repo-inventory",
+      "title": "Repo Artifact Inventory Agent",
+      "description": "Inspect an unfamiliar repository and produce a deterministic inventory of classes, interfaces, services, controllers, models, repositories, jobs, consumers, configs, and utilities.",
+      "agent_spec": "agents/basics/B1_repo_artifact_inventory_agent.md",
+      "skill_spec": "skills/basics/B1_repo_artifact_inventory.skill.md",
+      "cursor_path": "~/.cursor/skills/cac-os-repo-inventory/SKILL.md"
+    },
+    {
+      "task_id": "B2",
+      "cursor_skill": "cac-os-api-mapping",
+      "slash_command": "/cac-os-api-mapping",
+      "title": "API Endpoint Map Agent",
+      "description": "Identify every externally exposed API route and frontend route; map each to handler and controller via static inspection.",
+      "agent_spec": "agents/basics/B2_api_endpoint_map_agent.md",
+      "skill_spec": "skills/basics/B2_api_endpoint_map.skill.md",
+      "cursor_path": "~/.cursor/skills/cac-os-api-mapping/SKILL.md"
+    },
+    {
+      "task_id": "B3",
+      "cursor_skill": "cac-os-test-discovery",
+      "slash_command": "/cac-os-test-discovery",
+      "title": "Test Discovery Agent",
+      "description": "Find test framework, config file, relevant test files, and exact commands to run tests for a module.",
+      "agent_spec": "agents/basics/B3_test_discovery_agent.md",
+      "skill_spec": "skills/basics/B3_test_discovery.skill.md",
+      "cursor_path": "~/.cursor/skills/cac-os-test-discovery/SKILL.md"
+    },
+    {
+      "task_id": "B4",
+      "cursor_skill": "cac-os-fastapi-greenfield",
+      "slash_command": "/cac-os-fastapi-greenfield",
+      "title": "FastAPI Greenfield Service Agent",
+      "description": "Build a small Python FastAPI service from scratch with POST/GET endpoints, input validation, tests, and README.",
+      "agent_spec": "agents/basics/B4_fastapi_greenfield_agent.md",
+      "skill_spec": "skills/basics/B4_fastapi_greenfield.skill.md",
+      "cursor_path": "~/.cursor/skills/cac-os-fastapi-greenfield/SKILL.md"
+    },
+    {
+      "task_id": "B5",
+      "cursor_skill": "cac-os-node-greenfield",
+      "slash_command": "/cac-os-node-greenfield",
+      "title": "Node.js Greenfield API Agent",
+      "description": "Build equivalent transaction/balance service as Node.js API or CLI with tests and README.",
+      "agent_spec": "agents/basics/B5_nodejs_greenfield_agent.md",
+      "skill_spec": "skills/basics/B5_nodejs_greenfield.skill.md",
+      "cursor_path": "~/.cursor/skills/cac-os-node-greenfield/SKILL.md"
+    },
+    {
+      "task_id": "B6",
+      "cursor_skill": "cac-os-rust-greenfield",
+      "slash_command": "/cac-os-rust-greenfield",
+      "title": "Rust Greenfield CLI Agent",
+      "description": "Build Rust CLI that accepts file path, counts INFO/WARN/ERROR lines, handles missing file gracefully, with tests and README.",
+      "agent_spec": "agents/basics/B6_rust_greenfield_agent.md",
+      "skill_spec": "skills/basics/B6_rust_greenfield.skill.md",
+      "cursor_path": "~/.cursor/skills/cac-os-rust-greenfield/SKILL.md"
+    },
+    {
+      "task_id": "D1",
+      "cursor_skill": "cac-os-terraform",
+      "slash_command": "/cac-os-terraform",
+      "title": "Terraform Plan Agent",
+      "description": "Write Terraform for small service that passes validate and produces clean plan against test backend.",
+      "agent_spec": "agents/infra_devops/D1_terraform_plan_agent.md",
+      "skill_spec": "skills/infra/D1_terraform_plan.skill.md",
+      "cursor_path": "~/.cursor/skills/cac-os-terraform/SKILL.md"
+    },
+    {
+      "task_id": "D2",
+      "cursor_skill": "cac-os-compose-stack",
+      "slash_command": "/cac-os-compose-stack",
+      "title": "Docker Compose Stack Agent",
+      "description": "Stand up multi-service stack (API + DB + worker) with docker-compose, seed data, and E2E test script.",
+      "agent_spec": "agents/infra_devops/D2_docker_compose_stack_agent.md",
+      "skill_spec": "skills/infra/D2_docker_compose_stack.skill.md",
+      "cursor_path": "~/.cursor/skills/cac-os-compose-stack/SKILL.md"
+    },
+    {
+      "task_id": "D3",
+      "cursor_skill": "cac-os-ci-pipeline",
+      "slash_command": "/cac-os-ci-pipeline",
+      "title": "CI Pipeline Agent",
+      "description": "Write CI workflow that lints, tests, builds and tags container image with green run proof.",
+      "agent_spec": "agents/infra_devops/D3_ci_pipeline_agent.md",
+      "skill_spec": "skills/infra/D3_ci_pipeline.skill.md",
+      "cursor_path": "~/.cursor/skills/cac-os-ci-pipeline/SKILL.md"
+    },
+    {
+      "task_id": "D4",
+      "cursor_skill": "cac-os-kubernetes",
+      "slash_command": "/cac-os-kubernetes",
+      "title": "Kubernetes Manifests Agent",
+      "description": "Write K8s manifests, validate with dry-run/kubeval, deploy on kind/minikube with curl proof.",
+      "agent_spec": "agents/infra_devops/D4_kubernetes_manifests_agent.md",
+      "skill_spec": "skills/infra/D4_kubernetes_manifests.skill.md",
+      "cursor_path": "~/.cursor/skills/cac-os-kubernetes/SKILL.md"
+    },
+    {
+      "task_id": "D5",
+      "cursor_skill": "cac-os-dev-bootstrap",
+      "slash_command": "/cac-os-dev-bootstrap",
+      "title": "Reproducible Dev Environment Agent",
+      "description": "Bootstrap repo from fresh clone with single command; tests pass on clean machine.",
+      "agent_spec": "agents/infra_devops/D5_reproducible_dev_env_agent.md",
+      "skill_spec": "skills/infra/D5_reproducible_dev_env.skill.md",
+      "cursor_path": "~/.cursor/skills/cac-os-dev-bootstrap/SKILL.md"
+    },
+    {
+      "task_id": "D6",
+      "cursor_skill": "cac-os-observability",
+      "slash_command": "/cac-os-observability",
+      "title": "Observability Bolt-On Agent",
+      "description": "Add structured logging and /metrics endpoint; stand up Prometheus + Grafana with working dashboard panel.",
+      "agent_spec": "agents/infra_devops/D6_observability_bolt_on_agent.md",
+      "skill_spec": "skills/infra/D6_observability_bolt_on.skill.md",
+      "cursor_path": "~/.cursor/skills/cac-os-observability/SKILL.md"
+    },
+    {
+      "task_id": "I1",
+      "cursor_skill": "cac-os-er-diagram",
+      "slash_command": "/cac-os-er-diagram",
+      "title": "ER Diagram Agent",
+      "description": "Build ER diagram for all tables and entities from repo source only; cite source file for every claim.",
+      "agent_spec": "agents/intermediate/I1_er_diagram_agent.md",
+      "skill_spec": "skills/intermediate/I1_er_diagram.skill.md",
+      "cursor_path": "~/.cursor/skills/cac-os-er-diagram/SKILL.md"
+    },
+    {
+      "task_id": "I2",
+      "cursor_skill": "cac-os-flow-trace",
+      "slash_command": "/cac-os-flow-trace",
+      "title": "Flow Trace Agent",
+      "description": "Trace one endpoint, event, or cron job end-to-end from entry point to final DB/API/queue side effect.",
+      "agent_spec": "agents/intermediate/I2_flow_trace_agent.md",
+      "skill_spec": "skills/intermediate/I2_flow_trace.skill.md",
+      "cursor_path": "~/.cursor/skills/cac-os-flow-trace/SKILL.md"
+    },
+    {
+      "task_id": "I3",
+      "cursor_skill": "cac-os-safe-change",
+      "slash_command": "/cac-os-safe-change",
+      "title": "Safe Change Agent",
+      "description": "Make a small focused change in an unfamiliar module with minimal diff, test update, and verification log.",
+      "agent_spec": "agents/intermediate/I3_safe_change_agent.md",
+      "skill_spec": "skills/intermediate/I3_safe_change.skill.md",
+      "cursor_path": "~/.cursor/skills/cac-os-safe-change/SKILL.md"
+    },
+    {
+      "task_id": "I4",
+      "cursor_skill": "cac-os-polyglot-pair",
+      "slash_command": "/cac-os-polyglot-pair",
+      "title": "Polyglot FastAPI Node Agent",
+      "description": "Build FastAPI /convert service and Node.js CLI client with hardcoded rates, tests, and two-terminal README.",
+      "agent_spec": "agents/intermediate/I4_polyglot_fastapi_node_agent.md",
+      "skill_spec": "skills/intermediate/I4_polyglot_fastapi_node.skill.md",
+      "cursor_path": "~/.cursor/skills/cac-os-polyglot-pair/SKILL.md"
+    },
+    {
+      "task_id": "I5",
+      "cursor_skill": "cac-os-dockerize",
+      "slash_command": "/cac-os-dockerize",
+      "title": "Dockerize Agent",
+      "description": "Containerize a service so it builds and runs cleanly in Docker with health check proof.",
+      "agent_spec": "agents/intermediate/I5_dockerize_agent.md",
+      "skill_spec": "skills/intermediate/I5_dockerize.skill.md",
+      "cursor_path": "~/.cursor/skills/cac-os-dockerize/SKILL.md"
+    },
+    {
+      "task_id": "I6",
+      "cursor_skill": "cac-os-bug-diagnosis",
+      "slash_command": "/cac-os-bug-diagnosis",
+      "title": "Bug Diagnosis Agent",
+      "description": "Reproduce seeded bug, identify root cause with file paths, apply minimal fix, verify with command proof.",
+      "agent_spec": "agents/intermediate/I6_bug_diagnosis_agent.md",
+      "skill_spec": "skills/intermediate/I6_bug_diagnosis.skill.md",
+      "cursor_path": "~/.cursor/skills/cac-os-bug-diagnosis/SKILL.md"
+    }
+  ]
+}

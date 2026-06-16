@@ -1,4 +1,4 @@
-.PHONY: validate list route validate-run skills build-skills run-skill run-pipeline test validate-dag validate-pipeline test-determinism harden help
+.PHONY: validate list route validate-run build-skills run-skill run-pipeline test validate-dag validate-pipeline test-determinism harden install-cursor-skills help
 
 PYTHON ?= python3
 SCRIPT := scripts/cac_os.py
@@ -12,14 +12,14 @@ help:
 	@echo "  make route INTENT=...      Compute execution plan (see task_router.md for intents)"
 	@echo "  make route TASKS=B1,B2     Compute plan for specific tasks"
 	@echo "  make validate-run RUN_DIR=generated_projects/my-run"
-	@echo "  make skills                Regenerate skills/skill_registry.{json,md} (Cursor menu)"
-	@echo "  make build-skills          Compile agents → .skill.md + core/skill_registry.json"
+	@echo "  make build-skills          Compile agents → .skill.md + registry + HOW_TO_RUN.md"
+	@echo "  make install-cursor-skills Install all 24 skills into Cursor / menu"
 	@echo "  make run-skill SKILL=B1    Execute one skill deterministically"
 	@echo "  make run-pipeline          Execute all 24 skills in DAG order"
 	@echo "  make validate-dag          Validate skill dependency DAG"
 	@echo "  make validate-pipeline     Validate pipeline run (RUN_ID=final_test)"
 	@echo "  make test-determinism      Prove run-to-run identical skill outputs"
-	@echo "  make harden                Full production hardening sequence"
+	@echo "  make harden                Full production check (tests + determinism)"
 	@echo "  make test                  Run runtime tests with coverage"
 	@echo ""
 	@echo "Intents: discover, map_apis, find_tests, build_fastapi, build_node, build_rust,"
@@ -52,8 +52,7 @@ ifndef RUN_DIR
 endif
 	$(PYTHON) $(SCRIPT) validate-run "$(RUN_DIR)"
 
-skills:
-	$(PYTHON) tools/build_skill_registry.py
+skills: build-skills
 
 build-skills:
 	$(PYTHON) runtime/skill_registry_builder.py
@@ -96,3 +95,6 @@ harden:
 	$(MAKE) test-determinism
 	$(MAKE) validate-pipeline RUN_ID=final_test COMPARE_RUN_ID=final_test_2
 	$(MAKE) test
+
+install-cursor-skills:
+	$(PYTHON) tools/install_cursor_skills.py --clean
