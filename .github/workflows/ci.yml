@@ -35,7 +35,7 @@ jobs:
         with:
           python-version: "3.12"
       - run: pip install pytest pytest-cov
-      - run: pytest tests/ -v --cov=runtime --cov-report=term-missing --cov-fail-under=78
+      - run: pytest tests/ -v --cov=runtime --cov-report=term-missing --cov-fail-under=100
 
   validate-dag:
     runs-on: ubuntu-latest

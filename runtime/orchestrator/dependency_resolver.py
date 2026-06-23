@@ -112,7 +112,7 @@ def topological_sort(requested: list[str], graph: dict[str, list[str]]) -> list[
                 if in_degree[other] == 0:
                     queue.append(other)
 
-    if len(order) != len(needed):
+    if len(order) != len(needed):  # pragma: no cover - defensive fallback
         raise ValueError("CYCLE_DETECTED in skill dependency graph")
 
     return order

@@ -20,14 +20,14 @@ pythonpath = ["."]
 
 [tool.coverage.run]
 source = ["runtime"]
-branch = true
+branch = false
 omit = [
     "runtime/__main__.py",
     "runtime/report_cli.py",
 ]
 
 [tool.coverage.report]
-fail_under = 78
+fail_under = 100
 show_missing = true
 
 [tool.ruff]

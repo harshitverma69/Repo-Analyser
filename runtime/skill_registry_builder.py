@@ -34,7 +34,7 @@ def validate_skill_coverage(registry: dict, skills_root: Path = SKILLS_ROOT) -> 
 
     seen: set[str] = set()
     for skill_id in sorted(skills.keys(), key=task_sort_key):
-        if skill_id in seen:
+        if skill_id in seen:  # pragma: no cover - dict keys are unique
             duplicates.append(skill_id)
         seen.add(skill_id)
 
@@ -426,5 +426,5 @@ def main() -> int:
     return 0
 
 
-if __name__ == "__main__":
+if __name__ == "__main__":  # pragma: no cover
     sys.exit(main())
