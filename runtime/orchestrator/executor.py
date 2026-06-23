@@ -5,6 +5,7 @@ from __future__ import annotations
 import json
 import os
 from pathlib import Path
+from typing import Any, cast
 
 from runtime.deterministic import DETERMINISTIC_STAMP, canonical_json_dumps, strip_volatile_keys
 from runtime.models import RunContext, SkillResult
@@ -83,12 +84,12 @@ class SkillExecutor:
 
         return sorted(errors)
 
-    def load_golden_output(self, skill_id: str) -> dict:
+    def load_golden_output(self, skill_id: str) -> dict[str, Any]:
         meta = self.registry["skills"][skill_id]
         golden_path = self.context.golden_dir / skill_id / meta["output_file"]
         if not golden_path.is_file():
             raise FileNotFoundError(f"Golden output missing: {golden_path}")
-        return json.loads(golden_path.read_text(encoding="utf-8"))
+        return cast(dict[str, Any], json.loads(golden_path.read_text(encoding="utf-8")))
 
     def normalize_output(self, output: dict, skill_id: str) -> dict:
         normalized = strip_volatile_keys(dict(output))

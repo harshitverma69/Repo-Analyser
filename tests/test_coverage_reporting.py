@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import json
 from pathlib import Path
 
 from runtime.reporting.formatters import collect_headers, render_value, stringify, table

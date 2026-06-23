@@ -5,6 +5,7 @@ from __future__ import annotations
 import json
 from dataclasses import dataclass, field
 from pathlib import Path
+from typing import Any, cast
 
 from runtime.orchestrator.dependency_resolver import (
     detect_cycles,
@@ -38,10 +39,10 @@ class ExecutionPlan:
         }
 
 
-def load_registry(registry_path: Path = CORE_REGISTRY_PATH) -> dict:
+def load_registry(registry_path: Path = CORE_REGISTRY_PATH) -> dict[str, Any]:
     if not registry_path.is_file():
         raise FileNotFoundError(f"Skill registry not found: {registry_path}")
-    return json.loads(registry_path.read_text(encoding="utf-8"))
+    return cast(dict[str, Any], json.loads(registry_path.read_text(encoding="utf-8")))
 
 
 def discover_skills(skills_root: Path = SKILLS_ROOT) -> dict[str, SkillDefinition]:

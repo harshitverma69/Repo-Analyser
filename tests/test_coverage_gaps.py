@@ -3,10 +3,8 @@
 from __future__ import annotations
 
 import json
-import sys
-from io import StringIO
 from pathlib import Path
-from unittest.mock import MagicMock, patch
+from unittest.mock import patch
 
 import pytest
 
@@ -72,7 +70,7 @@ def test_orchestrator_lazy_domain_and_main():
 
 
 def test_dependency_resolver_remaining():
-    from runtime.orchestrator.dependency_resolver import parallel_waves, topological_sort
+    from runtime.orchestrator.dependency_resolver import parallel_waves
 
     with pytest.raises(ValueError, match="deadlock"):
         parallel_waves(["A", "B"], {"A": ["B"], "B": ["A"]})
@@ -270,7 +268,8 @@ def test_skill_orchestrator_and_runner_main(capsys):
 
 
 def test_validate_pipeline_schema_fail_and_main(tmp_path):
-    from runtime.validate_pipeline import main as validate_main, validate_run_outputs
+    from runtime.validate_pipeline import main as validate_main
+    from runtime.validate_pipeline import validate_run_outputs
 
     run_dir = tmp_path / "schema-fail"
     (run_dir / "B1").mkdir(parents=True)
@@ -325,8 +324,8 @@ def test_export_markdown_reports_success(tmp_path):
 
 
 def test_skill_runner_plan_without_skills_dict(tmp_path):
-    from runtime.skill_runner import SkillRunner
     from runtime.skill_orchestrator import SkillOrchestrator
+    from runtime.skill_runner import SkillRunner
 
     orch = SkillOrchestrator(
         skills_root=ROOT / "skills",

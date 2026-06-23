@@ -3,12 +3,9 @@
 from __future__ import annotations
 
 import json
-import sys
 from dataclasses import dataclass
 from pathlib import Path
 from unittest.mock import patch
-
-import pytest
 
 from runtime.models import ExecutionPlanModel, SkillDependency, SkillResult, SkillSpec
 from runtime.skill_orchestrator import SkillOrchestrator
@@ -31,18 +28,22 @@ from runtime.skill_registry_builder import (
     blueprint_path,
     build_skill_registry,
     discover_blueprint_steps,
-    main as registry_main,
     render_how_to_run,
     validate_skill_coverage,
     write_how_to_run,
+)
+from runtime.skill_registry_builder import (
+    main as registry_main,
 )
 from runtime.validate_pipeline import (
     compare_skill_outputs,
     expected_skill_ids,
     load_skill_contracts,
-    main as validate_main,
     validate_pipeline,
     validate_run_outputs,
+)
+from runtime.validate_pipeline import (
+    main as validate_main,
 )
 
 ROOT = Path(__file__).resolve().parent.parent

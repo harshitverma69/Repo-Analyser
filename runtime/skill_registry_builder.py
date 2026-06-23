@@ -5,6 +5,7 @@ from __future__ import annotations
 import json
 import sys
 from pathlib import Path
+from typing import Any, cast
 
 from runtime.deterministic import DETERMINISTIC_STAMP, canonical_json_dumps
 from runtime.skill_constants import cursor_slash_command
@@ -74,21 +75,24 @@ def validate_skill_coverage(registry: dict, skills_root: Path = SKILLS_ROOT) -> 
     }
 
 
-def load_task_registry() -> dict:
+def load_task_registry() -> dict[str, Any]:
     with TASK_REGISTRY_PATH.open(encoding="utf-8") as handle:
-        return json.load(handle)
+        return cast(dict[str, Any], json.load(handle))
 
 
-def agent_spec_path(task_id: str, meta: dict) -> Path:
+def agent_spec_path(task_id: str, meta: dict[str, Any]) -> Path:
+    folder = str(meta["folder"])
+    slug = str(meta["slug"])
     for scan_dir in AGENT_DIRS:
-        candidate = ROOT / scan_dir / meta["folder"] / f"{task_id}_{meta['slug']}_agent.md"
+        candidate = ROOT / scan_dir / folder / f"{task_id}_{slug}_agent.md"
         if candidate.is_file():
             return candidate
-    return ROOT / "agents" / meta["folder"] / f"{task_id}_{meta['slug']}_agent.md"
+    return ROOT / "agents" / folder / f"{task_id}_{slug}_agent.md"
 
 
-def blueprint_path(task_id: str, meta: dict) -> Path:
-    return ROOT / "eval_blueprints" / meta["level"] / f"{task_id}_blueprint.md"
+def blueprint_path(task_id: str, meta: dict[str, Any]) -> Path:
+    level = str(meta["level"])
+    return ROOT / "eval_blueprints" / level / f"{task_id}_blueprint.md"
 
 
 def render_skill_markdown(

@@ -2,12 +2,10 @@
 
 from __future__ import annotations
 
-import json
 from pathlib import Path
 from unittest.mock import patch
 
 import pytest
-
 from runtime.models import RunContext, SkillResult
 from runtime.orchestrator import SkillOrchestrator
 from runtime.orchestrator.cli import main as orchestrator_cli_main
@@ -22,18 +20,16 @@ from runtime.orchestrator.dependency_resolver import (
 )
 from runtime.orchestrator.executor import DEFAULT_RUN_INPUTS, SkillExecutor
 from runtime.orchestrator.planner import (
-    ExecutionPlan,
-    build_plan,
     discover_skills,
     load_registry,
     skills_for_domain,
-    validate_dag,
 )
 from runtime.plugins.base import BaseSkillPlugin
-from runtime.plugins.loader import GoldenReplayPlugin, load_plugins
+from runtime.plugins.loader import GoldenReplayPlugin
 from runtime.plugins.registry import PluginRegistry
 from runtime.skill_orchestrator import main as skill_orchestrator_main
-from runtime.skill_runner import SkillRunResult, main as skill_runner_main
+from runtime.skill_runner import SkillRunResult
+from runtime.skill_runner import main as skill_runner_main
 
 ROOT = Path(__file__).resolve().parent.parent
 

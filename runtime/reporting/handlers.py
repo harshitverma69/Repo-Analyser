@@ -80,8 +80,10 @@ def render_b2(payload: dict) -> str:
     frontend = payload.get("frontend_routes") or []
     if frontend:
         lines.extend(["## Frontend Routes", ""])
-        rows = [(route.get("path", ""), f"`{route.get('source_file', '')}`") for route in frontend]
-        lines.extend(table(["Path", "Source"], rows))
+        frontend_rows: list[tuple[str, str]] = [
+            (str(route.get("path", "")), f"`{route.get('source_file', '')}`") for route in frontend
+        ]
+        lines.extend(table(["Path", "Source"], frontend_rows))
         lines.append("")
     return "\n".join(lines)
 

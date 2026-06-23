@@ -6,6 +6,7 @@ import json
 import re
 from dataclasses import dataclass, field
 from pathlib import Path
+from typing import Any, cast
 
 from runtime.deterministic import VOLATILE_OUTPUT_KEYS
 
@@ -110,7 +111,7 @@ def extract_json_block(sections: dict[str, str], *keys: str) -> dict | None:
         match = JSON_FENCE.search(body)
         if match:
             try:
-                return json.loads(match.group(1))
+                return cast(dict[str, Any], json.loads(match.group(1)))
             except json.JSONDecodeError:
                 return None
     return None

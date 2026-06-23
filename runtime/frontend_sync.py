@@ -11,7 +11,7 @@ import time
 import webbrowser
 from datetime import UTC, datetime
 from pathlib import Path
-from typing import Any
+from typing import Any, cast
 
 from runtime.deterministic import canonical_json_dumps
 from runtime.report_renderer import SKILL_TITLES, render_report
@@ -152,7 +152,7 @@ def _runs_dir() -> Path:
 def _load_index() -> dict[str, Any]:
     path = FRONTEND_DATA / "runs_index.json"
     if path.is_file():
-        return json.loads(path.read_text(encoding="utf-8"))
+        return cast(dict[str, Any], json.loads(path.read_text(encoding="utf-8")))
     return {"runs": {}}
 
 
@@ -166,7 +166,7 @@ def _save_index(doc: dict[str, Any]) -> None:
 def _load_live() -> dict[str, Any]:
     path = FRONTEND_DATA / "live.json"
     if path.is_file():
-        return json.loads(path.read_text(encoding="utf-8"))
+        return cast(dict[str, Any], json.loads(path.read_text(encoding="utf-8")))
     return {"latest": None, "history": []}
 
 

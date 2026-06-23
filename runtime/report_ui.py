@@ -7,7 +7,7 @@ import os
 import re
 import sys
 from pathlib import Path
-from typing import Any
+from typing import Any, cast
 
 from runtime.report_renderer import SKILL_TITLES, render_report
 from runtime.skill_constants import cursor_slash_command
@@ -65,8 +65,8 @@ class Theme:
 def load_skill_meta(skill_id: str) -> dict[str, Any]:
     if not REGISTRY_PATH.is_file():
         return {}
-    registry = json.loads(REGISTRY_PATH.read_text(encoding="utf-8"))
-    return registry.get("skills", {}).get(skill_id.upper(), {})
+    registry = cast(dict[str, Any], json.loads(REGISTRY_PATH.read_text(encoding="utf-8")))
+    return cast(dict[str, Any], registry.get("skills", {}).get(skill_id.upper(), {}))
 
 
 def _strip_ansi(text: str) -> str:

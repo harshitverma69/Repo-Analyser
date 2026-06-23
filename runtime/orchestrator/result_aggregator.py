@@ -51,6 +51,7 @@ def aggregate_results(
     }
     log_path.write_text(canonical_json_dumps(log_doc), encoding="utf-8")
 
+    status = "failed" if aborted else "complete"
     final_doc = {
         "completed_count": len(completed),
         "execution_log": display_path(log_path),
@@ -62,14 +63,14 @@ def aggregate_results(
         "skills_completed": completed,
         "skills_failed": failed,
         "skills_requested": plan.requested,
-        "status": "failed" if aborted else "complete",
+        "status": status,
         "total_skills": len(plan.execution_order),
     }
     final_path.write_text(canonical_json_dumps(final_doc), encoding="utf-8")
 
     return ExecutionReport(
         run_id=plan.run_id,
-        status=final_doc["status"],
+        status=status,
         completed=completed,
         failed=failed,
         execution_log=display_path(log_path),
