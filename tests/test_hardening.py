@@ -8,8 +8,6 @@ import sys
 from pathlib import Path
 
 import pytest
-
-from runtime.deterministic import canonical_json_dumps
 from runtime.skill_orchestrator import SkillOrchestrator
 from runtime.skill_registry_builder import EXPECTED_SKILL_COUNT, validate_skill_coverage
 from runtime.skill_runner import SkillRunner

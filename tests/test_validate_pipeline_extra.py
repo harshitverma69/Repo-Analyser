@@ -6,9 +6,9 @@ import json
 from pathlib import Path
 
 import pytest
-
 from runtime.deterministic import stable_sort
-from runtime.validate_pipeline import main as validate_main, validate_pipeline
+from runtime.validate_pipeline import main as validate_main
+from runtime.validate_pipeline import validate_pipeline
 
 ROOT = Path(__file__).resolve().parent.parent
 

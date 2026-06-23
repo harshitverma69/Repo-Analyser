@@ -8,7 +8,7 @@ from pathlib import Path
 
 from runtime.deterministic import canonical_json_dumps
 from runtime.skill_orchestrator import SkillOrchestrator
-from runtime.skill_parser import parse_skill_markdown, task_sort_key, validate_output_schema
+from runtime.skill_parser import task_sort_key, validate_output_schema
 from runtime.skill_registry_builder import validate_skill_coverage
 
 ROOT = Path(__file__).resolve().parent.parent

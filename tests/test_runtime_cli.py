@@ -6,7 +6,6 @@ import json
 from pathlib import Path
 
 import pytest
-
 from runtime.skill_orchestrator import SkillOrchestrator
 from runtime.skill_parser import parse_skill_markdown
 from runtime.skill_registry_builder import main as build_main

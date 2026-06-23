@@ -2,13 +2,10 @@
 
 from __future__ import annotations
 
-import pytest
-
 from runtime.skill_orchestrator import SkillOrchestrator
 from runtime.skill_parser import (
     extract_json_block,
     parse_depends_on,
-    split_sections,
     task_sort_key,
 )
 

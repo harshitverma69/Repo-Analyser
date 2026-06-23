@@ -82,10 +82,6 @@ Independent tasks can run in parallel (see `execution_models/parallel_execution_
 - **Post-B1:** B2 and I1 in parallel
 - **Post-I5:** D2, D4, D6 in parallel
 
-## Integration with RepoLens
-
-RepoLens provides **static analysis** for B1, B2, I1, I2, I6 (diagnosis). Repo-Analyser defines the **eval contract** and proof requirements. See [repolens_bridge.md](repolens_bridge.md).
-
 ## File Naming Convention
 
 Agent specs live under `agents/` with suffix `_agent.md`:

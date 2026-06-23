@@ -39,9 +39,7 @@ Repo-Analyser is a **spec-complete** deterministic framework for the PML/OCL 24-
 | Golden JSON examples (24 tasks) | ✅ | `generated_projects/_golden/` |
 | Golden manifest | ✅ | `generated_projects/_golden/manifest.json` |
 | Registry validation (automated) | ✅ | `make validate` passes |
-| RepoLens bridge doc | ✅ | `docs/repolens_bridge.md` |
-| Project README | ✅ | `README.md` |
-| Architecture overview | ✅ | `docs/OVERVIEW.md` |
+| Architecture overview | ✅ | `docs/OVERVIEW.md`, `docs/architecture.md` |
 
 ### Phase 3 — Naming & structure (complete)
 
@@ -99,8 +97,7 @@ OK: 24 tasks, all specs/blueprints/golden examples present, DAG acyclic
 | Enhancement | Priority | Notes |
 |-------------|----------|-------|
 | JSON Schema files (`.schema.json`) per task | Low | Currently documented in MD + golden |
-| GitHub Action to run `make validate` on PR | Medium | CI for the spec repo itself |
-| RepoLens → Repo-Analyser transform script | Medium | Auto-convert ApiMapReport → B2 JSON |
+| GitHub Action to run `make validate` on PR | ✅ | `.github/workflows/ci.yml` |
 | Example live run folder | Low | `generated_projects/example-live-run/` after someone completes B4 |
 
 ---

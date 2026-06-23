@@ -36,8 +36,6 @@ def render_cursor_skill(task_id: str, meta: dict, task_meta: dict) -> str:
         f"Use when running eval task {task_id} or `{cursor_slash_command(task_id)}`."
     )
 
-    repo_analyser_root = ROOT.as_posix()
-
     return f"""---
 name: {name}
 description: {description}
@@ -156,7 +154,7 @@ def main() -> int:
 
     print(f"OK: installed {manifest['skill_count']} Cursor skills → {target}")
     print(f"  manifest: {MANIFEST_PATH.relative_to(ROOT)}")
-    print(f"  guide: docs/HOW_TO_RUN.md")
+    print("  guide: docs/HOW_TO_RUN.md")
     print("")
     print("Type / in Cursor. Examples:")
     for entry in manifest["skills"][:4]:

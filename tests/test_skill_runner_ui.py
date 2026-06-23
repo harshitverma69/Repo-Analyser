@@ -8,7 +8,6 @@ from pathlib import Path
 from runtime.skill_orchestrator import SkillOrchestrator
 from runtime.skill_runner import SkillRunner
 
-
 ROOT = Path(__file__).resolve().parent.parent
 
 

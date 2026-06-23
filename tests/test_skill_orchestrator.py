@@ -5,7 +5,6 @@ from __future__ import annotations
 from pathlib import Path
 
 import pytest
-
 from runtime.skill_orchestrator import SkillOrchestrator
 
 ROOT = Path(__file__).resolve().parent.parent

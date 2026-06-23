@@ -1,0 +1,61 @@
+name: CI
+
+on:
+  push:
+    branches: [main, development, master]
+  pull_request:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install ruff black
+      - run: ruff check runtime tools tests
+      - run: black --check runtime tools tests
+
+  typecheck:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install mypy
+      - run: mypy runtime --ignore-missing-imports
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install pytest pytest-cov
+      - run: pytest tests/ -v --cov=runtime --cov-report=term-missing --cov-fail-under=78
+
+  validate-dag:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m runtime.skill_orchestrator --validate-dag
+
+  golden-output:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: |
+          python -m runtime --full-pipeline --run-id ci_golden_1
+          python -m runtime --full-pipeline --run-id ci_golden_2
+          for skill in B1 B2 B3 B4 B5 B6 I1 I2 I3 I4 I5 I6 A1 A2 A3 A4 A5 A6 D1 D2 D3 D4 D5 D6; do
+            diff -q generated_projects/ci_golden_1/$skill/output.json generated_projects/ci_golden_2/$skill/output.json
+          done

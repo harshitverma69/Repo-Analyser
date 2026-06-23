@@ -4,10 +4,10 @@
 from __future__ import annotations
 
 import argparse
-import json
-import sys
 import http.server
+import json
 import socketserver
+import sys
 import webbrowser
 from pathlib import Path
 

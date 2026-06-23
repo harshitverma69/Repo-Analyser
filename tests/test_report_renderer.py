@@ -100,7 +100,7 @@ def test_render_a5_issues_markdown_fields():
 
 
 def test_render_a5_issues_shows_verification_steps():
-    from runtime.report_ui import render_a5_issues, Theme
+    from runtime.report_ui import Theme, render_a5_issues
 
     issues = [
         {

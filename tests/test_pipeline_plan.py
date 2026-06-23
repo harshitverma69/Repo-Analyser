@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import pytest
-
 from runtime.pipeline_plan import create_pipeline_plan, run_id_from_path
 
 

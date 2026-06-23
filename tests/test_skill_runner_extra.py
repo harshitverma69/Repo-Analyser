@@ -7,9 +7,9 @@ from pathlib import Path
 from unittest.mock import patch
 
 import pytest
-
 from runtime.skill_orchestrator import SkillOrchestrator
-from runtime.skill_runner import SkillRunner, main as run_main
+from runtime.skill_runner import SkillRunner
+from runtime.skill_runner import main as run_main
 
 ROOT = Path(__file__).resolve().parent.parent
 

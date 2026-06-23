@@ -2,11 +2,9 @@
 
 from __future__ import annotations
 
-import json
 from pathlib import Path
 
 import pytest
-
 from runtime.skill_parser import (
     parse_agent_markdown,
     parse_skill_markdown,

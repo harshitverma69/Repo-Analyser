@@ -1,4 +1,4 @@
-.PHONY: validate list route validate-run build-skills run-skill run-pipeline test validate-dag validate-pipeline test-determinism harden install-cursor-skills export-md view-run skill-done clean-runs repolens-eval expand-agent-specs build-frontend serve-frontend setup help
+.PHONY: validate list route validate-run build-skills run-skill run-pipeline test validate-dag validate-pipeline test-determinism harden install-cursor-skills export-md view-run skill-done clean-runs expand-agent-specs build-frontend serve-frontend setup help lint typecheck
 
 PYTHON ?= python3
 SCRIPT := scripts/repo_analyser.py
@@ -16,7 +16,6 @@ help:
 	@echo "  make skill-done RUN_ID=my-run SKILL=B1           Print CLI report after skill (auto)"
 	@echo "  make view-run                                     Interactive run browser (manual)"
 	@echo "  make clean-runs                                   Remove ephemeral run outputs"
-	@echo "  make repolens-eval         Run all 24 agents against ../repolens (RepoLens bridge)"
 	@echo "  make build-skills          Compile agents → .skill.md + registry + HOW_TO_RUN.md"
 	@echo "  make expand-agent-specs    Expand agent specs to full procedural detail"
 	@echo "  make install-cursor-skills Install all 24 skills into Cursor / menu"
@@ -30,6 +29,8 @@ help:
 	@echo "  make test-determinism      Prove run-to-run identical skill outputs"
 	@echo "  make harden                Full production check (tests + determinism)"
 	@echo "  make test                  Run runtime tests with coverage"
+	@echo "  make lint                  Run ruff + black check"
+	@echo "  make typecheck             Run mypy on runtime/"
 	@echo ""
 	@echo "Intents: discover, map_apis, find_tests, build_fastapi, build_node, build_rust,"
 	@echo "         er_diagram, trace_flow, safe_change, polyglot_pair, dockerize, fix_bug,"
@@ -102,6 +103,13 @@ run-pipeline:
 test:
 	$(PYTHON) -m pytest tests/ -v --cov=runtime --cov-report=term-missing
 
+lint:
+	$(PYTHON) -m ruff check runtime tools tests
+	$(PYTHON) -m black --check runtime tools tests
+
+typecheck:
+	$(PYTHON) -m mypy runtime --ignore-missing-imports
+
 validate-dag:
 	$(PYTHON) -m runtime.skill_orchestrator --validate-dag
 
@@ -144,8 +152,3 @@ setup: build-skills install-cursor-skills build-frontend validate
 
 serve-frontend: build-frontend
 	$(PYTHON) tools/serve_frontend.py $(if $(PORT),--port $(PORT),) $(if $(NO_OPEN),--no-open,)
-
-REPOLENS_REPO ?= ../repolens
-repolens-eval:
-	PYTHONPATH=$(REPOLENS_REPO)/backend $(PYTHON) tools/repolens_eval_runner.py \
-		--repo $(REPOLENS_REPO) --run-id repolens-eval
